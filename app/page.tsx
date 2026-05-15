@@ -96,63 +96,48 @@ export default function Home() {
 
         <div className="relative z-10 grid flex-1 items-center gap-12 py-10 lg:grid-cols-[0.95fr_1.05fr] lg:py-6">
           <div className="max-w-2xl self-center">
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-white/70">
-              <Sparkles className="h-4 w-4 text-[#ffcf7a]" />
-              Dados, automação e web
-            </p>
-            <h1 className="whitespace-nowrap text-[1.35rem] font-black leading-[1.12] tracking-normal sm:text-[1.6rem] lg:text-[2.1rem]">
-              Olá, sou Eduardo Guimarães
-            </h1>
-            <p className="mt-5 max-w-lg text-lg leading-8 text-white/72">
-              Transformo processos, dados e ideias em experiências digitais claras. Meu foco é criar
-              soluções úteis, bonitas e fáceis de evoluir.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a
-                href="#projetos"
-                className="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-black text-[#0a0a2d] transition hover:bg-[#ffe2dd]"
-              >
-                Ver projetos
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
-              <a
-                href="mailto:eduardo.guimaraes@example.com"
-                className="inline-flex items-center gap-2 rounded-lg border border-white/16 px-5 py-3 text-sm font-bold text-white/78 transition hover:border-white/34 hover:text-white"
-              >
-                <Mail className="h-4 w-4" />
-                Contato
-              </a>
-            </div>
-
-            <div className="mt-10 grid max-w-xl gap-5 text-white/72 sm:grid-cols-[auto_1fr] sm:items-start">
-              <div className="grid w-fit grid-cols-[1fr_auto] overflow-hidden rounded-lg border border-white/10 bg-black/70 text-sm">
-                <span className="bg-[#6cb5ff] px-4 py-3 font-black text-white">Disponível</span>
-                <span className="flex items-center gap-2 px-4 py-3 text-white/80">
-                  remoto
-                  <ArrowUpRight className="h-4 w-4 text-[#ff6b5d]" />
-                </span>
-              </div>
-              <p className="max-w-sm text-sm leading-7">
-                Este portfolio está nascendo com uma pegada visual forte, mas pensado para ser direto:
-                apresentar o que faço, como penso e onde gero resultado.
+            <div className="-translate-y-8 lg:-translate-y-12">
+              <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-white/70">
+                <Sparkles className="h-4 w-4 text-[#ffcf7a]" />
+                Analista de Dados e BI
               </p>
-            </div>
-
-            <div className="mt-7 flex gap-3">
-              <a
-                href="https://github.com/"
-                aria-label="GitHub"
-                className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/12 bg-white/[0.05] transition hover:border-white/30 hover:bg-white/10"
-              >
-                <Github className="h-5 w-5" />
-              </a>
-              <a
-                href="https://www.linkedin.com/"
-                aria-label="LinkedIn"
-                className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/12 bg-white/[0.05] transition hover:border-white/30 hover:bg-white/10"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
+              <h1 className="whitespace-nowrap text-[1.35rem] font-black leading-[1.12] tracking-normal sm:text-[1.6rem] lg:text-[2.1rem]">
+                Eduardo Ladeira Guimarães
+              </h1>
+              <p className="mt-5 max-w-lg text-lg leading-8 text-white/72">
+                Transformo processos, dados e ideias em experiências digitais claras. Meu foco é criar
+                soluções úteis, bonitas e fáceis de evoluir.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <a
+                  href="#projetos"
+                  className="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-black text-[#0a0a2d] transition hover:bg-[#ffe2dd]"
+                >
+                  Ver projetos
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+                <a
+                  href="mailto:eduardo.guimaraes@example.com"
+                  className="inline-flex items-center gap-2 rounded-lg border border-white/16 px-5 py-3 text-sm font-bold text-white/78 transition hover:border-white/34 hover:text-white"
+                >
+                  <Mail className="h-4 w-4" />
+                  Contato
+                </a>
+                <a
+                  href="https://github.com/"
+                  aria-label="GitHub"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/12 bg-white/[0.05] transition hover:border-white/30 hover:bg-white/10"
+                >
+                  <Github className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/"
+                  aria-label="LinkedIn"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/12 bg-white/[0.05] transition hover:border-white/30 hover:bg-white/10"
+                >
+                  <Linkedin className="h-5 w-5" />
+                </a>
+              </div>
             </div>
           </div>
 
