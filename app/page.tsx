@@ -106,9 +106,9 @@ export default function Home() {
               src="/hero-avatar.png"
               alt="Avatar 3D de Eduardo com notebook"
               width={1024}
-              height={1024}
+              height={1536}
               priority
-              className="relative z-10 h-auto w-[78%] max-w-[500px] drop-shadow-[0_38px_60px_rgba(0,0,0,0.45)]"
+              className="relative z-10 h-auto w-[66%] max-w-[420px] drop-shadow-[0_38px_60px_rgba(0,0,0,0.45)] sm:w-[70%] lg:w-[72%] lg:max-w-[455px]"
             />
           </div>
 
