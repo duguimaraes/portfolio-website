@@ -1,7 +1,26 @@
 import Image from "next/image"
-import { ArrowUpRight, Github, Linkedin, Mail, Sparkles } from "lucide-react"
+import {
+  ArrowUpRight,
+  Database,
+  FileText,
+  Github,
+  HomeIcon,
+  Linkedin,
+  Mail,
+  RotateCcw,
+  Sparkles,
+  Terminal,
+} from "lucide-react"
 
-const navItems = ["Início", "Projetos", "Blog", "Sobre"]
+const navItems = [
+  { label: "Início", href: "#inicio", icon: HomeIcon },
+  { label: "Terminal", href: "#sobre", icon: Terminal },
+  { label: "Dados", href: "#projetos", icon: Database },
+  { label: "Avatar", href: "#inicio", avatar: true },
+  { label: "Blog", href: "#blog", icon: FileText },
+  { label: "GitHub", href: "https://github.com/", icon: Github },
+  { label: "Contato", href: "#contato", icon: RotateCcw },
+]
 
 const projects = [
   {
@@ -43,33 +62,36 @@ export default function Home() {
         <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
         <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
 
-        <header className="relative z-20 flex items-center justify-between gap-5">
-          <a href="#inicio" className="flex items-center gap-3" aria-label="Ir para o início">
-            <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/10 text-sm font-bold shadow-2xl shadow-violet-950/40 backdrop-blur">
-              EG
-            </span>
-            <span className="hidden text-sm font-medium text-white/70 sm:block">Portfolio</span>
-          </a>
+        <header className="relative z-20 flex justify-center">
+          <nav className="flex items-center gap-2 rounded-[14px] border border-white/10 bg-black/78 p-2 shadow-2xl shadow-black/45 backdrop-blur-xl">
+            {navItems.map((item) => {
+              const Icon = item.icon
 
-          <nav className="hidden items-center gap-5 rounded-full border border-white/10 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-white/76 backdrop-blur md:flex">
-            {navItems.map((item, index) => (
+              return (
               <a
-                key={item}
-                href={index === 0 ? "#inicio" : `#${item.toLowerCase()}`}
-                className={index === 0 ? "text-[#ff6b5d]" : "transition hover:text-white"}
+                key={item.label}
+                href={item.href}
+                aria-label={item.label}
+                title={item.label}
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.06] text-white/76 transition hover:border-white/24 hover:bg-white/[0.12] hover:text-white"
               >
-                {item}
+                {item.avatar ? (
+                  <span className="relative h-8 w-8 overflow-hidden rounded-full bg-[#6cb5ff]">
+                    <Image
+                      src="/hero-avatar.png"
+                      alt=""
+                      fill
+                      sizes="32px"
+                      className="object-cover object-top"
+                    />
+                  </span>
+                ) : (
+                  Icon && <Icon className="h-[18px] w-[18px]" />
+                )}
               </a>
-            ))}
+              )
+            })}
           </nav>
-
-          <a
-            href="#contato"
-            className="inline-flex items-center gap-2 rounded-lg bg-[#5d55c9] px-4 py-3 text-sm font-bold shadow-xl shadow-violet-950/35 transition hover:bg-[#7168e6]"
-          >
-            <Mail className="h-4 w-4" />
-            Falar comigo
-          </a>
         </header>
 
         <div className="relative z-10 grid flex-1 items-center gap-12 py-10 lg:grid-cols-[0.95fr_1.05fr] lg:py-6">
