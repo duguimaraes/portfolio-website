@@ -31,18 +31,24 @@ export default function Home() {
         className="relative flex min-h-screen flex-col px-5 py-6 sm:px-8 lg:px-16"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_42%,rgba(124,80,255,0.38),transparent_32%),radial-gradient(circle_at_82%_82%,rgba(255,109,77,0.26),transparent_26%),linear-gradient(135deg,#08082f_0%,#12124b_54%,#05051e_100%)]" />
-        <div className="absolute inset-x-0 top-16 h-[clamp(7rem,18vw,16rem)] select-none">
-          <svg className="h-full w-full overflow-visible" aria-hidden="true">
+        <div className="absolute inset-x-0 top-16 h-[clamp(6.5rem,17vw,15rem)] select-none">
+          <svg
+            className="h-full w-full overflow-visible"
+            viewBox="0 0 1440 260"
+            preserveAspectRatio="xMidYMid meet"
+            aria-hidden="true"
+          >
             <text
-              x="50%"
-              y="50%"
+              x="720"
+              y="140"
               dominantBaseline="middle"
               textAnchor="middle"
-              fill="transparent"
-              stroke="rgba(255,255,255,0.22)"
-              strokeWidth="1.1"
-              vectorEffect="non-scaling-stroke"
-              className="text-[16vw] font-black uppercase tracking-normal"
+              fill="rgba(255,255,255,0.01)"
+              stroke="rgba(255,255,255,0.2)"
+              strokeWidth="2.2"
+              paintOrder="stroke"
+              className="font-black uppercase tracking-normal"
+              fontSize="245"
             >
               Eduardo
             </text>
@@ -86,7 +92,7 @@ export default function Home() {
               <Sparkles className="h-4 w-4 text-[#ffcf7a]" />
               Dados, automação e web
             </p>
-            <h1 className="text-3xl font-black leading-[1.08] tracking-normal sm:text-4xl lg:text-5xl">
+            <h1 className="text-[1.7rem] font-black leading-[1.12] tracking-normal sm:text-[2.1rem] lg:text-[2.65rem]">
               Olá,
               <br />
               sou Eduardo Guimarães
