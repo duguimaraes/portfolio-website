@@ -76,9 +76,10 @@ export default function Home() {
               strokeWidth="1.2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              letterSpacing="4"
+              letterSpacing="5"
               paintOrder="stroke"
-              className="font-black uppercase tracking-normal"
+              fontFamily="Arial Black, Arial, Helvetica, sans-serif"
+              fontWeight="900"
               fontSize="82"
             >
               Analyst
