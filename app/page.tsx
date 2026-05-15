@@ -31,8 +31,22 @@ export default function Home() {
         className="relative flex min-h-screen flex-col px-5 py-6 sm:px-8 lg:px-16"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_42%,rgba(124,80,255,0.38),transparent_32%),radial-gradient(circle_at_82%_82%,rgba(255,109,77,0.26),transparent_26%),linear-gradient(135deg,#08082f_0%,#12124b_54%,#05051e_100%)]" />
-        <div className="absolute inset-x-0 top-20 select-none text-center text-[16vw] font-black uppercase leading-none tracking-normal text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.22)] sm:top-16">
-          Eduardo
+        <div className="absolute inset-x-0 top-16 h-[clamp(7rem,18vw,16rem)] select-none">
+          <svg className="h-full w-full overflow-visible" aria-hidden="true">
+            <text
+              x="50%"
+              y="50%"
+              dominantBaseline="middle"
+              textAnchor="middle"
+              fill="transparent"
+              stroke="rgba(255,255,255,0.22)"
+              strokeWidth="1.1"
+              vectorEffect="non-scaling-stroke"
+              className="text-[16vw] font-black uppercase tracking-normal"
+            >
+              Eduardo
+            </text>
+          </svg>
         </div>
         <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
         <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
@@ -72,7 +86,7 @@ export default function Home() {
               <Sparkles className="h-4 w-4 text-[#ffcf7a]" />
               Dados, automação e web
             </p>
-            <h1 className="text-4xl font-black leading-[1.04] tracking-normal sm:text-5xl lg:text-6xl">
+            <h1 className="text-3xl font-black leading-[1.08] tracking-normal sm:text-4xl lg:text-5xl">
               Olá,
               <br />
               sou Eduardo Guimarães
