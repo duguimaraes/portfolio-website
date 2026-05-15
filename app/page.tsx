@@ -134,7 +134,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto flex min-h-[420px] w-full max-w-[640px] items-end justify-center self-center lg:min-h-[640px]">
+          <div className="relative mx-auto flex min-h-[420px] w-full max-w-[640px] -translate-y-6 items-end justify-center self-center lg:min-h-[640px] lg:-translate-y-10">
             <div className="absolute bottom-8 h-[82%] w-[82%] rounded-full bg-[linear-gradient(138deg,#754bff_0%,#263d89_46%,#ff8a5b_100%)] shadow-2xl shadow-black/45" />
             <div className="absolute bottom-16 h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px]" />
             <Image
