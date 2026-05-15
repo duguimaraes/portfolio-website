@@ -31,7 +31,7 @@ export default function Home() {
         className="relative flex min-h-screen flex-col px-5 py-6 sm:px-8 lg:px-16"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_42%,rgba(124,80,255,0.38),transparent_32%),radial-gradient(circle_at_82%_82%,rgba(255,109,77,0.26),transparent_26%),linear-gradient(135deg,#08082f_0%,#12124b_54%,#05051e_100%)]" />
-        <div className="absolute inset-x-0 top-20 select-none text-center text-[22vw] font-black uppercase leading-none tracking-normal text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.22)] sm:top-16">
+        <div className="absolute inset-x-0 top-20 select-none text-center text-[16vw] font-black uppercase leading-none tracking-normal text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.22)] sm:top-16">
           Eduardo
         </div>
         <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
@@ -72,7 +72,7 @@ export default function Home() {
               <Sparkles className="h-4 w-4 text-[#ffcf7a]" />
               Dados, automação e web
             </p>
-            <h1 className="text-5xl font-black leading-[1.02] tracking-normal sm:text-6xl lg:text-7xl">
+            <h1 className="text-4xl font-black leading-[1.04] tracking-normal sm:text-5xl lg:text-6xl">
               Olá,
               <br />
               sou Eduardo Guimarães
