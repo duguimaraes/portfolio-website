@@ -31,10 +31,10 @@ export default function Home() {
         className="relative flex min-h-screen flex-col px-5 py-6 sm:px-8 lg:px-16"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_42%,rgba(124,80,255,0.38),transparent_32%),radial-gradient(circle_at_82%_82%,rgba(255,109,77,0.26),transparent_26%),linear-gradient(135deg,#08082f_0%,#12124b_54%,#05051e_100%)]" />
-        <div className="absolute inset-x-0 top-14 h-[clamp(8rem,20vw,18rem)] select-none">
+        <div className="absolute inset-x-0 top-[14vh] h-[clamp(12rem,28vw,25rem)] select-none">
           <svg
             className="h-full w-full overflow-visible"
-            viewBox="0 0 1440 330"
+            viewBox="0 0 1440 430"
             preserveAspectRatio="xMidYMid meet"
             aria-hidden="true"
           >
@@ -43,9 +43,9 @@ export default function Home() {
               y="140"
               dominantBaseline="middle"
               textAnchor="middle"
-              fill="rgba(255,255,255,0.01)"
+              fill="none"
               stroke="rgba(255,255,255,0.2)"
-              strokeWidth="1.25"
+              strokeWidth="0.5"
               paintOrder="stroke"
               className="font-black uppercase tracking-normal"
               fontSize="245"
@@ -54,12 +54,15 @@ export default function Home() {
             </text>
             <text
               x="720"
-              y="274"
+              y="318"
               dominantBaseline="middle"
               textAnchor="middle"
-              fill="rgba(255,255,255,0.36)"
-              className="font-mono uppercase tracking-[0.34em]"
-              fontSize="36"
+              fill="none"
+              stroke="rgba(255,255,255,0.18)"
+              strokeWidth="0.5"
+              paintOrder="stroke"
+              className="font-black uppercase tracking-normal"
+              fontSize="124"
             >
               Data Analyst
             </text>
