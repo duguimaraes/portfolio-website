@@ -53,7 +53,7 @@ export default function Home() {
               Eduardo
             </text>
             <text
-              x="440"
+              x="310"
               y="318"
               dominantBaseline="middle"
               textAnchor="middle"
@@ -67,7 +67,7 @@ export default function Home() {
               Data
             </text>
             <text
-              x="990"
+              x="1130"
               y="318"
               dominantBaseline="middle"
               textAnchor="middle"
