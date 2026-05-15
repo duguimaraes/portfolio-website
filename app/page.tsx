@@ -72,8 +72,8 @@ export default function Home() {
           </a>
         </header>
 
-        <div className="relative z-10 grid flex-1 items-center gap-10 py-10 lg:grid-cols-[0.86fr_1.05fr_0.62fr] lg:py-6">
-          <div className="max-w-xl self-center">
+        <div className="relative z-10 grid flex-1 items-center gap-12 py-10 lg:grid-cols-[0.95fr_1.05fr] lg:py-6">
+          <div className="max-w-2xl self-center">
             <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-white/70">
               <Sparkles className="h-4 w-4 text-[#ffcf7a]" />
               Dados, automação e web
@@ -101,34 +101,21 @@ export default function Home() {
                 Contato
               </a>
             </div>
-          </div>
 
-          <div className="relative mx-auto flex min-h-[420px] w-full max-w-[620px] items-end justify-center self-center lg:min-h-[620px]">
-            <div className="absolute bottom-8 h-[82%] w-[82%] rounded-full bg-[linear-gradient(138deg,#754bff_0%,#263d89_46%,#ff8a5b_100%)] shadow-2xl shadow-black/45" />
-            <div className="absolute bottom-16 h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px]" />
-            <Image
-              src="/hero-avatar.png"
-              alt="Avatar 3D de Eduardo com notebook"
-              width={1024}
-              height={1536}
-              priority
-              className="relative z-10 h-auto w-[66%] max-w-[420px] drop-shadow-[0_38px_60px_rgba(0,0,0,0.45)] sm:w-[70%] lg:w-[72%] lg:max-w-[455px]"
-            />
-          </div>
-
-          <aside className="self-center text-white/72">
-            <p className="mb-5 text-sm font-black text-white">Nota:</p>
-            <div className="mb-6 grid grid-cols-[1fr_auto] overflow-hidden rounded-lg border border-white/10 bg-black/70 text-sm">
-              <span className="bg-[#6cb5ff] px-4 py-3 font-black text-white">Disponível</span>
-              <span className="flex items-center gap-2 px-4 py-3 text-white/80">
-                remoto
-                <ArrowUpRight className="h-4 w-4 text-[#ff6b5d]" />
-              </span>
+            <div className="mt-10 grid max-w-xl gap-5 text-white/72 sm:grid-cols-[auto_1fr] sm:items-start">
+              <div className="grid w-fit grid-cols-[1fr_auto] overflow-hidden rounded-lg border border-white/10 bg-black/70 text-sm">
+                <span className="bg-[#6cb5ff] px-4 py-3 font-black text-white">Disponível</span>
+                <span className="flex items-center gap-2 px-4 py-3 text-white/80">
+                  remoto
+                  <ArrowUpRight className="h-4 w-4 text-[#ff6b5d]" />
+                </span>
+              </div>
+              <p className="max-w-sm text-sm leading-7">
+                Este portfolio está nascendo com uma pegada visual forte, mas pensado para ser direto:
+                apresentar o que faço, como penso e onde gero resultado.
+              </p>
             </div>
-            <p className="max-w-xs text-sm leading-7">
-              Este portfolio está nascendo com uma pegada visual forte, mas pensado para ser direto:
-              apresentar o que faço, como penso e onde gero resultado.
-            </p>
+
             <div className="mt-7 flex gap-3">
               <a
                 href="https://github.com/"
@@ -145,7 +132,20 @@ export default function Home() {
                 <Linkedin className="h-5 w-5" />
               </a>
             </div>
-          </aside>
+          </div>
+
+          <div className="relative mx-auto flex min-h-[420px] w-full max-w-[640px] items-end justify-center self-center lg:min-h-[640px]">
+            <div className="absolute bottom-8 h-[82%] w-[82%] rounded-full bg-[linear-gradient(138deg,#754bff_0%,#263d89_46%,#ff8a5b_100%)] shadow-2xl shadow-black/45" />
+            <div className="absolute bottom-16 h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px]" />
+            <Image
+              src="/hero-avatar.png"
+              alt="Avatar 3D de Eduardo com notebook"
+              width={1024}
+              height={1536}
+              priority
+              className="relative z-10 h-auto w-[66%] max-w-[420px] drop-shadow-[0_38px_60px_rgba(0,0,0,0.45)] sm:w-[70%] lg:w-[72%] lg:max-w-[455px]"
+            />
+          </div>
         </div>
       </section>
 
