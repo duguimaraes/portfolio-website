@@ -12,6 +12,7 @@ import {
   Terminal,
 } from "lucide-react"
 import { HorizontalScrollControls } from "@/components/horizontal-scroll-controls"
+import { ProjectTerminalCard } from "@/components/project-terminal-card"
 
 const navItems = [
   { label: "Início", href: "#inicio", icon: HomeIcon },
@@ -27,6 +28,7 @@ const projects = [
   {
     title: "Análise de Receita",
     type: "SQL / BI",
+    accent: "#ff6b5d",
     code: `WITH receita_mensal AS (
   SELECT
     DATE_TRUNC('month', data_venda) AS mes,
@@ -68,6 +70,7 @@ ORDER BY mes DESC, receita DESC;`,
   {
     title: "Qualidade de Dados",
     type: "SQL / Data Quality",
+    accent: "#6cb5ff",
     code: `WITH base_clientes AS (
   SELECT
     cliente_id,
@@ -104,6 +107,7 @@ FROM validacao;`,
   {
     title: "Pipeline Comercial",
     type: "SQL / Analytics",
+    accent: "#ffcf7a",
     code: `WITH oportunidades AS (
   SELECT
     vendedor_id,
@@ -279,36 +283,7 @@ export default function Home() {
 
           <div className="grid gap-4 md:grid-cols-3">
             {projects.map((project) => (
-              <article
-                key={project.title}
-                className="overflow-hidden rounded-lg border border-white/12 bg-[#050617]/88 text-white shadow-2xl shadow-black/30 backdrop-blur"
-              >
-                <div className="flex items-center justify-between border-b border-white/10 bg-black/45 px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <span className="h-3 w-3 rounded-full bg-[#ff6b5d]" />
-                    <span className="h-3 w-3 rounded-full bg-[#ffcf7a]" />
-                    <span className="h-3 w-3 rounded-full bg-[#6cb5ff]" />
-                  </div>
-                  <span className="font-mono text-xs text-white/45">query.sql</span>
-                </div>
-                <div className="px-5 pb-5 pt-4">
-                  <div className="mb-4 flex items-start justify-between gap-4">
-                    <div>
-                      <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#6cb5ff]">
-                        {project.type}
-                      </p>
-                      <h3 className="mt-2 text-xl font-black tracking-normal text-white">{project.title}</h3>
-                    </div>
-                    <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-[#ff6b5d]" />
-                  </div>
-                  <pre
-                    data-code-scroll
-                    className="code-scrollbar h-[330px] overflow-auto whitespace-pre-wrap break-words rounded-md border border-white/10 bg-black/55 p-4 font-mono text-[0.54rem] leading-3 text-[#d7e7ff] shadow-inner shadow-black/30"
-                  >
-                    <code>{project.code}</code>
-                  </pre>
-                </div>
-              </article>
+              <ProjectTerminalCard key={project.title} {...project} />
             ))}
           </div>
         </div>
