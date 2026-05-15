@@ -98,6 +98,10 @@ export function HorizontalScrollControls() {
     }
 
     const onWheel = (event: WheelEvent) => {
+      if (event.target instanceof Element && event.target.closest("[data-code-scroll]")) {
+        return
+      }
+
       const mainDelta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
 
       if (Math.abs(mainDelta) < 1) {

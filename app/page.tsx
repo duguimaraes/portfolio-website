@@ -25,19 +25,119 @@ const navItems = [
 
 const projects = [
   {
-    title: "Automação Operacional",
-    type: "Workflow",
-    description: "Rotinas para reduzir tarefas manuais, organizar dados e acelerar decisões do time.",
+    title: "Análise de Receita",
+    type: "SQL / BI",
+    code: `WITH receita_mensal AS (
+  SELECT
+    DATE_TRUNC('month', data_venda) AS mes,
+    canal,
+    SUM(valor_total) AS receita,
+    COUNT(DISTINCT pedido_id) AS pedidos,
+    COUNT(DISTINCT cliente_id) AS clientes
+  FROM fato_vendas
+  WHERE status = 'concluido'
+  GROUP BY 1, 2
+),
+comparativo AS (
+  SELECT
+    mes,
+    canal,
+    receita,
+    pedidos,
+    clientes,
+    LAG(receita) OVER (
+      PARTITION BY canal
+      ORDER BY mes
+    ) AS receita_mes_anterior
+  FROM receita_mensal
+)
+SELECT
+  mes,
+  canal,
+  receita,
+  pedidos,
+  clientes,
+  ROUND(
+    100.0 * (receita - receita_mes_anterior)
+    / NULLIF(receita_mes_anterior, 0),
+    2
+  ) AS crescimento_pct
+FROM comparativo
+ORDER BY mes DESC, receita DESC;`,
   },
   {
-    title: "Dashboards de Indicadores",
-    type: "Data",
-    description: "Painéis objetivos para leitura diária de performance, desvios e oportunidades.",
+    title: "Qualidade de Dados",
+    type: "SQL / Data Quality",
+    code: `WITH base_clientes AS (
+  SELECT
+    cliente_id,
+    email,
+    cpf,
+    data_cadastro,
+    ultima_compra
+  FROM dim_clientes
+),
+validacao AS (
+  SELECT
+    cliente_id,
+    CASE WHEN email IS NULL THEN 1 ELSE 0 END AS email_vazio,
+    CASE WHEN cpf IS NULL THEN 1 ELSE 0 END AS cpf_vazio,
+    CASE
+      WHEN ultima_compra < data_cadastro THEN 1
+      ELSE 0
+    END AS data_inconsistente
+  FROM base_clientes
+)
+SELECT
+  COUNT(*) AS total_clientes,
+  SUM(email_vazio) AS emails_vazios,
+  SUM(cpf_vazio) AS cpfs_vazios,
+  SUM(data_inconsistente) AS datas_inconsistentes,
+  ROUND(
+    100.0 * SUM(
+      email_vazio + cpf_vazio + data_inconsistente
+    ) / NULLIF(COUNT(*), 0),
+    2
+  ) AS taxa_inconsistencia
+FROM validacao;`,
   },
   {
-    title: "Experiências Web",
-    type: "Front-end",
-    description: "Interfaces leves, responsivas e pensadas para transformar processos em produto.",
+    title: "Pipeline Comercial",
+    type: "SQL / Analytics",
+    code: `WITH oportunidades AS (
+  SELECT
+    vendedor_id,
+    etapa_funil,
+    valor_estimado,
+    data_abertura,
+    data_fechamento
+  FROM crm_oportunidades
+  WHERE data_abertura >= CURRENT_DATE - INTERVAL '180 days'
+),
+funil AS (
+  SELECT
+    vendedor_id,
+    etapa_funil,
+    COUNT(*) AS qtd_oportunidades,
+    SUM(valor_estimado) AS valor_pipeline,
+    AVG(
+      DATE_PART('day', COALESCE(data_fechamento, CURRENT_DATE) - data_abertura)
+    ) AS ciclo_medio_dias
+  FROM oportunidades
+  GROUP BY 1, 2
+)
+SELECT
+  vendedor_id,
+  etapa_funil,
+  qtd_oportunidades,
+  valor_pipeline,
+  ROUND(ciclo_medio_dias, 1) AS ciclo_medio_dias,
+  RANK() OVER (
+    PARTITION BY etapa_funil
+    ORDER BY valor_pipeline DESC
+  ) AS ranking_etapa
+FROM funil
+ORDER BY etapa_funil, ranking_etapa;`,
   },
 ]
 
@@ -179,15 +279,35 @@ export default function Home() {
 
           <div className="grid gap-4 md:grid-cols-3">
             {projects.map((project) => (
-              <article key={project.title} className="rounded-lg border border-white/12 bg-white p-6 text-[#11112a] shadow-2xl shadow-black/20">
-                <div className="mb-10 flex items-center justify-between">
-                  <span className="text-xs font-black uppercase tracking-[0.18em] text-[#6b63d9]">
-                    {project.type}
-                  </span>
-                  <ArrowUpRight className="h-5 w-5 text-[#ff624f]" />
+              <article
+                key={project.title}
+                className="overflow-hidden rounded-lg border border-white/12 bg-[#050617]/88 text-white shadow-2xl shadow-black/30 backdrop-blur"
+              >
+                <div className="flex items-center justify-between border-b border-white/10 bg-black/45 px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    <span className="h-3 w-3 rounded-full bg-[#ff6b5d]" />
+                    <span className="h-3 w-3 rounded-full bg-[#ffcf7a]" />
+                    <span className="h-3 w-3 rounded-full bg-[#6cb5ff]" />
+                  </div>
+                  <span className="font-mono text-xs text-white/45">query.sql</span>
                 </div>
-                <h3 className="text-2xl font-black tracking-normal">{project.title}</h3>
-                <p className="mt-4 text-sm leading-7 text-[#5c5865]">{project.description}</p>
+                <div className="px-5 pb-5 pt-4">
+                  <div className="mb-4 flex items-start justify-between gap-4">
+                    <div>
+                      <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#6cb5ff]">
+                        {project.type}
+                      </p>
+                      <h3 className="mt-2 text-xl font-black tracking-normal text-white">{project.title}</h3>
+                    </div>
+                    <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-[#ff6b5d]" />
+                  </div>
+                  <pre
+                    data-code-scroll
+                    className="code-scrollbar h-[330px] overflow-auto whitespace-pre-wrap break-words rounded-md border border-white/10 bg-black/55 p-4 font-mono text-[0.54rem] leading-3 text-[#d7e7ff] shadow-inner shadow-black/30"
+                  >
+                    <code>{project.code}</code>
+                  </pre>
+                </div>
               </article>
             ))}
           </div>
