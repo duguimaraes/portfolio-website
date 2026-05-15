@@ -31,60 +31,6 @@ export default function Home() {
         className="relative flex min-h-screen flex-col px-5 py-6 sm:px-8 lg:px-16"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_42%,rgba(124,80,255,0.38),transparent_32%),radial-gradient(circle_at_82%_82%,rgba(255,109,77,0.26),transparent_26%),linear-gradient(135deg,#08082f_0%,#12124b_54%,#05051e_100%)]" />
-        <div className="absolute inset-x-0 top-[14vh] h-[clamp(12rem,28vw,25rem)] select-none">
-          <svg
-            className="h-full w-full overflow-visible"
-            viewBox="0 0 1440 430"
-            preserveAspectRatio="xMidYMid meet"
-            aria-hidden="true"
-          >
-            <text
-              x="720"
-              y="140"
-              dominantBaseline="middle"
-              textAnchor="middle"
-              fill="none"
-              stroke="rgba(255,255,255,0.2)"
-              strokeWidth="1.2"
-              paintOrder="stroke"
-              className="font-black uppercase tracking-normal"
-              fontSize="245"
-            >
-              Eduardo
-            </text>
-            <text
-              x="310"
-              y="318"
-              dominantBaseline="middle"
-              textAnchor="middle"
-              fill="none"
-              stroke="rgba(255,255,255,0.18)"
-              strokeWidth="1.2"
-              paintOrder="stroke"
-              className="font-black uppercase tracking-normal"
-              fontSize="146"
-            >
-              Data
-            </text>
-            <text
-              x="310"
-              y="398"
-              dominantBaseline="middle"
-              textAnchor="middle"
-              fill="none"
-              stroke="rgba(255,255,255,0.18)"
-              strokeWidth="1.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              letterSpacing="5"
-              paintOrder="stroke"
-              className="font-extrabold uppercase tracking-normal"
-              fontSize="82"
-            >
-              Analyst
-            </text>
-          </svg>
-        </div>
         <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
         <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
 
@@ -117,8 +63,8 @@ export default function Home() {
           </a>
         </header>
 
-        <div className="relative z-10 grid flex-1 items-end gap-10 pb-12 pt-16 lg:grid-cols-[0.86fr_1.05fr_0.62fr] lg:pb-16 lg:pt-8">
-          <div className="max-w-xl self-end">
+        <div className="relative z-10 grid flex-1 items-center gap-10 py-10 lg:grid-cols-[0.86fr_1.05fr_0.62fr] lg:py-6">
+          <div className="max-w-xl self-center">
             <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-white/70">
               <Sparkles className="h-4 w-4 text-[#ffcf7a]" />
               Dados, automação e web
@@ -148,7 +94,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto flex min-h-[420px] w-full max-w-[620px] items-end justify-center self-end lg:min-h-[620px]">
+          <div className="relative mx-auto flex min-h-[420px] w-full max-w-[620px] items-end justify-center self-center lg:min-h-[620px]">
             <div className="absolute bottom-8 h-[82%] w-[82%] rounded-full bg-[linear-gradient(138deg,#754bff_0%,#263d89_46%,#ff8a5b_100%)] shadow-2xl shadow-black/45" />
             <div className="absolute bottom-16 h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px]" />
             <Image
@@ -161,7 +107,7 @@ export default function Home() {
             />
           </div>
 
-          <aside className="self-end text-white/72">
+          <aside className="self-center text-white/72">
             <p className="mb-5 text-sm font-black text-white">Nota:</p>
             <div className="mb-6 grid grid-cols-[1fr_auto] overflow-hidden rounded-lg border border-white/10 bg-black/70 text-sm">
               <span className="bg-[#6cb5ff] px-4 py-3 font-black text-white">Disponível</span>
