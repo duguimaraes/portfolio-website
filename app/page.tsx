@@ -31,6 +31,56 @@ export default function Home() {
         className="relative flex min-h-screen flex-col px-5 py-6 sm:px-8 lg:px-16"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_42%,rgba(124,80,255,0.38),transparent_32%),radial-gradient(circle_at_82%_82%,rgba(255,109,77,0.26),transparent_26%),linear-gradient(135deg,#08082f_0%,#12124b_54%,#05051e_100%)]" />
+        <svg
+          className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.18]"
+          viewBox="0 0 1440 900"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <pattern id="data-grid" width="72" height="72" patternUnits="userSpaceOnUse">
+              <path d="M 72 0 L 0 0 0 72" fill="none" stroke="rgba(255,255,255,0.16)" strokeWidth="1" />
+            </pattern>
+          </defs>
+          <rect width="1440" height="900" fill="url(#data-grid)" opacity="0.24" />
+
+          <g fill="none" stroke="rgba(255,255,255,0.38)" strokeWidth="2">
+            <rect x="82" y="144" width="198" height="118" rx="8" />
+            <path d="M112 226h140M112 198h140M112 170h140" opacity="0.32" />
+            <path d="M120 226v-28M148 226v-46M176 226v-34M204 226v-68M232 226v-54" stroke="#ffcf7a" />
+
+            <rect x="1114" y="140" width="214" height="126" rx="8" />
+            <path d="M1144 224c24-48 48-16 72-48s48 10 82-36" stroke="#6cb5ff" strokeWidth="3" />
+            <path d="M1144 230h150M1144 166h150" opacity="0.28" />
+
+            <rect x="70" y="610" width="250" height="130" rx="8" />
+            <path d="M100 710h170M100 678h92M100 646h132" opacity="0.42" />
+            <path d="M112 710l38-54 40 28 36-52 48 64" stroke="#ff6b5d" strokeWidth="3" />
+
+            <rect x="1086" y="604" width="260" height="140" rx="8" />
+            <path d="M1126 674h54m76 0h54M1180 674h76M1210 640v68" />
+            <rect x="1124" y="646" width="58" height="54" rx="6" />
+            <rect x="1252" y="646" width="58" height="54" rx="6" />
+            <rect x="1182" y="716" width="88" height="42" rx="6" />
+            <path d="M1210 700v16" />
+          </g>
+
+          <g fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.42)" strokeWidth="2">
+            <rect x="424" y="118" width="90" height="34" rx="6" />
+            <rect x="600" y="118" width="104" height="34" rx="6" />
+            <rect x="784" y="118" width="94" height="34" rx="6" />
+            <path d="M514 135h86M704 135h80" fill="none" />
+            <path d="M469 152v74h184v-42h178v-32" fill="none" strokeDasharray="8 10" />
+            <rect x="604" y="226" width="98" height="36" rx="6" />
+            <rect x="784" y="194" width="98" height="36" rx="6" />
+          </g>
+
+          <g fill="none" stroke="rgba(108,181,255,0.46)" strokeLinecap="round" strokeWidth="2">
+            <path d="M420 718c76-72 152 34 232-28s154-36 240-110" strokeDasharray="10 14" />
+            <path d="M454 746h378" opacity="0.34" />
+            <path d="M454 676h378" opacity="0.34" />
+          </g>
+        </svg>
         <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
         <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
 
