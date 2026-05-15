@@ -45,7 +45,7 @@ export default function Home() {
               textAnchor="middle"
               fill="none"
               stroke="rgba(255,255,255,0.2)"
-              strokeWidth="1"
+              strokeWidth="1.2"
               paintOrder="stroke"
               className="font-black uppercase tracking-normal"
               fontSize="245"
@@ -53,18 +53,32 @@ export default function Home() {
               Eduardo
             </text>
             <text
-              x="720"
+              x="440"
               y="318"
               dominantBaseline="middle"
               textAnchor="middle"
               fill="none"
               stroke="rgba(255,255,255,0.18)"
-              strokeWidth="1"
+              strokeWidth="1.2"
               paintOrder="stroke"
               className="font-black uppercase tracking-normal"
               fontSize="146"
             >
-              Data Analyst
+              Data
+            </text>
+            <text
+              x="990"
+              y="318"
+              dominantBaseline="middle"
+              textAnchor="middle"
+              fill="none"
+              stroke="rgba(255,255,255,0.18)"
+              strokeWidth="1.2"
+              paintOrder="stroke"
+              className="font-black uppercase tracking-normal"
+              fontSize="146"
+            >
+              Analyst
             </text>
           </svg>
         </div>
