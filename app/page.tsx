@@ -11,6 +11,7 @@ import {
   Sparkles,
   Terminal,
 } from "lucide-react"
+import { HorizontalScrollControls } from "@/components/horizontal-scroll-controls"
 
 const navItems = [
   { label: "Início", href: "#inicio", icon: HomeIcon },
@@ -44,10 +45,14 @@ const skills = ["Next.js", "React", "TypeScript", "Tailwind", "SQL", "Power BI",
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#07072a] text-white">
+    <main
+      id="portfolio-scroll-root"
+      className="no-scrollbar flex h-[100dvh] snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-contain scroll-smooth bg-[#07072a] text-white"
+    >
+      <HorizontalScrollControls />
       <section
         id="inicio"
-        className="relative flex min-h-screen flex-col px-5 py-6 sm:px-8 lg:px-16"
+        className="relative flex h-[100dvh] w-screen shrink-0 snap-start flex-col overflow-hidden px-5 py-4 sm:px-8 sm:py-5 lg:px-16 lg:py-6"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_42%,rgba(124,80,255,0.38),transparent_32%),radial-gradient(circle_at_82%_82%,rgba(255,109,77,0.26),transparent_26%),linear-gradient(135deg,#08082f_0%,#12124b_54%,#05051e_100%)]" />
         <Image
@@ -94,9 +99,9 @@ export default function Home() {
           </nav>
         </header>
 
-        <div className="relative z-10 grid flex-1 items-center gap-12 py-10 lg:grid-cols-[0.95fr_1.05fr] lg:py-6">
-          <div className="max-w-2xl self-center">
-            <div className="-translate-y-8 lg:-translate-y-12">
+        <div className="relative z-10 grid min-h-0 flex-1 items-center gap-8 pb-16 pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:pb-14 lg:pt-4">
+          <div className="max-w-2xl translate-x-8 self-center sm:translate-x-16 lg:translate-x-28">
+            <div className="-translate-y-6 lg:-translate-y-10">
               <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-white/70">
                 <Sparkles className="h-4 w-4 text-[#ffcf7a]" />
                 Analista de Dados e BI
@@ -141,7 +146,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto flex min-h-[420px] w-full max-w-[640px] -translate-y-6 items-end justify-center self-center lg:min-h-[640px] lg:-translate-y-10">
+          <div className="relative mx-auto flex aspect-square w-[min(90vw,64vh,490px)] -translate-y-4 items-end justify-center self-center sm:w-[min(78vw,68vh,610px)] lg:w-[min(50vw,78vh,740px)] lg:-translate-y-8">
             <div className="absolute bottom-8 h-[82%] w-[82%] rounded-full bg-[linear-gradient(138deg,#754bff_0%,#263d89_46%,#ff8a5b_100%)] shadow-2xl shadow-black/45" />
             <div className="absolute bottom-16 h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px]" />
             <Image
@@ -150,14 +155,14 @@ export default function Home() {
               width={1024}
               height={1536}
               priority
-              className="relative z-10 h-auto w-[66%] max-w-[420px] drop-shadow-[0_38px_60px_rgba(0,0,0,0.45)] sm:w-[70%] lg:w-[72%] lg:max-w-[455px]"
+              className="relative z-10 h-auto w-[72%] max-w-[455px] drop-shadow-[0_38px_60px_rgba(0,0,0,0.45)]"
             />
           </div>
         </div>
       </section>
 
-      <section id="projetos" className="bg-[#f6f1e8] px-5 py-20 text-[#11112a] sm:px-8 lg:px-16">
-        <div className="mx-auto max-w-7xl">
+      <section id="projetos" className="flex h-[100dvh] w-screen shrink-0 snap-start items-center bg-[#f6f1e8] px-5 py-16 text-[#11112a] sm:px-8 lg:px-16">
+        <div className="mx-auto w-full max-w-7xl">
           <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ff624f]">Projetos</p>
@@ -186,8 +191,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="blog" className="bg-[#f6f1e8] px-5 pb-20 text-[#11112a] sm:px-8 lg:px-16">
-        <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-[0.7fr_1.3fr] md:items-end">
+      <section id="blog" className="flex h-[100dvh] w-screen shrink-0 snap-start items-center bg-[#f6f1e8] px-5 py-16 text-[#11112a] sm:px-8 lg:px-16">
+        <div className="mx-auto grid w-full max-w-7xl gap-5 md:grid-cols-[0.7fr_1.3fr] md:items-end">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.24em] text-[#6b63d9]">Blog</p>
             <h2 className="mt-3 text-4xl font-black tracking-normal">Ideias em construção</h2>
@@ -205,8 +210,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="sobre" className="bg-[#08082f] px-5 py-20 text-white sm:px-8 lg:px-16">
-        <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-start">
+      <section id="sobre" className="flex h-[100dvh] w-screen shrink-0 snap-start items-center bg-[#08082f] px-5 py-16 text-white sm:px-8 lg:px-16">
+        <div className="mx-auto grid w-full max-w-7xl gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-start">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ffcf7a]">Sobre</p>
             <h2 className="mt-3 text-4xl font-black tracking-normal md:text-5xl">
@@ -233,8 +238,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contato" className="bg-[#05051e] px-5 py-16 text-white sm:px-8 lg:px-16">
-        <div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center">
+      <section id="contato" className="flex h-[100dvh] w-screen shrink-0 snap-start items-center bg-[#05051e] px-5 py-16 text-white sm:px-8 lg:px-16">
+        <div className="mx-auto flex w-full max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ff624f]">Contato</p>
             <h2 className="mt-3 text-3xl font-black tracking-normal md:text-5xl">
