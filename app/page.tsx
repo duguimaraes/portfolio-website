@@ -31,10 +31,10 @@ export default function Home() {
         className="relative flex min-h-screen flex-col px-5 py-6 sm:px-8 lg:px-16"
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_42%,rgba(124,80,255,0.38),transparent_32%),radial-gradient(circle_at_82%_82%,rgba(255,109,77,0.26),transparent_26%),linear-gradient(135deg,#08082f_0%,#12124b_54%,#05051e_100%)]" />
-        <div className="absolute inset-x-0 top-16 h-[clamp(6.5rem,17vw,15rem)] select-none">
+        <div className="absolute inset-x-0 top-14 h-[clamp(8rem,20vw,18rem)] select-none">
           <svg
             className="h-full w-full overflow-visible"
-            viewBox="0 0 1440 260"
+            viewBox="0 0 1440 330"
             preserveAspectRatio="xMidYMid meet"
             aria-hidden="true"
           >
@@ -45,12 +45,23 @@ export default function Home() {
               textAnchor="middle"
               fill="rgba(255,255,255,0.01)"
               stroke="rgba(255,255,255,0.2)"
-              strokeWidth="2.2"
+              strokeWidth="1.25"
               paintOrder="stroke"
               className="font-black uppercase tracking-normal"
               fontSize="245"
             >
               Eduardo
+            </text>
+            <text
+              x="720"
+              y="274"
+              dominantBaseline="middle"
+              textAnchor="middle"
+              fill="rgba(255,255,255,0.36)"
+              className="font-mono uppercase tracking-[0.34em]"
+              fontSize="36"
+            >
+              Data Analyst
             </text>
           </svg>
         </div>
@@ -92,10 +103,8 @@ export default function Home() {
               <Sparkles className="h-4 w-4 text-[#ffcf7a]" />
               Dados, automação e web
             </p>
-            <h1 className="text-[1.7rem] font-black leading-[1.12] tracking-normal sm:text-[2.1rem] lg:text-[2.65rem]">
-              Olá,
-              <br />
-              sou Eduardo Guimarães
+            <h1 className="whitespace-nowrap text-[1.35rem] font-black leading-[1.12] tracking-normal sm:text-[1.6rem] lg:text-[2.1rem]">
+              Olá, sou Eduardo Guimarães
             </h1>
             <p className="mt-5 max-w-lg text-lg leading-8 text-white/72">
               Transformo processos, dados e ideias em experiências digitais claras. Meu foco é criar
