@@ -37,9 +37,9 @@ export default function Home() {
           fill
           priority
           aria-hidden="true"
-          className="pointer-events-none object-cover opacity-[0.16] mix-blend-screen"
+          className="pointer-events-none object-cover opacity-[0.34] mix-blend-screen"
         />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_52%,rgba(7,7,42,0.28),rgba(7,7,42,0.74)_62%,rgba(7,7,42,0.9)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_52%,rgba(7,7,42,0.12),rgba(7,7,42,0.5)_62%,rgba(7,7,42,0.78)_100%)]" />
         <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
         <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
 
