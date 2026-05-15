@@ -131,7 +131,29 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+  .data-bg-pan {
+    animation: data-bg-pan 24s ease-in-out infinite alternate;
+    will-change: transform, filter;
+  }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@keyframes data-bg-pan {
+  0%,
+  100% {
+    filter: saturate(1) contrast(1);
+    transform: translate3d(-2.5%, -1.2%, 0) scale(1.08);
+  }
+  50% {
+    filter: saturate(1.2) contrast(1.08);
+    transform: translate3d(2.5%, 1.2%, 0) scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .data-bg-pan {
+    animation: none;
   }
 }

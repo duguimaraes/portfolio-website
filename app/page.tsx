@@ -47,27 +47,23 @@ export default function Home() {
   return (
     <main
       id="portfolio-scroll-root"
-      className="no-scrollbar flex h-[100dvh] snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-contain scroll-smooth bg-[#07072a] text-white"
+      className="no-scrollbar relative flex h-[100dvh] snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-contain scroll-smooth bg-[#07072a] text-white"
     >
-      <HorizontalScrollControls />
-      <section
-        id="inicio"
-        className="relative flex h-[100dvh] w-screen shrink-0 snap-start flex-col overflow-hidden px-5 py-4 sm:px-8 sm:py-5 lg:px-16 lg:py-6"
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_42%,rgba(124,80,255,0.38),transparent_32%),radial-gradient(circle_at_82%_82%,rgba(255,109,77,0.26),transparent_26%),linear-gradient(135deg,#08082f_0%,#12124b_54%,#05051e_100%)]" />
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_52%_42%,rgba(124,80,255,0.38),transparent_32%),radial-gradient(circle_at_82%_82%,rgba(255,109,77,0.26),transparent_26%),linear-gradient(135deg,#08082f_0%,#12124b_54%,#05051e_100%)]" />
+      <div className="data-bg-pan pointer-events-none fixed -inset-8 z-0">
         <Image
           src="/hero-data-background.png"
           alt=""
           fill
           priority
           aria-hidden="true"
-          className="pointer-events-none object-cover opacity-[0.34] mix-blend-screen"
+          className="object-cover opacity-[0.44] mix-blend-screen"
         />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_52%,rgba(7,7,42,0.12),rgba(7,7,42,0.5)_62%,rgba(7,7,42,0.78)_100%)]" />
-        <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
-        <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
+      </div>
+      <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_50%_52%,rgba(7,7,42,0.12),rgba(7,7,42,0.5)_62%,rgba(7,7,42,0.78)_100%)]" />
+      <HorizontalScrollControls />
 
-        <header className="relative z-20 flex justify-center">
+      <header className="fixed inset-x-0 top-4 z-50 flex justify-center sm:top-5 lg:top-6">
           <nav className="flex items-center gap-2 rounded-[14px] border border-white/10 bg-black/78 p-2 shadow-2xl shadow-black/45 backdrop-blur-xl">
             {navItems.map((item) => {
               const Icon = item.icon
@@ -99,9 +95,16 @@ export default function Home() {
           </nav>
         </header>
 
+      <section
+        id="inicio"
+        className="relative flex h-[100dvh] w-screen shrink-0 snap-start flex-col overflow-hidden px-5 py-4 sm:px-8 sm:py-5 lg:px-16 lg:py-6"
+      >
+        <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
+        <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
+
         <div className="relative z-10 grid min-h-0 flex-1 items-center gap-8 pb-16 pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:pb-14 lg:pt-4">
           <div className="max-w-2xl translate-x-8 self-center sm:translate-x-16 lg:translate-x-28">
-            <div className="-translate-y-6 lg:-translate-y-10">
+            <div>
               <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-white/70">
                 <Sparkles className="h-4 w-4 text-[#ffcf7a]" />
                 Analista de Dados e BI
@@ -146,7 +149,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto flex aspect-square w-[min(90vw,64vh,490px)] -translate-y-4 items-end justify-center self-center sm:w-[min(78vw,68vh,610px)] lg:w-[min(50vw,78vh,740px)] lg:-translate-y-8">
+          <div className="relative mx-auto flex aspect-square w-[min(90vw,64vh,490px)] translate-y-3 items-end justify-center self-center sm:w-[min(78vw,68vh,610px)] lg:w-[min(50vw,78vh,740px)] lg:translate-y-5">
             <div className="absolute bottom-8 h-[82%] w-[82%] rounded-full bg-[linear-gradient(138deg,#754bff_0%,#263d89_46%,#ff8a5b_100%)] shadow-2xl shadow-black/45" />
             <div className="absolute bottom-16 h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px]" />
             <Image
@@ -161,14 +164,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="projetos" className="flex h-[100dvh] w-screen shrink-0 snap-start items-center bg-[#f6f1e8] px-5 py-16 text-[#11112a] sm:px-8 lg:px-16">
+      <section id="projetos" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-center px-5 py-16 text-white sm:px-8 lg:px-16">
         <div className="mx-auto w-full max-w-7xl">
           <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ff624f]">Projetos</p>
               <h2 className="mt-3 text-4xl font-black tracking-normal md:text-5xl">Trabalhos em destaque</h2>
             </div>
-            <p className="max-w-lg text-base leading-7 text-[#4e4a5a]">
+            <p className="max-w-lg text-base leading-7 text-white/72">
               Uma seleção inicial para organizar o portfolio. Depois trocamos estes exemplos pelos seus
               cases reais, métricas e links.
             </p>
@@ -176,7 +179,7 @@ export default function Home() {
 
           <div className="grid gap-4 md:grid-cols-3">
             {projects.map((project) => (
-              <article key={project.title} className="rounded-lg border border-[#ded4c7] bg-white p-6 shadow-sm">
+              <article key={project.title} className="rounded-lg border border-white/12 bg-white p-6 text-[#11112a] shadow-2xl shadow-black/20">
                 <div className="mb-10 flex items-center justify-between">
                   <span className="text-xs font-black uppercase tracking-[0.18em] text-[#6b63d9]">
                     {project.type}
@@ -191,18 +194,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="blog" className="flex h-[100dvh] w-screen shrink-0 snap-start items-center bg-[#f6f1e8] px-5 py-16 text-[#11112a] sm:px-8 lg:px-16">
+      <section id="blog" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-center px-5 py-16 text-white sm:px-8 lg:px-16">
         <div className="mx-auto grid w-full max-w-7xl gap-5 md:grid-cols-[0.7fr_1.3fr] md:items-end">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.24em] text-[#6b63d9]">Blog</p>
             <h2 className="mt-3 text-4xl font-black tracking-normal">Ideias em construção</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
-            <article className="rounded-lg border border-[#ded4c7] bg-[#11112a] p-6 text-white">
+            <article className="rounded-lg border border-white/12 bg-[#11112a]/86 p-6 text-white shadow-2xl shadow-black/20">
               <p className="text-xs font-black uppercase tracking-[0.18em] text-[#ffcf7a]">Processos</p>
               <h3 className="mt-5 text-2xl font-black tracking-normal">Como transformar rotina em sistema</h3>
             </article>
-            <article className="rounded-lg border border-[#ded4c7] bg-white p-6">
+            <article className="rounded-lg border border-white/12 bg-white p-6 text-[#11112a] shadow-2xl shadow-black/20">
               <p className="text-xs font-black uppercase tracking-[0.18em] text-[#ff624f]">Dados</p>
               <h3 className="mt-5 text-2xl font-black tracking-normal">Indicadores que ajudam a decidir</h3>
             </article>
@@ -210,7 +213,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="sobre" className="flex h-[100dvh] w-screen shrink-0 snap-start items-center bg-[#08082f] px-5 py-16 text-white sm:px-8 lg:px-16">
+      <section id="sobre" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-center px-5 py-16 text-white sm:px-8 lg:px-16">
         <div className="mx-auto grid w-full max-w-7xl gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-start">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ffcf7a]">Sobre</p>
@@ -238,7 +241,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contato" className="flex h-[100dvh] w-screen shrink-0 snap-start items-center bg-[#05051e] px-5 py-16 text-white sm:px-8 lg:px-16">
+      <section id="contato" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-center px-5 py-16 text-white sm:px-8 lg:px-16">
         <div className="mx-auto flex w-full max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ff624f]">Contato</p>
