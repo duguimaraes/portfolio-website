@@ -67,8 +67,8 @@ export default function Home() {
               Data
             </text>
             <text
-              x="1130"
-              y="318"
+              x="310"
+              y="398"
               dominantBaseline="middle"
               textAnchor="middle"
               fill="none"
@@ -76,7 +76,7 @@ export default function Home() {
               strokeWidth="1.2"
               paintOrder="stroke"
               className="font-black uppercase tracking-normal"
-              fontSize="146"
+              fontSize="82"
             >
               Analyst
             </text>
