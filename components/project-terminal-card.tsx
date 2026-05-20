@@ -1,7 +1,8 @@
 "use client"
 
+import Image from "next/image"
 import type { ReactNode } from "react"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ArrowUpRight, BarChart3, Code2, LayoutDashboard, LineChart, PieChart } from "lucide-react"
 
 type ProjectTerminalCardProps = {
@@ -9,9 +10,20 @@ type ProjectTerminalCardProps = {
   type: string
   code: string
   accent: string
+  dashboardImageSrc?: string
+  dashboardImageAlt?: string
+  dashboardHref?: string
 }
 
-export function ProjectTerminalCard({ title, type, code, accent }: ProjectTerminalCardProps) {
+export function ProjectTerminalCard({
+  title,
+  type,
+  code,
+  accent,
+  dashboardImageSrc,
+  dashboardImageAlt,
+  dashboardHref,
+}: ProjectTerminalCardProps) {
   const [activePanel, setActivePanel] = useState<"code" | "dashboard">("code")
   const isCodeActive = activePanel === "code"
 
@@ -61,7 +73,13 @@ export function ProjectTerminalCard({ title, type, code, accent }: ProjectTermin
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <DashboardPreview title={title} accent={accent} />
+          <DashboardPreview
+            title={title}
+            accent={accent}
+            imageSrc={dashboardImageSrc}
+            imageAlt={dashboardImageAlt ?? `${title} dashboard preview`}
+            href={dashboardHref}
+          />
         </div>
       </div>
     </article>
@@ -79,8 +97,34 @@ function TerminalHeader({
   icon: ReactNode
   onClick: () => void
 }) {
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    const button = buttonRef.current
+
+    if (!button || active || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return
+    }
+
+    const animation = button.animate(
+      [
+        { transform: "translateY(0)" },
+        { transform: "translateY(-4px)" },
+        { transform: "translateY(0)" },
+      ],
+      {
+        duration: 4200,
+        easing: "ease-in-out",
+        iterations: Infinity,
+      },
+    )
+
+    return () => animation.cancel()
+  }, [active])
+
   return (
     <button
+      ref={buttonRef}
       type="button"
       onClick={onClick}
       className={`flex w-full items-center justify-between border-b border-white/10 px-4 py-3 text-left transition ${
@@ -106,7 +150,46 @@ function TerminalHeader({
   )
 }
 
-function DashboardPreview({ title, accent }: { title: string; accent: string }) {
+function DashboardPreview({
+  title,
+  accent,
+  imageSrc,
+  imageAlt,
+  href,
+}: {
+  title: string
+  accent: string
+  imageSrc?: string
+  imageAlt: string
+  href?: string
+}) {
+  if (imageSrc) {
+    const previewImage = (
+      <Image
+        src={imageSrc}
+        alt={imageAlt}
+        fill
+        sizes="(min-width: 768px) 33vw, 100vw"
+        className="object-contain transition duration-300 ease-out group-hover:scale-[1.04]"
+      />
+    )
+
+    return (
+      <div className="h-[318px] bg-black/42 p-3">
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Abrir projeto ${title} no GitHub`}
+          className="group relative block h-full overflow-hidden rounded-md border border-white/10 bg-[#050617] shadow-inner shadow-black/30 transition duration-300 hover:border-white/24 hover:shadow-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+        >
+          {previewImage}
+          <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/5" />
+        </a>
+      </div>
+    )
+  }
+
   return (
     <div className="h-[318px] bg-black/42 p-4">
       <div className="grid h-full grid-rows-[auto_1fr] gap-3 rounded-md border border-white/10 bg-[#080a14]/90 p-3 shadow-inner shadow-black/30">

@@ -1,151 +1,620 @@
 import Image from "next/image"
 import {
   ArrowUpRight,
-  Database,
-  FileText,
   Github,
-  HomeIcon,
   Linkedin,
   Mail,
-  RotateCcw,
   Sparkles,
-  Terminal,
 } from "lucide-react"
+import { DashboardGallery } from "@/components/dashboard-gallery"
 import { HorizontalScrollControls } from "@/components/horizontal-scroll-controls"
+import { PortfolioNav } from "@/components/portfolio-nav"
 import { ProjectTerminalCard } from "@/components/project-terminal-card"
-
-const navItems = [
-  { label: "Início", href: "#inicio", icon: HomeIcon },
-  { label: "Terminal", href: "#sobre", icon: Terminal },
-  { label: "Dados", href: "#projetos", icon: Database },
-  { label: "Avatar", href: "#inicio", avatar: true },
-  { label: "Blog", href: "#blog", icon: FileText },
-  { label: "GitHub", href: "https://github.com/", icon: Github },
-  { label: "Contato", href: "#contato", icon: RotateCcw },
-]
 
 const projects = [
   {
-    title: "Análise de Receita",
-    type: "SQL / BI",
+    title: "Fluxo de Chamados",
+    type: "Power BI / TI",
     accent: "#ff6b5d",
-    code: `WITH receita_mensal AS (
-  SELECT
-    DATE_TRUNC('month', data_venda) AS mes,
-    canal,
-    SUM(valor_total) AS receita,
-    COUNT(DISTINCT pedido_id) AS pedidos,
-    COUNT(DISTINCT cliente_id) AS clientes
-  FROM fato_vendas
-  WHERE status = 'concluido'
-  GROUP BY 1, 2
-),
-comparativo AS (
-  SELECT
-    mes,
-    canal,
-    receita,
-    pedidos,
-    clientes,
-    LAG(receita) OVER (
-      PARTITION BY canal
-      ORDER BY mes
-    ) AS receita_mes_anterior
-  FROM receita_mensal
-)
+    dashboardImageSrc: "/dashboards/fluxo-chamado-ti.png",
+    dashboardImageAlt: "Dashboard de fluxo de chamados de Tecnologia da Informacao",
+    dashboardHref: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/sla-ti-dashboard",
+    code: `-- Project: IT SLA Dashboard
+-- Description: SQL queries used for SLA analysis, runtime evaluation, and satisfaction metrics.
+
+-- 1. Main Ticket Workflow Extraction
+-- Description: Retrieves latest version of service requests and links workflow + assignment data.
+
+SELECT 
+    wf.process_id,
+    req.requester_name,
+    req.ticket_type,
+    req.ticket_title,
+    wf.workflow_status,
+    req.business_unit,
+    ISNULL(assignee.analyst_id, 'Waiting for Assignment') AS analyst_id,
+    COALESCE(assignee.assignment_start_date, wf.process_start_date) AS start_date,
+    assignee.assignment_end_date,
+    assignee.total_runtime,
+    req.priority,
+    req.system_name,
+    req.service_category,
+    req.incident_category,
+    req.incident_justification,
+    req.is_project_related,
+    req.waiting_for_third_party,
+    req.corrective_reason,
+    req.access_type,
+    req.purchase_type,
+    req.purchase_item,
+    req.access_issue_type,
+    req.unavailable_resource,
+    req.installation_reason,
+    req.maintenance_type,
+    req.billing_impact,
+    req.project_name
+FROM service_requests req
+INNER JOIN (
+    SELECT 
+        document_id, 
+        MAX(version_number) AS latest_version
+    FROM service_requests
+    GROUP BY document_id
+) latest_req 
+    ON req.document_id = latest_req.document_id
+   AND req.version_number = latest_req.latest_version
+INNER JOIN workflow_processes wf
+    ON wf.request_document_id = req.document_id
+LEFT JOIN (
+    SELECT 
+        t.process_id,
+        t.analyst_id,
+        t.assignment_start_date,
+        t.assignment_end_date,
+        t.total_runtime
+    FROM workflow_tasks t
+    INNER JOIN (
+        SELECT 
+            process_id,
+            MAX(task_sequence) AS latest_task_sequence
+        FROM workflow_tasks
+        WHERE analyst_id IN (
+            'analyst_01',
+            'analyst_02',
+            'analyst_03',
+            'analyst_04',
+            'analyst_05'
+        )
+        AND analyst_id NOT IN ('system_auto')
+        AND analyst_id NOT LIKE 'queue%'
+        AND (
+            task_notes IS NULL
+            OR task_notes = ''
+            OR task_notes NOT LIKE '%Task automatically assigned%'
+        )
+        GROUP BY process_id
+    ) latest_task
+        ON t.process_id = latest_task.process_id
+       AND t.task_sequence = latest_task.latest_task_sequence
+    WHERE t.analyst_id IN (
+        'analyst_01',
+        'analyst_02',
+        'analyst_03',
+        'analyst_04',
+        'analyst_05'
+    )
+    AND t.analyst_id NOT IN ('system_auto')
+    AND t.analyst_id NOT LIKE 'queue%'
+    AND (
+        t.task_notes IS NULL
+        OR t.task_notes = ''
+        OR t.task_notes NOT LIKE '%Task automatically assigned%'
+    )
+) assignee
+    ON assignee.process_id = wf.process_id
+WHERE wf.workflow_status IN ('Open', 'Completed');
+
+
+
+-- 2. Runtime Analysis for IT Tickets
+-- Description: Identifies tickets with high resolution time
+
 SELECT
-  mes,
-  canal,
-  receita,
-  pedidos,
-  clientes,
-  ROUND(
-    100.0 * (receita - receita_mes_anterior)
-    / NULLIF(receita_mes_anterior, 0),
-    2
-  ) AS crescimento_pct
-FROM comparativo
-ORDER BY mes DESC, receita DESC;`,
+    t.process_id,
+    t.analyst_id,
+    t.total_runtime,
+    wf.process_start_date
+FROM workflow_tasks t
+INNER JOIN workflow_processes wf
+    ON wf.process_id = t.process_id
+INNER JOIN service_requests req
+    ON req.process_id = t.process_id
+WHERE 
+    t.analyst_id NOT IN ('system_auto')
+    AND wf.process_type = 'IT_Request'
+    AND t.analyst_id IN (
+        'analyst_01',
+        'analyst_02',
+        'analyst_03',
+        'analyst_04',
+        'analyst_05'
+    )
+    AND t.analyst_id NOT LIKE 'queue%'
+    AND wf.process_start_date >= '2025-01-01'
+    AND wf.workflow_status = 'Completed'
+    AND t.total_runtime >= 200
+    AND req.waiting_for_third_party <> 'yes'
+    AND req.is_project_related <> 'yes'
+ORDER BY
+    t.process_id,
+    t.task_sequence;
+
+
+
+-- 3. Closed Ticket Satisfaction Analysis
+-- Description: Extracts satisfaction survey responses for completed IT tickets
+
+SELECT
+    req.process_id,
+    req.requester_name,
+    req.ticket_status,
+    req.business_unit,
+    req.ticket_type,
+    req.analyst_service_rating,
+    req.service_satisfaction,
+    req.communication_clarity_rating,
+    req.solution_effectiveness_rating,
+    wf.workflow_status
+FROM service_requests req
+INNER JOIN (
+    SELECT 
+        document_id,
+        MAX(version_number) AS latest_version
+    FROM service_requests
+    GROUP BY document_id
+) latest_req
+    ON req.document_id = latest_req.document_id
+   AND req.version_number = latest_req.latest_version
+INNER JOIN workflow_processes wf
+    ON wf.request_document_id = req.document_id
+WHERE wf.workflow_status = 'Completed'
+  AND req.ticket_type IN ('Access', 'System', 'Infrastructure', 'Data')
+  AND (
+        req.analyst_service_rating <> 'Not Answered'
+        OR req.service_satisfaction <> 'Not Answered'
+      );`,
   },
   {
-    title: "Qualidade de Dados",
-    type: "SQL / Data Quality",
+    title: "Controle de Estoque",
+    type: "Power BI / Inventory",
     accent: "#6cb5ff",
-    code: `WITH base_clientes AS (
-  SELECT
-    cliente_id,
-    email,
-    cpf,
-    data_cadastro,
-    ultima_compra
-  FROM dim_clientes
+    dashboardImageSrc: "/dashboards/inventory-control-dashboard.png",
+    dashboardImageAlt: "Dashboard de controle de estoque e obsolescencia",
+    dashboardHref: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/inventory-control-dashboard",
+    code: `-- Project: Inventory Movement & Obsolescence Dashboard
+-- Description: Consolidates inventory movement data across multiple business units, calculates monthly stock activity, and identifies inactive / obsolete items.
+
+WITH unified_inventory_data AS (
+
+    -- Business Unit A
+    SELECT 
+        inv.location_code,
+        inv.item_code,
+        inv.document_date,
+        inv.in_quantity,
+        inv.out_quantity,
+        inv.stock_value,
+        itm.item_name,
+        itm.item_group_code,
+        wh.min_stock_level,
+        wh.max_stock_level,
+        grp.item_group_name
+    FROM business_unit_a.inventory_log inv
+    LEFT JOIN business_unit_a.items itm
+        ON itm.item_code = inv.item_code
+    LEFT JOIN business_unit_a.item_warehouse wh
+        ON wh.item_code = inv.item_code
+       AND wh.warehouse_code = inv.location_code
+    LEFT JOIN business_unit_a.item_groups grp
+        ON grp.item_group_code = itm.item_group_code
+
+    UNION ALL
+
+    -- Business Unit B
+    SELECT 
+        inv.location_code,
+        inv.item_code,
+        inv.document_date,
+        inv.in_quantity,
+        inv.out_quantity,
+        inv.stock_value,
+        itm.item_name,
+        itm.item_group_code,
+        wh.min_stock_level,
+        wh.max_stock_level,
+        grp.item_group_name
+    FROM business_unit_b.inventory_log inv
+    LEFT JOIN business_unit_b.items itm
+        ON itm.item_code = inv.item_code
+    LEFT JOIN business_unit_b.item_warehouse wh
+        ON wh.item_code = inv.item_code
+       AND wh.warehouse_code = inv.location_code
+    LEFT JOIN business_unit_b.item_groups grp
+        ON grp.item_group_code = itm.item_group_code
+
+    UNION ALL
+
+    -- Business Unit C
+    SELECT 
+        inv.location_code,
+        inv.item_code,
+        inv.document_date,
+        inv.in_quantity,
+        inv.out_quantity,
+        inv.stock_value,
+        itm.item_name,
+        itm.item_group_code,
+        wh.min_stock_level,
+        wh.max_stock_level,
+        grp.item_group_name
+    FROM business_unit_c.inventory_log inv
+    LEFT JOIN business_unit_c.items itm
+        ON itm.item_code = inv.item_code
+    LEFT JOIN business_unit_c.item_warehouse wh
+        ON wh.item_code = inv.item_code
+       AND wh.warehouse_code = inv.location_code
+    LEFT JOIN business_unit_c.item_groups grp
+        ON grp.item_group_code = itm.item_group_code
+
+    UNION ALL
+
+    -- Business Unit D
+    SELECT 
+        inv.location_code,
+        inv.item_code,
+        inv.document_date,
+        inv.in_quantity,
+        inv.out_quantity,
+        inv.stock_value,
+        itm.item_name,
+        itm.item_group_code,
+        wh.min_stock_level,
+        wh.max_stock_level,
+        grp.item_group_name
+    FROM business_unit_d.inventory_log inv
+    LEFT JOIN business_unit_d.items itm
+        ON itm.item_code = inv.item_code
+    LEFT JOIN business_unit_d.item_warehouse wh
+        ON wh.item_code = inv.item_code
+       AND wh.warehouse_code = inv.location_code
+    LEFT JOIN business_unit_d.item_groups grp
+        ON grp.item_group_code = itm.item_group_code
 ),
-validacao AS (
-  SELECT
-    cliente_id,
-    CASE WHEN email IS NULL THEN 1 ELSE 0 END AS email_vazio,
-    CASE WHEN cpf IS NULL THEN 1 ELSE 0 END AS cpf_vazio,
-    CASE
-      WHEN ultima_compra < data_cadastro THEN 1
-      ELSE 0
-    END AS data_inconsistente
-  FROM base_clientes
+
+monthly_inventory_movement AS (
+    SELECT 
+        u.location_code,
+        u.item_code,
+        u.item_name,
+        u.item_group_code,
+        u.item_group_name,
+        u.min_stock_level,
+        u.max_stock_level,
+        LAST_DAY_OF_MONTH(CAST(u.document_date AS TIMESTAMP)) AS reference_month,
+        SUM(CAST(u.in_quantity AS DECIMAL(18,2))) AS total_inbound,
+        SUM(CAST(u.out_quantity AS DECIMAL(18,2))) AS total_outbound,
+        SUM(CAST(u.stock_value AS DECIMAL(18,2))) AS total_stock_value
+    FROM unified_inventory_data u
+    GROUP BY 
+        u.location_code,
+        u.item_code,
+        u.item_name,
+        u.item_group_code,
+        u.item_group_name,
+        u.min_stock_level,
+        u.max_stock_level,
+        LAST_DAY_OF_MONTH(CAST(u.document_date AS TIMESTAMP))
+),
+
+latest_inventory_movement AS (
+    SELECT 
+        item_code,
+        location_code,
+        MAX(
+            CASE 
+                WHEN CAST(in_quantity AS DECIMAL(18,2)) > 0 
+                THEN CAST(document_date AS TIMESTAMP)
+            END
+        ) AS last_inbound_date,
+        MAX(
+            CASE 
+                WHEN CAST(out_quantity AS DECIMAL(18,2)) > 0 
+                THEN CAST(document_date AS TIMESTAMP)
+            END
+        ) AS last_outbound_date
+    FROM unified_inventory_data
+    GROUP BY item_code, location_code
 )
+
 SELECT
-  COUNT(*) AS total_clientes,
-  SUM(email_vazio) AS emails_vazios,
-  SUM(cpf_vazio) AS cpfs_vazios,
-  SUM(data_inconsistente) AS datas_inconsistentes,
-  ROUND(
-    100.0 * SUM(
-      email_vazio + cpf_vazio + data_inconsistente
-    ) / NULLIF(COUNT(*), 0),
-    2
-  ) AS taxa_inconsistencia
-FROM validacao;`,
+    CASE 
+        WHEN m.location_code LIKE '12%' THEN 'Farm A'
+        WHEN m.location_code LIKE '13%' THEN 'Farm B'
+        WHEN m.location_code LIKE '14%' THEN 'Farm C'
+        WHEN m.location_code LIKE '15%' THEN 'Farm D'
+        WHEN m.location_code LIKE '16%' THEN 'Farm E'
+        WHEN m.location_code LIKE '17%' THEN 'Farm F'
+        WHEN m.location_code LIKE '18%' THEN 'Farm G'
+        WHEN m.location_code LIKE '51%' THEN 'Livestock Unit A'
+        WHEN m.location_code LIKE '52%' THEN 'Livestock Unit B'
+        WHEN m.location_code LIKE '53%' THEN 'Livestock Unit C'
+        ELSE 'Other Unit'
+    END AS business_unit,
+    m.item_code,
+    m.item_name,
+    m.location_code AS warehouse_code,
+    m.total_inbound AS inbound_quantity,
+    m.total_outbound AS outbound_quantity,
+    m.total_inbound - m.total_outbound AS inventory_balance,
+    m.total_stock_value,
+    m.item_group_name,
+    m.item_group_code,
+    CAST(REPLACE(m.min_stock_level, '.', '') AS DECIMAL(18,2)) AS min_stock_level,
+    CAST(REPLACE(m.max_stock_level, '.', '') AS DECIMAL(18,2)) AS max_stock_level,
+    m.reference_month,
+    lm.last_inbound_date,
+    lm.last_outbound_date,
+    CASE 
+        WHEN lm.last_outbound_date IS NOT NULL
+         AND lm.last_inbound_date IS NOT NULL
+        THEN date_diff('day', lm.last_inbound_date, lm.last_outbound_date)
+        ELSE NULL
+    END AS days_until_outbound,
+    CASE 
+        WHEN lm.last_outbound_date IS NULL
+          OR lm.last_inbound_date > lm.last_outbound_date
+        THEN date_diff('day', lm.last_inbound_date, CURRENT_DATE)
+        ELSE NULL
+    END AS days_without_movement
+FROM monthly_inventory_movement m
+LEFT JOIN latest_inventory_movement lm
+    ON lm.item_code = m.item_code
+   AND lm.location_code = m.location_code;`,
   },
   {
-    title: "Pipeline Comercial",
-    type: "SQL / Analytics",
+    title: "Pesagem Manual",
+    type: "Power BI / Operations",
     accent: "#ffcf7a",
-    code: `WITH oportunidades AS (
-  SELECT
-    vendedor_id,
-    etapa_funil,
-    valor_estimado,
-    data_abertura,
-    data_fechamento
-  FROM crm_oportunidades
-  WHERE data_abertura >= CURRENT_DATE - INTERVAL '180 days'
-),
-funil AS (
-  SELECT
-    vendedor_id,
-    etapa_funil,
-    COUNT(*) AS qtd_oportunidades,
-    SUM(valor_estimado) AS valor_pipeline,
-    AVG(
-      DATE_PART('day', COALESCE(data_fechamento, CURRENT_DATE) - data_abertura)
-    ) AS ciclo_medio_dias
-  FROM oportunidades
-  GROUP BY 1, 2
-)
+    dashboardImageSrc: "/dashboards/manual-weighing-dashboard.png",
+    dashboardImageAlt: "Dashboard de controle de pesagem manual",
+    dashboardHref: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/manual-weighing-dashboard",
+    code: `-- Project: Manual Weighing Control Dashboard
+-- Description: SQL queries used to monitor manual truck weighing operations, including approval flow, operational delays, and recurring manual weighing scenarios.
+
+-- 1. Manual Weighing Records (With Integration Filters)
+
 SELECT
-  vendedor_id,
-  etapa_funil,
-  qtd_oportunidades,
-  valor_pipeline,
-  ROUND(ciclo_medio_dias, 1) AS ciclo_medio_dias,
-  RANK() OVER (
-    PARTITION BY etapa_funil
-    ORDER BY valor_pipeline DESC
-  ) AS ranking_etapa
-FROM funil
-ORDER BY etapa_funil, ranking_etapa;`,
+    w.load_number,
+    CASE w.direction_type
+        WHEN 'OUT' THEN 'Outbound'
+        WHEN 'IN' THEN 'Inbound'
+        ELSE 'Not Informed'
+    END AS direction,
+    w.is_first_weighing_manual,
+    w.is_second_weighing_manual,
+    p.product_name,
+    approval.approver_name,
+    approval.manual_reason,
+    b.business_unit_name,
+    CONVERT(DATE, DATEADD(HOUR, -1,
+        CASE
+            WHEN w.is_second_weighing_manual = '1' THEN w.second_weighing_datetime
+            ELSE w.first_weighing_datetime
+        END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS weighing_date,
+    CONVERT(TIME, DATEADD(HOUR, -1,
+        CASE
+            WHEN w.is_second_weighing_manual = '1' THEN w.second_weighing_datetime
+            ELSE w.first_weighing_datetime
+        END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS weighing_time,
+    CONVERT(DATE, DATEADD(HOUR, -1,
+        CASE
+            WHEN w.is_second_weighing_manual = '1' THEN w.second_approval_datetime
+            ELSE w.first_approval_datetime
+        END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS approval_date,
+    CONVERT(TIME, DATEADD(HOUR, -1,
+        CASE
+            WHEN w.is_second_weighing_manual = '1' THEN w.second_approval_datetime
+            ELSE w.first_approval_datetime
+        END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS approval_time,
+    DATEDIFF(MINUTE,
+        DATEADD(HOUR, -1,
+            CASE
+                WHEN w.is_second_weighing_manual = '1' THEN w.second_weighing_datetime
+                ELSE w.first_weighing_datetime
+            END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+        ),
+        DATEADD(HOUR, -1,
+            CASE
+                WHEN w.is_second_weighing_manual = '1' THEN w.second_approval_datetime
+                ELSE w.first_approval_datetime
+            END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+        )
+    ) AS approval_time_minutes
+FROM truck_weighing w
+LEFT JOIN business_units b ON b.business_unit_id = w.business_unit_id
+LEFT JOIN users u1 ON u1.user_id = w.first_approval_user_id
+LEFT JOIN users u2 ON u2.user_id = w.second_approval_user_id
+LEFT JOIN products p ON p.product_id = w.product_id
+OUTER APPLY (
+    SELECT u1.user_name AS approver_name, w.first_manual_reason AS manual_reason
+    WHERE w.first_approval_user_id IS NOT NULL
+
+    UNION ALL
+
+    SELECT u2.user_name AS approver_name, w.second_manual_reason AS manual_reason
+    WHERE w.second_approval_user_id IS NOT NULL
+) approval
+WHERE '1' IN (w.is_first_weighing_manual, w.is_second_weighing_manual)
+  AND w.deleted_at IS NULL
+  AND w.status_code = 'COMPLETED'
+  AND w.erp_document IS NOT NULL
+  AND (
+        w.first_approval_user_id IS NOT NULL
+        OR w.second_approval_user_id IS NOT NULL
+      )
+
+
+
+-- 2. Manual Weighing Records (Without Integration Filters)
+
+SELECT
+    w.load_number,
+    CASE w.direction_type
+        WHEN 'OUT' THEN 'Outbound'
+        WHEN 'IN' THEN 'Inbound'
+        ELSE 'Not Informed'
+    END AS direction,
+    w.is_first_weighing_manual,
+    w.is_second_weighing_manual,
+    p.product_name,
+    approval.approver_name,
+    approval.manual_reason,
+    b.business_unit_name,
+    CONVERT(DATE, DATEADD(HOUR, -1,
+        CASE
+            WHEN w.is_second_weighing_manual = '1' THEN w.second_weighing_datetime
+            ELSE w.first_weighing_datetime
+        END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS weighing_date,
+    CONVERT(TIME, DATEADD(HOUR, -1,
+        CASE
+            WHEN w.is_second_weighing_manual = '1' THEN w.second_weighing_datetime
+            ELSE w.first_weighing_datetime
+        END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS weighing_time,
+    CONVERT(DATE, DATEADD(HOUR, -1,
+        CASE
+            WHEN w.is_second_weighing_manual = '1' THEN w.second_approval_datetime
+            ELSE w.first_approval_datetime
+        END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS approval_date,
+    CONVERT(TIME, DATEADD(HOUR, -1,
+        CASE
+            WHEN w.is_second_weighing_manual = '1' THEN w.second_approval_datetime
+            ELSE w.first_approval_datetime
+        END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS approval_time,
+    DATEDIFF(MINUTE,
+        DATEADD(HOUR, -1,
+            CASE
+                WHEN w.is_second_weighing_manual = '1' THEN w.second_weighing_datetime
+                ELSE w.first_weighing_datetime
+            END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+        ),
+        DATEADD(HOUR, -1,
+            CASE
+                WHEN w.is_second_weighing_manual = '1' THEN w.second_approval_datetime
+                ELSE w.first_approval_datetime
+            END AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+        )
+    ) AS approval_time_minutes
+FROM truck_weighing w
+LEFT JOIN business_units b ON b.business_unit_id = w.business_unit_id
+LEFT JOIN users u1 ON u1.user_id = w.first_approval_user_id
+LEFT JOIN users u2 ON u2.user_id = w.second_approval_user_id
+LEFT JOIN products p ON p.product_id = w.product_id
+OUTER APPLY (
+    SELECT u1.user_name AS approver_name, w.first_manual_reason AS manual_reason
+    WHERE w.first_approval_user_id IS NOT NULL
+
+    UNION ALL
+
+    SELECT u2.user_name AS approver_name, w.second_manual_reason AS manual_reason
+    WHERE w.second_approval_user_id IS NOT NULL
+) approval
+WHERE '1' IN (w.is_first_weighing_manual, w.is_second_weighing_manual)
+  AND w.deleted_at IS NULL
+  AND w.status_code = 'COMPLETED'
+  AND (
+        w.first_approval_user_id IS NOT NULL
+        OR w.second_approval_user_id IS NOT NULL
+      )
+
+
+
+-- 3. Manual Weighing Operational Details
+
+SELECT
+    w.load_number,
+    CASE w.direction_type
+        WHEN 'OUT' THEN 'Outbound'
+        WHEN 'IN' THEN 'Inbound'
+        ELSE 'Not Informed'
+    END AS direction,
+    unified.operator_name,
+    unified.product_name,
+    w.is_first_weighing_manual AS first_weighing_manual,
+    w.is_second_weighing_manual AS second_weighing_manual,
+    unified.business_unit_name,
+    CONVERT(DATE, DATEADD(HOUR, -1,
+        w.first_weighing_datetime AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS first_weighing_date,
+    CONVERT(TIME, DATEADD(HOUR, -1,
+        w.first_weighing_datetime AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS first_weighing_time,
+    CONVERT(DATE, DATEADD(HOUR, -1,
+        w.second_weighing_datetime AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS second_weighing_date,
+    CONVERT(TIME, DATEADD(HOUR, -1,
+        w.second_weighing_datetime AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'
+    )) AS second_weighing_time
+FROM truck_weighing w
+LEFT JOIN business_units b ON b.business_unit_id = w.business_unit_id
+LEFT JOIN users u1 ON u1.user_id = w.first_weighing_user_id
+LEFT JOIN users u2 ON u2.user_id = w.second_weighing_user_id
+LEFT JOIN products p ON p.product_id = w.product_id
+OUTER APPLY (
+    SELECT u1.user_name AS operator_name, b.business_unit_name, p.product_name
+    WHERE w.first_weighing_user_id IS NOT NULL
+      AND w.first_weighing_user_id <> w.second_weighing_user_id
+
+    UNION ALL
+
+    SELECT u2.user_name AS operator_name, NULL, NULL
+    WHERE w.second_weighing_user_id IS NOT NULL
+      AND w.first_weighing_user_id <> w.second_weighing_user_id
+
+    UNION ALL
+
+    SELECT u2.user_name AS operator_name, b.business_unit_name, p.product_name
+    WHERE w.second_weighing_user_id IS NOT NULL
+      AND (
+            w.first_weighing_user_id = w.second_weighing_user_id
+            OR w.first_weighing_user_id IS NULL
+          )
+) unified
+WHERE w.deleted_at IS NULL
+  AND w.status_code = 'COMPLETED'
+ORDER BY w.first_weighing_datetime DESC;`,
   },
 ]
 
-const skills = ["Next.js", "React", "TypeScript", "Tailwind", "SQL", "Power BI", "Automação", "APIs"]
+const skills = [
+  "Power BI",
+  "DAX",
+  "Power Query",
+  "SQL Databases",
+  "PostgreSQL",
+  "Firebird",
+  "AWS Athena",
+  "AI + MCP",
+  "BI Automation",
+  "Data Modeling",
+]
 
 export default function Home() {
   return (
@@ -166,38 +635,7 @@ export default function Home() {
       </div>
       <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_50%_52%,rgba(7,7,42,0.12),rgba(7,7,42,0.5)_62%,rgba(7,7,42,0.78)_100%)]" />
       <HorizontalScrollControls />
-
-      <header className="fixed inset-x-0 top-4 z-50 flex justify-center sm:top-5 lg:top-6">
-          <nav className="flex items-center gap-2 rounded-[14px] border border-white/10 bg-black/78 p-2 shadow-2xl shadow-black/45 backdrop-blur-xl">
-            {navItems.map((item) => {
-              const Icon = item.icon
-
-              return (
-              <a
-                key={item.label}
-                href={item.href}
-                aria-label={item.label}
-                title={item.label}
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.06] text-white/76 transition hover:border-white/24 hover:bg-white/[0.12] hover:text-white"
-              >
-                {item.avatar ? (
-                  <span className="relative h-8 w-8 overflow-hidden rounded-full bg-[#6cb5ff]">
-                    <Image
-                      src="/hero-avatar.png"
-                      alt=""
-                      fill
-                      sizes="32px"
-                      className="object-cover object-top"
-                    />
-                  </span>
-                ) : (
-                  Icon && <Icon className="h-[18px] w-[18px]" />
-                )}
-              </a>
-              )
-            })}
-          </nav>
-        </header>
+      <PortfolioNav />
 
       <section
         id="inicio"
@@ -236,14 +674,14 @@ export default function Home() {
                   Contato
                 </a>
                 <a
-                  href="https://github.com/"
+                  href="https://github.com/duguimaraes"
                   aria-label="GitHub"
                   className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/12 bg-white/[0.05] transition hover:border-white/30 hover:bg-white/10"
                 >
                   <Github className="h-5 w-5" />
                 </a>
                 <a
-                  href="https://www.linkedin.com/"
+                  href="https://www.linkedin.com/in/eduardo-ladeira-guimar%C3%A3es-a272a427b/"
                   aria-label="LinkedIn"
                   className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/12 bg-white/[0.05] transition hover:border-white/30 hover:bg-white/10"
                 >
@@ -268,6 +706,35 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="sobre" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-center px-5 py-16 text-white sm:px-8 lg:px-16">
+        <div className="mx-auto grid w-full max-w-7xl gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-start">
+          <div>
+            <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ffcf7a]">Sobre</p>
+            <h2 className="mt-3 text-4xl font-black tracking-normal md:text-5xl">
+              Transformo dados operacionais em decisões claras.
+            </h2>
+          </div>
+          <div>
+            <p className="text-lg leading-8 text-white/72">
+              Atuo com Business Intelligence e análise de dados, criando dashboards completos em Power BI
+              com SQL, DAX, Power Query e modelagem de dados. Meu trabalho conecta operações, finanças,
+              logística e TI em indicadores que ajudam equipes a acompanhar desempenho, encontrar desvios
+              e tomar decisões com mais segurança.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              {skills.map((skill) => (
+                <span
+                  key={skill}
+                  className="rounded-lg border border-white/12 bg-white/[0.06] px-4 py-2 text-sm font-bold text-white/78"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section id="projetos" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-center px-5 py-16 text-white sm:px-8 lg:px-16">
         <div className="mx-auto w-full max-w-7xl">
           <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
@@ -288,69 +755,19 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <section id="blog" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-center px-5 py-16 text-white sm:px-8 lg:px-16">
-        <div className="mx-auto grid w-full max-w-7xl gap-5 md:grid-cols-[0.7fr_1.3fr] md:items-end">
-          <div>
-            <p className="text-sm font-black uppercase tracking-[0.24em] text-[#6b63d9]">Blog</p>
-            <h2 className="mt-3 text-4xl font-black tracking-normal">Ideias em construção</h2>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            <article className="rounded-lg border border-white/12 bg-[#11112a]/86 p-6 text-white shadow-2xl shadow-black/20">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#ffcf7a]">Processos</p>
-              <h3 className="mt-5 text-2xl font-black tracking-normal">Como transformar rotina em sistema</h3>
-            </article>
-            <article className="rounded-lg border border-white/12 bg-white p-6 text-[#11112a] shadow-2xl shadow-black/20">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#ff624f]">Dados</p>
-              <h3 className="mt-5 text-2xl font-black tracking-normal">Indicadores que ajudam a decidir</h3>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="sobre" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-center px-5 py-16 text-white sm:px-8 lg:px-16">
-        <div className="mx-auto grid w-full max-w-7xl gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-start">
-          <div>
-            <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ffcf7a]">Sobre</p>
-            <h2 className="mt-3 text-4xl font-black tracking-normal md:text-5xl">
-              Construo soluções onde operação encontra produto.
-            </h2>
-          </div>
-          <div>
-            <p className="text-lg leading-8 text-white/72">
-              Gosto de criar sistemas e automações que deixam o trabalho mais simples, mensurável e
-              bonito de usar. Meu repertório mistura análise de dados, desenvolvimento web e visão de
-              processo.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              {skills.map((skill) => (
-                <span
-                  key={skill}
-                  className="rounded-lg border border-white/12 bg-white/[0.06] px-4 py-2 text-sm font-bold text-white/78"
-                >
-                  {skill}
-                </span>
-              ))}
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="mb-7 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.24em] text-[#6cf6ff]">Galeria</p>
+              <h2 className="mt-3 text-4xl font-black tracking-normal md:text-5xl">Dashboards em destaque</h2>
             </div>
+            <p className="max-w-lg text-base leading-7 text-white/72">
+              Uma vitrine visual com exemplos de dashboards e estudos de BI desenvolvidos para cenarios reais de
+              negocio.
+            </p>
           </div>
-        </div>
-      </section>
-
-      <section id="contato" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-center px-5 py-16 text-white sm:px-8 lg:px-16">
-        <div className="mx-auto flex w-full max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center">
-          <div>
-            <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ff624f]">Contato</p>
-            <h2 className="mt-3 text-3xl font-black tracking-normal md:text-5xl">
-              Vamos construir algo útil?
-            </h2>
-          </div>
-          <a
-            href="mailto:eduardo.guimaraes@example.com"
-            className="inline-flex w-fit items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-black text-[#0a0a2d] transition hover:bg-[#ffe2dd]"
-          >
-            Enviar mensagem
-            <ArrowUpRight className="h-4 w-4" />
-          </a>
+          <DashboardGallery />
         </div>
       </section>
     </main>

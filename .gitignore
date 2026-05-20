@@ -18,6 +18,8 @@ yarn-error.log*
 .pnpm-debug.log*
 next-dev.log
 next-dev.err.log
+.next-dev.log
+.next-dev.err.log
 
 # env files
 .env*
