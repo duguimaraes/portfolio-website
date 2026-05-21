@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { ChevronLeft, ChevronRight, Code2, LayoutDashboard } from "lucide-react"
 
 type GalleryProject = {
@@ -1038,7 +1038,7 @@ export function DashboardGallery() {
         </div>
       </div>
 
-      <div className="hidden min-h-0 grid-cols-2 gap-2.5 md:grid lg:grid-cols-4">
+      <div className="hidden min-h-0 grid-cols-2 gap-2 md:grid lg:grid-cols-4 2xl:gap-3">
         {galleryProjects.map((project) => (
           <CompactProjectCard key={project.title} project={project} />
         ))}
@@ -1056,7 +1056,7 @@ function CompactProjectCard({ project, compactMobile = false }: { project: Galle
   }`
 
   return (
-    <article className="overflow-hidden rounded-md border border-[#6cf6ff]/14 bg-[#050617]/82 text-white shadow-[0_0_8px_rgba(108,246,255,0.06)] backdrop-blur">
+    <article className="overflow-hidden rounded-md border border-[#6cf6ff]/14 bg-[#050617]/82 text-white shadow-[0_0_8px_rgba(108,246,255,0.06)] backdrop-blur 2xl:rounded-lg">
       <TerminalHeader
         label={`${project.tabName}.preview`}
         active={!isCodeActive}
@@ -1070,7 +1070,7 @@ function CompactProjectCard({ project, compactMobile = false }: { project: Galle
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className={`${compactMobile ? "h-[142px]" : "h-[204px]"} bg-black/30 p-1.5 md:h-[204px]`}>
+          <div className={`${compactMobile ? "h-[142px]" : "h-[204px]"} bg-black/30 p-1.5 md:h-[clamp(148px,22dvh,204px)] 2xl:h-[238px] 2xl:p-2`}>
             {hasImage && project.projectUrl ? (
               <a
                 href={project.projectUrl}
@@ -1121,14 +1121,14 @@ function CompactProjectCard({ project, compactMobile = false }: { project: Galle
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className="px-2 pb-2 pt-2">
-            <div className={`${compactMobile ? "mb-1 min-h-[26px]" : "mb-1.5 min-h-[34px]"} text-center md:mb-1.5 md:min-h-[34px]`}>
-              <p className="font-mono text-[0.48rem] font-bold uppercase tracking-[0.1em] text-[#6cb5ff]">{project.type}</p>
-              <h3 className="mt-0.5 truncate text-[0.76rem] font-black leading-tight tracking-normal text-white">{project.title}</h3>
+          <div className={`${compactMobile ? "h-[142px]" : "h-[204px]"} flex flex-col px-2 pb-2 pt-2 md:h-[clamp(148px,22dvh,204px)] 2xl:h-[238px] 2xl:px-2.5 2xl:pb-2.5 2xl:pt-2.5`}>
+            <div className={`${compactMobile ? "mb-1 min-h-[26px]" : "mb-1.5 min-h-[34px]"} shrink-0 text-center md:mb-1 md:min-h-[30px] 2xl:mb-1.5 2xl:min-h-[36px]`}>
+              <p className="font-mono text-[0.48rem] font-bold uppercase tracking-[0.1em] text-[#6cb5ff] 2xl:text-[0.52rem]">{project.type}</p>
+              <h3 className="mt-0.5 truncate text-[0.76rem] font-black leading-tight tracking-normal text-white 2xl:text-sm">{project.title}</h3>
             </div>
             <pre
               data-code-scroll
-              className={`${compactMobile ? "h-[92px]" : "h-[138px]"} code-scrollbar overflow-auto whitespace-pre-wrap break-words rounded-sm border border-white/[0.05] bg-black/44 p-2 font-mono text-[0.46rem] leading-[0.66rem] text-[#d7e7ff] shadow-inner shadow-black/15 md:h-[138px]`}
+              className="code-scrollbar min-h-0 flex-1 overflow-auto whitespace-pre-wrap break-words rounded-sm border border-white/[0.05] bg-black/44 p-2 font-mono text-[0.46rem] leading-[0.66rem] text-[#d7e7ff] shadow-inner shadow-black/15 2xl:p-2.5 2xl:text-[0.5rem] 2xl:leading-3"
             >
               <code>{project.code}</code>
             </pre>
@@ -1149,33 +1149,11 @@ function TerminalHeader({
   icon: ReactNode
   onClick: () => void
 }) {
-  const buttonRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    const button = buttonRef.current
-
-    if (!button || active || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return
-    }
-
-    const animation = button.animate(
-      [{ transform: "translateY(0)" }, { transform: "translateY(-3px)" }, { transform: "translateY(0)" }],
-      {
-        duration: 4200,
-        easing: "ease-in-out",
-        iterations: Infinity,
-      },
-    )
-
-    return () => animation.cancel()
-  }, [active])
-
   return (
     <button
-      ref={buttonRef}
       type="button"
       onClick={onClick}
-      className={`flex w-full items-center justify-between border-b border-white/[0.055] px-2 py-1.5 text-left transition ${
+      className={`flex w-full items-center justify-between border-b border-white/[0.055] px-2 py-1.5 text-left transition 2xl:px-2.5 2xl:py-1.5 ${
         active ? "bg-black/45" : "bg-black/70 hover:bg-black/55"
       }`}
       aria-expanded={active}
@@ -1186,12 +1164,12 @@ function TerminalHeader({
           <span className="h-1.5 w-1.5 rounded-full bg-[#ffcf7a]" />
           <span className="h-1.5 w-1.5 rounded-full bg-[#6cb5ff]" />
         </div>
-        <span className="flex min-w-0 items-center gap-1 truncate font-mono text-[0.52rem] text-white/54">
+        <span className="flex min-w-0 items-center gap-1 truncate font-mono text-[0.52rem] text-white/54 2xl:text-[0.58rem]">
           {icon}
           {label}
         </span>
       </div>
-      <span className="shrink-0 font-mono text-[0.42rem] uppercase tracking-[0.1em] text-white/28">
+      <span className="shrink-0 font-mono text-[0.42rem] uppercase tracking-[0.1em] text-white/28 2xl:text-[0.46rem]">
         {active ? "expandido" : "minimizado"}
       </span>
     </button>

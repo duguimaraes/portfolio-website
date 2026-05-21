@@ -65,7 +65,7 @@ export default function Home() {
         <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
 
         <div className="relative z-10 grid min-h-0 flex-1 items-center gap-4 md:pb-16 md:pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:pb-14 lg:pt-4">
-          <div className="max-w-2xl self-center text-center md:translate-x-16 md:text-left lg:translate-x-28">
+          <div className="max-w-2xl self-center text-center md:translate-x-16 md:text-left lg:translate-x-28 2xl:translate-x-40">
             <div>
               <p className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/70 sm:mb-5 sm:gap-2 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.24em]">
                 <Sparkles className="h-3.5 w-3.5 text-[#ffcf7a] sm:h-4 sm:w-4" />
@@ -91,7 +91,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto flex aspect-square w-[min(66vw,270px)] -translate-y-3 items-end justify-center self-center sm:w-[min(58vw,430px)] sm:translate-y-0 md:w-[min(78vw,68vh,610px)] md:translate-y-3 lg:w-[min(50vw,78vh,740px)] lg:translate-y-5">
+          <div className="relative mx-auto flex aspect-square w-[min(66vw,270px)] -translate-y-3 items-end justify-center self-center sm:w-[min(58vw,430px)] sm:translate-y-0 md:w-[min(78vw,68vh,610px)] md:translate-y-3 lg:w-[min(50vw,78vh,740px)] lg:translate-y-5 2xl:-translate-x-16">
             <div className="absolute bottom-8 h-[82%] w-[82%] rounded-full bg-[linear-gradient(138deg,#754bff_0%,#263d89_46%,#ff8a5b_100%)] shadow-2xl shadow-black/45" />
             <div className="absolute bottom-16 h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px]" />
             <div className="pointer-events-none absolute inset-0 z-20">
@@ -121,14 +121,14 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section id="blog" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-stretch overflow-y-auto px-4 pb-10 pt-24 text-white sm:px-8 md:overflow-hidden md:py-12 lg:px-16">
-        <div className="mx-auto flex min-h-0 w-full max-w-7xl flex-col justify-start md:justify-center">
-          <div className="mb-4 flex shrink-0 flex-col justify-between gap-3 text-center md:flex-row md:items-end md:text-left lg:mb-5">
+      <section id="blog" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-stretch overflow-y-auto px-4 pb-10 pt-24 text-white sm:px-8 md:overflow-hidden md:py-8 lg:px-16 2xl:px-16 2xl:py-10">
+        <div className="mx-auto flex min-h-0 w-full max-w-7xl flex-col justify-start md:justify-center 2xl:max-w-[1640px]">
+          <div className="mb-3 flex shrink-0 flex-col justify-between gap-3 text-center md:flex-row md:items-end md:text-left 2xl:mb-5">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6cf6ff] sm:text-sm sm:tracking-[0.24em]">Trabalhos Selecionados</p>
-              <h2 className="mt-2 text-2xl font-black tracking-normal sm:text-4xl md:text-5xl">Dashboards & Dados</h2>
+              <h2 className="mt-2 text-2xl font-black tracking-normal sm:text-4xl md:text-[2.6rem] 2xl:text-[3.25rem]">Dashboards & Dados</h2>
             </div>
-            <p className="mx-auto max-w-lg whitespace-nowrap text-[0.56rem] leading-5 text-white/72 sm:whitespace-normal sm:text-base sm:leading-7 md:mx-0">
+            <p className="mx-auto max-w-lg whitespace-nowrap text-[0.56rem] leading-5 text-white/72 sm:whitespace-normal sm:text-base sm:leading-7 md:mx-0 2xl:max-w-xl 2xl:text-lg 2xl:leading-8">
               Projetos que conectam dashboards e consultas em cada análise.
             </p>
           </div>
