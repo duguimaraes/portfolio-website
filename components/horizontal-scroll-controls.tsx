@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const SCROLL_THRESHOLD = 820
 const CIRCLE_LENGTH = 113
+const SECTION_IDS = ["inicio", "blog"]
 
 export function HorizontalScrollControls() {
   const [canGoBack, setCanGoBack] = useState(false)
@@ -132,8 +133,19 @@ export function HorizontalScrollControls() {
       return
     }
 
-    root.scrollBy({
-      left: nextDirection === "next" ? root.clientWidth : -root.clientWidth,
+    const currentIndex = SECTION_IDS.map((id) => document.getElementById(id))
+      .map((section, index) => ({
+        index,
+        offset: section?.offsetLeft ?? 0,
+      }))
+      .sort((a, b) => Math.abs(a.offset - root.scrollLeft) - Math.abs(b.offset - root.scrollLeft))[0]?.index ?? 0
+
+    const nextIndex = Math.max(0, Math.min(SECTION_IDS.length - 1, currentIndex + (nextDirection === "next" ? 1 : -1)))
+    const nextSection = document.getElementById(SECTION_IDS[nextIndex])
+
+    root.scrollTo({
+      left: nextSection?.offsetLeft ?? root.clientWidth * nextIndex,
+      top: 0,
       behavior: "smooth",
     })
   }
@@ -182,7 +194,7 @@ function ProgressButton({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className={`fixed top-[26px] z-50 flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-black/44 text-white/70 shadow-2xl shadow-black/40 backdrop-blur transition hover:border-white/28 hover:bg-black/55 hover:text-white disabled:pointer-events-none disabled:opacity-0 md:top-1/2 md:h-12 md:w-12 md:-translate-y-1/2 ${
+      className={`fixed top-[26px] z-[60] flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-black/44 text-white/70 shadow-2xl shadow-black/40 backdrop-blur transition hover:border-white/28 hover:bg-black/55 hover:text-white disabled:pointer-events-none disabled:opacity-0 md:top-1/2 md:h-12 md:w-12 md:-translate-y-1/2 ${
         side === "left" ? "left-[calc(50%-178px)] md:left-5" : "right-[calc(50%-178px)] md:right-5"
       }`}
     >

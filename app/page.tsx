@@ -98,7 +98,7 @@ export default function Home() {
               {skills.map((skill, index) => (
                 <span
                   key={skill}
-                  className="skill-orbit absolute rounded-full border border-white/16 bg-[radial-gradient(circle_at_35%_22%,rgba(255,255,255,0.24),rgba(108,246,255,0.12)_42%,rgba(117,75,255,0.08)_100%)] px-3 py-1.5 text-[0.62rem] font-black text-white/64 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_0_18px_rgba(108,246,255,0.14)] backdrop-blur-md"
+                  className="skill-orbit absolute whitespace-nowrap rounded-full border border-white/16 bg-[radial-gradient(circle_at_35%_22%,rgba(255,255,255,0.24),rgba(108,246,255,0.12)_42%,rgba(117,75,255,0.08)_100%)] px-2.5 py-1 text-[0.5rem] font-black text-white/64 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_0_18px_rgba(108,246,255,0.14)] backdrop-blur-md sm:px-3 sm:py-1.5 sm:text-[0.62rem]"
                   style={{
                     left: skillPositions[index].left,
                     top: skillPositions[index].top,
@@ -128,8 +128,8 @@ export default function Home() {
               <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6cf6ff] sm:text-sm sm:tracking-[0.24em]">Trabalhos Selecionados</p>
               <h2 className="mt-2 text-2xl font-black tracking-normal sm:text-4xl md:text-5xl">Dashboards & Dados</h2>
             </div>
-            <p className="mx-auto max-w-lg whitespace-nowrap text-[0.74rem] leading-5 text-white/72 sm:whitespace-normal sm:text-base sm:leading-7 md:mx-0">
-              Dashboards conectados às consultas de apoio.
+            <p className="mx-auto max-w-lg whitespace-nowrap text-[0.56rem] leading-5 text-white/72 sm:whitespace-normal sm:text-base sm:leading-7 md:mx-0">
+              Projetos que conectam dashboards e consultas em cada análise.
             </p>
           </div>
           <DashboardGallery />

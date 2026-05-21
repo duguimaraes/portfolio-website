@@ -994,11 +994,14 @@ WHERE integration_status <> 'Matched';`,
 ]
 
 export function DashboardGallery() {
-  const [mobileIndex, setMobileIndex] = useState(0)
-  const activeProjects = [galleryProjects[mobileIndex], galleryProjects[(mobileIndex + 1) % galleryProjects.length]]
+  const [mobilePage, setMobilePage] = useState(0)
+  const mobilePageSize = 2
+  const mobilePageCount = Math.ceil(galleryProjects.length / mobilePageSize)
+  const mobileStart = mobilePage * mobilePageSize
+  const activeProjects = galleryProjects.slice(mobileStart, mobileStart + mobilePageSize)
 
   const moveMobile = (direction: -1 | 1) => {
-    setMobileIndex((current) => (current + direction * 2 + galleryProjects.length) % galleryProjects.length)
+    setMobilePage((current) => (current + direction + mobilePageCount) % mobilePageCount)
   }
 
   return (
@@ -1015,7 +1018,7 @@ export function DashboardGallery() {
           </button>
           <div className="min-w-0 text-center">
             <p className="font-mono text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#6cf6ff]/72">
-              {mobileIndex + 1}-{Math.min(mobileIndex + 2, galleryProjects.length)} / {galleryProjects.length}
+              {mobileStart + 1}-{Math.min(mobileStart + mobilePageSize, galleryProjects.length)} / {galleryProjects.length}
             </p>
             <h3 className="truncate text-sm font-black text-white/86">Dashboards em destaque</h3>
           </div>
