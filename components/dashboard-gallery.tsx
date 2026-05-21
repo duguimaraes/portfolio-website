@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
-import { Code2, LayoutDashboard } from "lucide-react"
+import { ChevronLeft, ChevronRight, Code2, LayoutDashboard } from "lucide-react"
 
 type GalleryProject = {
   title: string
@@ -994,16 +994,57 @@ WHERE integration_status <> 'Matched';`,
 ]
 
 export function DashboardGallery() {
+  const [mobileIndex, setMobileIndex] = useState(0)
+  const activeProjects = [galleryProjects[mobileIndex], galleryProjects[(mobileIndex + 1) % galleryProjects.length]]
+
+  const moveMobile = (direction: -1 | 1) => {
+    setMobileIndex((current) => (current + direction * 2 + galleryProjects.length) % galleryProjects.length)
+  }
+
   return (
-    <div className="grid min-h-0 grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
-      {galleryProjects.map((project) => (
-        <CompactProjectCard key={project.title} project={project} />
-      ))}
-    </div>
+    <>
+      <div className="md:hidden">
+        <div className="mb-2 flex items-center justify-between gap-3">
+          <button
+            type="button"
+            onClick={() => moveMobile(-1)}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#6cf6ff]/22 bg-black/44 text-white/72 backdrop-blur transition hover:border-[#6cf6ff]/50 hover:text-white"
+            aria-label="Dashboard anterior"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <div className="min-w-0 text-center">
+            <p className="font-mono text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#6cf6ff]/72">
+              {mobileIndex + 1}-{Math.min(mobileIndex + 2, galleryProjects.length)} / {galleryProjects.length}
+            </p>
+            <h3 className="truncate text-sm font-black text-white/86">Dashboards em destaque</h3>
+          </div>
+          <button
+            type="button"
+            onClick={() => moveMobile(1)}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#6cf6ff]/22 bg-black/44 text-white/72 backdrop-blur transition hover:border-[#6cf6ff]/50 hover:text-white"
+            aria-label="Proximo dashboard"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
+        <div className="grid gap-2.5">
+          {activeProjects.map((project) => (
+            <CompactProjectCard key={project.title} project={project} compactMobile />
+          ))}
+        </div>
+      </div>
+
+      <div className="hidden min-h-0 grid-cols-2 gap-2.5 md:grid lg:grid-cols-4">
+        {galleryProjects.map((project) => (
+          <CompactProjectCard key={project.title} project={project} />
+        ))}
+      </div>
+    </>
   )
 }
 
-function CompactProjectCard({ project }: { project: GalleryProject }) {
+function CompactProjectCard({ project, compactMobile = false }: { project: GalleryProject; compactMobile?: boolean }) {
   const [activePanel, setActivePanel] = useState<"code" | "dashboard">("dashboard")
   const [hasImage, setHasImage] = useState(true)
   const isCodeActive = activePanel === "code"
@@ -1026,7 +1067,7 @@ function CompactProjectCard({ project }: { project: GalleryProject }) {
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className="h-[204px] bg-black/30 p-1.5">
+          <div className={`${compactMobile ? "h-[142px]" : "h-[204px]"} bg-black/30 p-1.5 md:h-[204px]`}>
             {hasImage && project.projectUrl ? (
               <a
                 href={project.projectUrl}
@@ -1078,13 +1119,13 @@ function CompactProjectCard({ project }: { project: GalleryProject }) {
       >
         <div className="min-h-0 overflow-hidden">
           <div className="px-2 pb-2 pt-2">
-            <div className="mb-1.5 min-h-[34px] text-center">
+            <div className={`${compactMobile ? "mb-1 min-h-[26px]" : "mb-1.5 min-h-[34px]"} text-center md:mb-1.5 md:min-h-[34px]`}>
               <p className="font-mono text-[0.48rem] font-bold uppercase tracking-[0.1em] text-[#6cb5ff]">{project.type}</p>
               <h3 className="mt-0.5 truncate text-[0.76rem] font-black leading-tight tracking-normal text-white">{project.title}</h3>
             </div>
             <pre
               data-code-scroll
-              className="code-scrollbar h-[138px] overflow-auto whitespace-pre-wrap break-words rounded-sm border border-white/[0.05] bg-black/44 p-2 font-mono text-[0.46rem] leading-[0.66rem] text-[#d7e7ff] shadow-inner shadow-black/15"
+              className={`${compactMobile ? "h-[92px]" : "h-[138px]"} code-scrollbar overflow-auto whitespace-pre-wrap break-words rounded-sm border border-white/[0.05] bg-black/44 p-2 font-mono text-[0.46rem] leading-[0.66rem] text-[#d7e7ff] shadow-inner shadow-black/15 md:h-[138px]`}
             >
               <code>{project.code}</code>
             </pre>

@@ -12,9 +12,9 @@ export function CvPreviewButton() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center gap-1.5 rounded-lg border border-white/16 px-3.5 py-3 text-sm font-bold text-white/78 transition hover:border-white/34 hover:text-white"
+        className="inline-flex min-w-0 items-center justify-center gap-1 rounded-lg border border-white/16 px-2 py-2.5 text-[0.68rem] font-bold text-white/78 transition hover:border-white/34 hover:text-white sm:gap-1.5 sm:px-3.5 sm:py-3 sm:text-sm"
       >
-        <Download className="h-4 w-4" />
+        <Download className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
         Abrir curriculo
       </button>
 

@@ -22,10 +22,6 @@ export function HorizontalScrollControls() {
       return
     }
 
-    if (!window.matchMedia("(min-width: 768px)").matches) {
-      return
-    }
-
     const stopDecay = () => {
       if (decayFrameRef.current) {
         window.cancelAnimationFrame(decayFrameRef.current)
@@ -186,8 +182,8 @@ function ProgressButton({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className={`fixed top-1/2 z-50 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-black/40 text-white/70 shadow-2xl shadow-black/40 backdrop-blur transition hover:border-white/28 hover:bg-black/55 hover:text-white disabled:pointer-events-none disabled:opacity-0 md:flex ${
-        side === "left" ? "left-5" : "right-5"
+      className={`fixed top-[26px] z-50 flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-black/44 text-white/70 shadow-2xl shadow-black/40 backdrop-blur transition hover:border-white/28 hover:bg-black/55 hover:text-white disabled:pointer-events-none disabled:opacity-0 md:top-1/2 md:h-12 md:w-12 md:-translate-y-1/2 ${
+        side === "left" ? "left-[calc(50%-178px)] md:left-5" : "right-[calc(50%-178px)] md:right-5"
       }`}
     >
       <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 44 44" aria-hidden="true">
@@ -204,7 +200,7 @@ function ProgressButton({
           strokeWidth="2"
         />
       </svg>
-      <Icon className="h-6 w-6" />
+      <Icon className="h-5 w-5 md:h-6 md:w-6" />
     </button>
   )
 }
