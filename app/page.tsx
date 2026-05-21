@@ -740,7 +740,7 @@ export default function Home() {
           <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <p className="text-sm font-black uppercase tracking-[0.24em] text-[#ff624f]">Projetos</p>
-              <h2 className="mt-3 text-4xl font-black tracking-normal md:text-5xl">Trabalhos em destaque</h2>
+              <h2 className="mt-3 text-4xl font-black tracking-normal md:text-5xl">Trabalhos Teste</h2>
             </div>
             <p className="max-w-lg text-base leading-7 text-white/72">
               Uma seleção inicial para organizar o portfolio. Depois trocamos estes exemplos pelos seus
@@ -757,14 +757,13 @@ export default function Home() {
       </section>
       <section id="blog" className="relative z-10 flex min-h-[100dvh] w-full shrink-0 snap-start items-stretch px-5 pb-14 pt-28 text-white sm:px-8 md:h-[100dvh] md:w-screen md:py-12 lg:px-16">
         <div className="mx-auto flex min-h-0 w-full max-w-7xl flex-col justify-start md:justify-center">
-          <div className="mb-5 flex shrink-0 flex-col justify-between gap-4 md:flex-row md:items-end lg:mb-6">
+          <div className="mb-4 flex shrink-0 flex-col justify-between gap-3 md:flex-row md:items-end lg:mb-5">
             <div>
-              <p className="text-sm font-black uppercase tracking-[0.24em] text-[#6cf6ff]">Galeria</p>
-              <h2 className="mt-3 text-4xl font-black tracking-normal md:text-5xl">Dashboards em destaque</h2>
+              <p className="text-sm font-black uppercase tracking-[0.24em] text-[#6cf6ff]">Projetos</p>
+              <h2 className="mt-2 text-4xl font-black tracking-normal md:text-5xl">Trabalhos em Destaque</h2>
             </div>
             <p className="max-w-lg text-base leading-7 text-white/72">
-              Uma vitrine visual com exemplos de dashboards e estudos de BI desenvolvidos para cenarios reais de
-              negocio.
+              Oito trabalhos em terminais compactos, alternando entre query de apoio e preview do dashboard.
             </p>
           </div>
           <DashboardGallery />
