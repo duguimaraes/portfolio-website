@@ -22,6 +22,10 @@ export function HorizontalScrollControls() {
       return
     }
 
+    if (!window.matchMedia("(min-width: 768px)").matches) {
+      return
+    }
+
     const stopDecay = () => {
       if (decayFrameRef.current) {
         window.cancelAnimationFrame(decayFrameRef.current)
@@ -182,7 +186,7 @@ function ProgressButton({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className={`fixed top-1/2 z-50 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-black/40 text-white/70 shadow-2xl shadow-black/40 backdrop-blur transition hover:border-white/28 hover:bg-black/55 hover:text-white disabled:pointer-events-none disabled:opacity-0 ${
+      className={`fixed top-1/2 z-50 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-black/40 text-white/70 shadow-2xl shadow-black/40 backdrop-blur transition hover:border-white/28 hover:bg-black/55 hover:text-white disabled:pointer-events-none disabled:opacity-0 md:flex ${
         side === "left" ? "left-5" : "right-5"
       }`}
     >

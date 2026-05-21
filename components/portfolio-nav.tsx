@@ -33,12 +33,15 @@ export function PortfolioNav() {
     }
 
     const updateActiveSection = () => {
+      const isHorizontal = window.matchMedia("(min-width: 768px)").matches
       const current = sectionIds
         .map((id) => {
           const section = document.getElementById(id)
           return {
             id,
-            distance: section ? Math.abs(section.offsetLeft - root.scrollLeft) : Number.POSITIVE_INFINITY,
+            distance: section
+              ? Math.abs((isHorizontal ? section.offsetLeft : section.offsetTop) - (isHorizontal ? root.scrollLeft : root.scrollTop))
+              : Number.POSITIVE_INFINITY,
           }
         })
         .sort((a, b) => a.distance - b.distance)[0]
@@ -66,8 +69,11 @@ export function PortfolioNav() {
       return
     }
 
+    const isHorizontal = window.matchMedia("(min-width: 768px)").matches
+
     root.scrollTo({
-      left: section.offsetLeft,
+      left: isHorizontal ? section.offsetLeft : 0,
+      top: isHorizontal ? 0 : section.offsetTop,
       behavior: "smooth",
     })
   }
