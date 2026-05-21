@@ -2,11 +2,10 @@ import Image from "next/image"
 import type { CSSProperties } from "react"
 import {
   ArrowUpRight,
-  Github,
-  Linkedin,
-  Mail,
   Sparkles,
 } from "lucide-react"
+import { CopyEmailButton } from "@/components/copy-email-button"
+import { CvPreviewButton } from "@/components/cv-preview-button"
 import { DashboardGallery } from "@/components/dashboard-gallery"
 import { HorizontalScrollControls } from "@/components/horizontal-scroll-controls"
 import { PortfolioNav } from "@/components/portfolio-nav"
@@ -25,16 +24,16 @@ const skills = [
 ]
 
 const skillPositions = [
-  { left: "49%", top: "9%", floatX: "0px", floatY: "-18px" },
-  { left: "70%", top: "15%", floatX: "18px", floatY: "-14px" },
-  { left: "84%", top: "34%", floatX: "22px", floatY: "-2px" },
-  { left: "79%", top: "59%", floatX: "18px", floatY: "14px" },
-  { left: "62%", top: "78%", floatX: "8px", floatY: "20px" },
-  { left: "38%", top: "80%", floatX: "-10px", floatY: "20px" },
-  { left: "18%", top: "61%", floatX: "-20px", floatY: "12px" },
-  { left: "14%", top: "36%", floatX: "-22px", floatY: "-4px" },
-  { left: "27%", top: "17%", floatX: "-16px", floatY: "-16px" },
-  { left: "50%", top: "50%", floatX: "0px", floatY: "-24px" },
+  { left: "49%", top: "13%", floatX: "0px", delay: "6.4s" },
+  { left: "70%", top: "18%", floatX: "18px", delay: "5.6s" },
+  { left: "33%", top: "15%", floatX: "-12px", delay: "6s" },
+  { left: "79%", top: "59%", floatX: "18px", delay: "1.4s" },
+  { left: "72%", top: "73%", floatX: "14px", delay: "0s" },
+  { left: "28%", top: "73%", floatX: "-14px", delay: "0.7s" },
+  { left: "14%", top: "56%", floatX: "-22px", delay: "2.1s" },
+  { left: "14%", top: "36%", floatX: "-22px", delay: "3.1s" },
+  { left: "84%", top: "34%", floatX: "22px", delay: "3.8s" },
+  { left: "20%", top: "24%", floatX: "-18px", delay: "4.8s" },
 ]
 
 export default function Home() {
@@ -78,35 +77,16 @@ export default function Home() {
               <p className="mt-5 max-w-lg text-justify text-base leading-7 text-white/72 sm:text-lg sm:leading-8">
                 Atuo com Business Intelligence e análise de dados, criando dashboards completos em Power BI com SQL, DAX, Power Query e modelagem de dados. Meu trabalho conecta operações, finanças, logística e TI em indicadores que ajudam equipes a acompanhar desempenho, encontrar desvios e tomar decisões com mais segurança.
               </p>
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+              <div className="mt-8 flex flex-wrap items-center gap-2.5">
                 <a
                   href="#blog"
-                  className="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-black text-[#0a0a2d] transition hover:bg-[#ffe2dd]"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-white px-3.5 py-3 text-sm font-black text-[#0a0a2d] transition hover:bg-[#ffe2dd]"
                 >
                   Ver projetos
                   <ArrowUpRight className="h-4 w-4" />
                 </a>
-                <a
-                  href="mailto:eduardoldrds@gmail.com"
-                  className="inline-flex items-center gap-2 rounded-lg border border-white/16 px-5 py-3 text-sm font-bold text-white/78 transition hover:border-white/34 hover:text-white"
-                >
-                  <Mail className="h-4 w-4" />
-                  Contato
-                </a>
-                <a
-                  href="https://github.com/duguimaraes"
-                  aria-label="GitHub"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/12 bg-white/[0.05] transition hover:border-white/30 hover:bg-white/10"
-                >
-                  <Github className="h-5 w-5" />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/eduardo-ladeira-guimar%C3%A3es-a272a427b/"
-                  aria-label="LinkedIn"
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-white/12 bg-white/[0.05] transition hover:border-white/30 hover:bg-white/10"
-                >
-                  <Linkedin className="h-5 w-5" />
-                </a>
+                <CopyEmailButton />
+                <CvPreviewButton />
               </div>
             </div>
           </div>
@@ -118,13 +98,12 @@ export default function Home() {
               {skills.map((skill, index) => (
                 <span
                   key={skill}
-                  className="skill-orbit absolute rounded-md border border-white/12 bg-black/46 px-3 py-1.5 text-[0.62rem] font-black text-white/78 shadow-[0_0_18px_rgba(108,246,255,0.18)] backdrop-blur"
+                  className="skill-orbit absolute rounded-full border border-white/16 bg-[radial-gradient(circle_at_35%_22%,rgba(255,255,255,0.24),rgba(108,246,255,0.12)_42%,rgba(117,75,255,0.08)_100%)] px-3 py-1.5 text-[0.62rem] font-black text-white/64 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_0_18px_rgba(108,246,255,0.14)] backdrop-blur-md"
                   style={{
                     left: skillPositions[index].left,
                     top: skillPositions[index].top,
-                    animationDelay: `${index * -1.1}s`,
+                    animationDelay: skillPositions[index].delay,
                     "--skill-float-x": skillPositions[index].floatX,
-                    "--skill-float-y": skillPositions[index].floatY,
                   } as CSSProperties}
                 >
                   {skill}
@@ -146,11 +125,11 @@ export default function Home() {
         <div className="mx-auto flex min-h-0 w-full max-w-7xl flex-col justify-start md:justify-center">
           <div className="mb-4 flex shrink-0 flex-col justify-between gap-3 md:flex-row md:items-end lg:mb-5">
             <div>
-              <p className="text-sm font-black uppercase tracking-[0.24em] text-[#6cf6ff]">Projetos</p>
-              <h2 className="mt-2 text-4xl font-black tracking-normal md:text-5xl">Trabalhos em Destaque</h2>
+              <p className="text-sm font-black uppercase tracking-[0.24em] text-[#6cf6ff]">Trabalhos Selecionados</p>
+              <h2 className="mt-2 text-4xl font-black tracking-normal md:text-5xl">Dashboards & Dados</h2>
             </div>
             <p className="max-w-lg text-base leading-7 text-white/72">
-              Oito trabalhos em terminais compactos, alternando entre query de apoio e preview do dashboard.
+              Projetos que conectam dashboards e consultas em cada análise.
             </p>
           </div>
           <DashboardGallery />

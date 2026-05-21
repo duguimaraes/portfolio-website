@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react"
 import { useEffect, useRef, useState } from "react"
-import { Code2, LayoutDashboard, X } from "lucide-react"
+import { Code2, LayoutDashboard } from "lucide-react"
 
 type GalleryProject = {
   title: string
@@ -12,6 +12,7 @@ type GalleryProject = {
   code: string
   imageSrc: string
   imageAlt: string
+  projectUrl?: string
 }
 
 const galleryProjects: GalleryProject[] = [
@@ -22,6 +23,7 @@ const galleryProjects: GalleryProject[] = [
     tabName: "chamados",
     imageSrc: "/dashboards/gallery/img1.png",
     imageAlt: "Dashboard de fluxo de chamados de Tecnologia da Informacao",
+    projectUrl: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/sla-ti-dashboard",
     code: `-- Project: IT SLA Dashboard
 -- Description: SQL queries used for SLA analysis, runtime evaluation, and satisfaction metrics.
 
@@ -194,6 +196,7 @@ WHERE wf.workflow_status = 'Completed'
     tabName: "pesagem",
     imageSrc: "/dashboards/gallery/img2.png",
     imageAlt: "Dashboard de controle de pesagem manual",
+    projectUrl: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/manual-weighing-dashboard",
     code: `-- Project: Manual Weighing Control Dashboard
 -- Description: SQL queries used to monitor manual truck weighing operations,
 -- including approval flow, operational delays, and recurring manual weighing scenarios.
@@ -411,6 +414,7 @@ ORDER BY w.first_weighing_datetime DESC;`,
     tabName: "boletins",
     imageSrc: "/dashboards/gallery/img3.png",
     imageAlt: "Dashboard de controle de boletins operacionais",
+    projectUrl: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/sap-bulletin-reversal-dashboard",
     code: `-- Project: Operational Bulletin Control Dashboard
 -- Description: Consolidates operational bulletin records across multiple
 -- business units, standardizing bulletin types and document information.
@@ -512,6 +516,7 @@ GROUP BY business_unit, reference_month;`,
     tabName: "estoque",
     imageSrc: "/dashboards/gallery/img5.png",
     imageAlt: "Dashboard de controle de estoque e obsolescencia",
+    projectUrl: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/inventory-control-dashboard",
     code: `-- Project: Inventory Movement & Obsolescence Dashboard
 -- Description: Consolidates inventory movement data across multiple business units, calculates monthly stock activity, and identifies inactive / obsolete items.
 
@@ -708,6 +713,7 @@ LEFT JOIN latest_inventory_movement lm
     tabName: "viagens",
     imageSrc: "/dashboards/gallery/img6.png",
     imageAlt: "Dashboard de adiantamentos e despesas de viagem",
+    projectUrl: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/travel-advance-expense-workflow-dashboard",
     code: `-- Project: Travel Advance & Expense Workflow Dashboard
 -- Description: Unified query combining travel request data with workflow status, current activity, and responsible user.
 
@@ -905,6 +911,7 @@ ORDER BY lr.request_date DESC, lr.request_number DESC;`,
     tabName: "paradas",
     imageSrc: "/dashboards/gallery/img7.png",
     imageAlt: "Dashboard de paradas operacionais Busa",
+    projectUrl: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/busa-operational-downtime-dashboard",
     code: `-- Project: Busa Operational Downtime Dashboard
 -- Description: Extracts downtime events with duration, component, cause and operational context for industrial equipment.
 
@@ -987,69 +994,22 @@ WHERE integration_status <> 'Matched';`,
 ]
 
 export function DashboardGallery() {
-  const [activeImage, setActiveImage] = useState<GalleryProject | null>(null)
-
-  useEffect(() => {
-    if (!activeImage) {
-      return
-    }
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setActiveImage(null)
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [activeImage])
-
   return (
-    <>
-      <div className="grid min-h-0 grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
-        {galleryProjects.map((project) => (
-          <CompactProjectCard key={project.title} project={project} onExpandPreview={setActiveImage} />
-        ))}
-      </div>
-
-      {activeImage && (
-        <div
-          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/78 p-5 backdrop-blur-md"
-          role="dialog"
-          aria-modal="true"
-          aria-label={activeImage.imageAlt}
-          onClick={() => setActiveImage(null)}
-        >
-          <div
-            className="relative w-[min(94vw,1180px)] overflow-hidden rounded-lg border border-[#6cf6ff]/55 bg-[#050617] shadow-[0_0_0_1px_rgba(108,246,255,0.2),0_0_30px_rgba(108,246,255,0.24)]"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button
-              type="button"
-              onClick={() => setActiveImage(null)}
-              className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-lg border border-white/14 bg-black/72 text-white/78 backdrop-blur transition hover:border-white/32 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
-              aria-label="Fechar imagem expandida"
-            >
-              <X className="h-5 w-5" />
-            </button>
-            <img src={activeImage.imageSrc} alt={activeImage.imageAlt} className="max-h-[84vh] w-full object-contain" />
-          </div>
-        </div>
-      )}
-    </>
+    <div className="grid min-h-0 grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
+      {galleryProjects.map((project) => (
+        <CompactProjectCard key={project.title} project={project} />
+      ))}
+    </div>
   )
 }
 
-function CompactProjectCard({
-  project,
-  onExpandPreview,
-}: {
-  project: GalleryProject
-  onExpandPreview: (project: GalleryProject) => void
-}) {
+function CompactProjectCard({ project }: { project: GalleryProject }) {
   const [activePanel, setActivePanel] = useState<"code" | "dashboard">("dashboard")
   const [hasImage, setHasImage] = useState(true)
   const isCodeActive = activePanel === "code"
+  const previewClassName = `group relative block h-full w-full overflow-hidden rounded-sm border border-white/[0.06] bg-[#050617] shadow-inner shadow-black/15 transition duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${
+    hasImage && project.projectUrl ? "hover:border-white/20 hover:shadow-black/40" : "cursor-default"
+  }`
 
   return (
     <article className="overflow-hidden rounded-md border border-[#6cf6ff]/14 bg-[#050617]/82 text-white shadow-[0_0_8px_rgba(108,246,255,0.06)] backdrop-blur">
@@ -1067,19 +1027,24 @@ function CompactProjectCard({
       >
         <div className="min-h-0 overflow-hidden">
           <div className="h-[204px] bg-black/30 p-1.5">
-            <button
-              type="button"
-              onClick={() => {
-                if (hasImage) {
-                  onExpandPreview(project)
-                }
-              }}
-              className={`group relative h-full w-full overflow-hidden rounded-sm border border-white/[0.06] bg-[#050617] shadow-inner shadow-black/15 transition duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${
-                hasImage ? "hover:border-white/20 hover:shadow-black/40" : "cursor-default"
-              }`}
-              aria-label={hasImage ? `Expandir ${project.imageAlt}` : project.imageAlt}
-              aria-disabled={!hasImage}
-            >
+            {hasImage && project.projectUrl ? (
+              <a
+                href={project.projectUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={previewClassName}
+                aria-label={`Abrir projeto ${project.title} no GitHub`}
+              >
+                <img
+                  src={project.imageSrc}
+                  alt={project.imageAlt}
+                  onError={() => setHasImage(false)}
+                  className="h-full w-full object-contain transition duration-300 ease-out group-hover:scale-[1.035]"
+                />
+                <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[0.03]" />
+              </a>
+            ) : (
+              <div className={previewClassName} aria-label={project.imageAlt} aria-disabled={!hasImage}>
               {hasImage ? (
                 <img
                   src={project.imageSrc}
@@ -1093,7 +1058,8 @@ function CompactProjectCard({
                 </div>
               )}
               <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[0.03]" />
-            </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -1182,7 +1148,7 @@ function TerminalHeader({
         </span>
       </div>
       <span className="shrink-0 font-mono text-[0.42rem] uppercase tracking-[0.1em] text-white/28">
-        {active ? "expanded" : "min"}
+        {active ? "expandido" : "minimizado"}
       </span>
     </button>
   )
