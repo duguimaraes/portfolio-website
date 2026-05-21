@@ -2,16 +2,14 @@
 
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { Database, FileText, Github, HomeIcon, Linkedin, Terminal } from "lucide-react"
+import { Database, Github, HomeIcon, Linkedin } from "lucide-react"
 
-const sectionIds = ["inicio", "sobre", "projetos", "blog"]
+const sectionIds = ["inicio", "blog"]
 
 const navItems = [
-  { label: "Inicio", href: "#inicio", icon: HomeIcon },
-  { label: "Terminal", href: "#sobre", icon: Terminal },
-  { label: "Dados", href: "#projetos", icon: Database },
+  { label: "Principal", href: "#inicio", icon: HomeIcon },
+  { label: "Galeria de projetos", href: "#blog", icon: Database },
   { label: "Avatar", href: "#inicio", avatar: true, accentOnly: true },
-  { label: "Blog", href: "#blog", icon: FileText },
   { label: "GitHub", href: "https://github.com/duguimaraes", icon: Github, external: true, accentOnly: true },
   {
     label: "LinkedIn",

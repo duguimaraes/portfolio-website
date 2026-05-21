@@ -181,6 +181,12 @@
     animation: data-bg-pan 24s ease-in-out infinite alternate;
     will-change: transform, filter;
   }
+  .skill-orbit {
+    animation: skill-orbit 12s ease-in-out infinite;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.82);
+    will-change: opacity, transform, filter;
+  }
   body {
     @apply bg-background text-foreground;
   }
@@ -198,8 +204,33 @@
   }
 }
 
+@keyframes skill-orbit {
+  0%,
+  100% {
+    filter: blur(3px);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.82);
+  }
+  18%,
+  42% {
+    filter: blur(0);
+    opacity: 0.88;
+    transform: translate(calc(-50% + var(--skill-float-x, 0px)), calc(-50% + var(--skill-float-y, -16px))) scale(1);
+  }
+  62% {
+    filter: blur(1px);
+    opacity: 0;
+    transform: translate(calc(-50% + var(--skill-float-x, 0px)), calc(-50% + var(--skill-float-y, -16px) - 16px)) scale(0.94);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .data-bg-pan {
+  .data-bg-pan,
+  .skill-orbit {
     animation: none;
+  }
+
+  .skill-orbit {
+    opacity: 0.72;
   }
 }
