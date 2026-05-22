@@ -75,12 +75,12 @@ export default function Home() {
                 Eduardo Ladeira Guimarães
               </h1>
               <p className="mx-auto mt-3 max-w-lg text-justify text-[0.82rem] leading-5 text-white/72 sm:mt-5 sm:text-lg sm:leading-8 md:mx-0">
-                Atuo com Business Intelligence e análise de dados, criando dashboards completos em Power BI com SQL, DAX, Power Query e modelagem de dados. Meu trabalho conecta operações, finanças, logística e TI em indicadores que ajudam equipes a acompanhar desempenho, encontrar desvios e tomar decisões com mais segurança.
+                Atuo com Business Intelligence e análise de dados, criando dashboards completos em Power BI com SQL, DAX e Power Query. Meu trabalho conecta operações, finanças, logística e tecnologia da informação em indicadores que ajudam equipes a acompanhar desempenho, encontrar desvios e tomar decisões com mais segurança.
               </p>
-              <div className="mx-auto mt-5 grid max-w-lg grid-cols-3 items-center gap-2 sm:mt-8 sm:flex sm:flex-wrap sm:gap-2.5 md:mx-0">
+              <div className="mx-auto mt-5 grid max-w-lg grid-cols-3 items-center gap-1.5 sm:mt-8 sm:flex sm:flex-wrap sm:gap-2.5 md:mx-0">
                 <a
                   href="#blog"
-                  className="inline-flex min-w-0 items-center justify-center gap-1 rounded-lg bg-white px-2 py-2.5 text-[0.68rem] font-black text-[#0a0a2d] transition hover:bg-[#ffe2dd] sm:gap-1.5 sm:px-3.5 sm:py-3 sm:text-sm"
+                  className="inline-flex min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-lg bg-white px-2.5 py-2.5 text-[0.62rem] font-black text-[#0a0a2d] transition hover:bg-[#ffe2dd] sm:gap-1.5 sm:px-3.5 sm:py-3 sm:text-sm"
                 >
                   Ver projetos
                   <ArrowUpRight className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />

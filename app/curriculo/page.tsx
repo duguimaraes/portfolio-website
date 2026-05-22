@@ -21,7 +21,11 @@ export default function CurriculoPage() {
       </div>
 
       <div className="h-screen pt-[73px]">
-        <iframe src="/curriculoelg.pdf" title="Curriculo de Eduardo Ladeira Guimaraes" className="h-full w-full border-0" />
+        <iframe
+          src="/curriculoelg.pdf#toolbar=0&navpanes=0&view=Fit"
+          title="Curriculo de Eduardo Ladeira Guimaraes"
+          className="h-full w-full border-0"
+        />
       </div>
     </main>
   )

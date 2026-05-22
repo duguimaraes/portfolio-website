@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { useState } from "react"
 import { ChevronLeft, ChevronRight, Code2, LayoutDashboard } from "lucide-react"
+import { ExternalLinkDialog, type ExternalLinkTarget } from "@/components/portfolio-nav"
 
 type GalleryProject = {
   title: string
@@ -21,7 +22,7 @@ const galleryProjects: GalleryProject[] = [
     type: "Power BI / TI",
     accent: "#ff6b5d",
     tabName: "chamados",
-    imageSrc: "/dashboards/gallery/img1.png",
+    imageSrc: "/dashboards/fluxo-chamado-ti.png",
     imageAlt: "Dashboard de fluxo de chamados de Tecnologia da Informacao",
     projectUrl: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/sla-ti-dashboard",
     code: `-- Project: IT SLA Dashboard
@@ -194,7 +195,7 @@ WHERE wf.workflow_status = 'Completed'
     type: "Power BI / Operations",
     accent: "#ff6b5d",
     tabName: "pesagem",
-    imageSrc: "/dashboards/gallery/img2.png",
+    imageSrc: "/dashboards/manual-weighing-dashboard.png",
     imageAlt: "Dashboard de controle de pesagem manual",
     projectUrl: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/manual-weighing-dashboard",
     code: `-- Project: Manual Weighing Control Dashboard
@@ -995,6 +996,7 @@ WHERE integration_status <> 'Matched';`,
 
 export function DashboardGallery() {
   const [mobilePage, setMobilePage] = useState(0)
+  const [externalTarget, setExternalTarget] = useState<ExternalLinkTarget | null>(null)
   const mobilePageSize = 2
   const mobilePageCount = Math.ceil(galleryProjects.length / mobilePageSize)
   const mobileStart = mobilePage * mobilePageSize
@@ -1033,21 +1035,30 @@ export function DashboardGallery() {
         </div>
         <div className="grid gap-2.5">
           {activeProjects.map((project) => (
-            <CompactProjectCard key={project.title} project={project} compactMobile />
+            <CompactProjectCard key={project.title} project={project} compactMobile onExternalOpen={setExternalTarget} />
           ))}
         </div>
       </div>
 
       <div className="hidden min-h-0 grid-cols-2 gap-2 md:grid lg:grid-cols-4 2xl:gap-3">
         {galleryProjects.map((project) => (
-          <CompactProjectCard key={project.title} project={project} />
+          <CompactProjectCard key={project.title} project={project} onExternalOpen={setExternalTarget} />
         ))}
       </div>
+      {externalTarget && <ExternalLinkDialog item={externalTarget} onClose={() => setExternalTarget(null)} />}
     </>
   )
 }
 
-function CompactProjectCard({ project, compactMobile = false }: { project: GalleryProject; compactMobile?: boolean }) {
+function CompactProjectCard({
+  project,
+  compactMobile = false,
+  onExternalOpen,
+}: {
+  project: GalleryProject
+  compactMobile?: boolean
+  onExternalOpen: (target: ExternalLinkTarget) => void
+}) {
   const [activePanel, setActivePanel] = useState<"code" | "dashboard">("dashboard")
   const [hasImage, setHasImage] = useState(true)
   const isCodeActive = activePanel === "code"
@@ -1070,12 +1081,11 @@ function CompactProjectCard({ project, compactMobile = false }: { project: Galle
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className={`${compactMobile ? "h-[142px]" : "h-[204px]"} bg-black/30 p-1.5 md:h-[clamp(148px,22dvh,204px)] 2xl:h-[238px] 2xl:p-2`}>
+          <div className={`${compactMobile ? "aspect-video" : "h-[204px]"} bg-black/30 p-1.5 md:h-[clamp(148px,22dvh,204px)] md:aspect-auto 2xl:h-[238px] 2xl:p-2`}>
             {hasImage && project.projectUrl ? (
-              <a
-                href={project.projectUrl}
-                target="_blank"
-                rel="noreferrer"
+              <button
+                type="button"
+                onClick={() => onExternalOpen({ label: "GitHub", href: project.projectUrl! })}
                 className={previewClassName}
                 aria-label={`Abrir projeto ${project.title} no GitHub`}
               >
@@ -1086,7 +1096,7 @@ function CompactProjectCard({ project, compactMobile = false }: { project: Galle
                   className="h-full w-full object-contain transition duration-300 ease-out group-hover:scale-[1.035]"
                 />
                 <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[0.03]" />
-              </a>
+              </button>
             ) : (
               <div className={previewClassName} aria-label={project.imageAlt} aria-disabled={!hasImage}>
               {hasImage ? (
@@ -1121,7 +1131,7 @@ function CompactProjectCard({ project, compactMobile = false }: { project: Galle
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className={`${compactMobile ? "h-[142px]" : "h-[204px]"} flex flex-col px-2 pb-2 pt-2 md:h-[clamp(148px,22dvh,204px)] 2xl:h-[238px] 2xl:px-2.5 2xl:pb-2.5 2xl:pt-2.5`}>
+          <div className={`${compactMobile ? "aspect-video" : "h-[204px]"} flex flex-col px-2 pb-2 pt-2 md:h-[clamp(148px,22dvh,204px)] md:aspect-auto 2xl:h-[238px] 2xl:px-2.5 2xl:pb-2.5 2xl:pt-2.5`}>
             <div className={`${compactMobile ? "mb-1 min-h-[26px]" : "mb-1.5 min-h-[34px]"} shrink-0 text-center md:mb-1 md:min-h-[30px] 2xl:mb-1.5 2xl:min-h-[36px]`}>
               <p className="font-mono text-[0.48rem] font-bold uppercase tracking-[0.1em] text-[#6cb5ff] 2xl:text-[0.52rem]">{project.type}</p>
               <h3 className="mt-0.5 truncate text-[0.76rem] font-black leading-tight tracking-normal text-white 2xl:text-sm">{project.title}</h3>

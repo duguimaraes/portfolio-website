@@ -21,6 +21,11 @@ const navItems = [
   },
 ]
 
+export type ExternalLinkTarget = {
+  label: string
+  href: string
+}
+
 export function PortfolioNav() {
   const [activeSection, setActiveSection] = useState("inicio")
   const [isCvOpen, setIsCvOpen] = useState(false)
@@ -144,11 +149,11 @@ export function PortfolioNav() {
   )
 }
 
-function ExternalLinkDialog({
+export function ExternalLinkDialog({
   item,
   onClose,
 }: {
-  item: (typeof navItems)[number]
+  item: ExternalLinkTarget
   onClose: () => void
 }) {
   return (
