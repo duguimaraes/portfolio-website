@@ -59,13 +59,13 @@ export default function Home() {
 
       <section
         id="inicio"
-        className="relative flex h-[100dvh] w-screen shrink-0 snap-start flex-col overflow-hidden px-4 pb-5 pt-20 sm:px-8 sm:pb-8 sm:pt-24 md:py-5 lg:px-16 lg:py-6"
+        className="relative flex h-[100dvh] w-screen shrink-0 snap-start flex-col overflow-hidden px-4 pb-5 pt-24 sm:px-8 sm:pb-8 sm:pt-24 md:py-5 lg:px-16 lg:py-6"
       >
         <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
         <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
 
         <div className="relative z-10 grid min-h-0 flex-1 items-center gap-4 md:pb-16 md:pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:pb-14 lg:pt-4">
-          <div className="max-w-2xl self-center text-center md:translate-x-16 md:text-left lg:translate-x-28 2xl:translate-x-40">
+          <div className="max-w-2xl translate-y-3 self-center text-center sm:translate-y-0 md:translate-x-16 md:text-left lg:translate-x-28 2xl:translate-x-40">
             <div>
               <p className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/70 sm:mb-5 sm:gap-2 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.24em]">
                 <Sparkles className="h-3.5 w-3.5 text-[#ffcf7a] sm:h-4 sm:w-4" />
@@ -75,7 +75,7 @@ export default function Home() {
                 Eduardo Ladeira Guimarães
               </h1>
               <p className="mx-auto mt-3 max-w-lg text-justify text-[0.82rem] leading-5 text-white/72 sm:mt-5 sm:text-lg sm:leading-8 md:mx-0">
-                Atuo com Business Intelligence e análise de dados, criando dashboards completos em Power BI com SQL, DAX e Power Query. Meu trabalho conecta operações, finanças, logística e tecnologia da informação em indicadores que ajudam equipes a acompanhar desempenho, encontrar desvios e tomar decisões com mais segurança.
+                Atuo com Business Intelligence e análise de dados, desde a construção das consultas e consolidação dos dados em diferentes bancos (SQL Server, PostgreSQL, SAP HANA e Firebird) até o desenvolvimento de dashboards completos em Power BI com SQL, DAX e Power Query. Meu trabalho conecta operações, finanças, logística e tecnologia da informação por meio de indicadores que ajudam equipes a acompanhar desempenho, identificar desvios e tomar decisões com mais segurança.
               </p>
               <div className="mx-auto mt-5 grid max-w-lg grid-cols-3 items-center gap-1.5 sm:mt-8 sm:flex sm:flex-wrap sm:gap-2.5 md:mx-0">
                 <a
@@ -91,7 +91,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto flex aspect-square w-[min(66vw,270px)] -translate-y-3 items-end justify-center self-center sm:w-[min(58vw,430px)] sm:translate-y-0 md:w-[min(78vw,68vh,610px)] md:translate-y-3 lg:w-[min(50vw,78vh,740px)] lg:translate-y-5 2xl:-translate-x-16">
+          <div className="relative mx-auto flex aspect-square w-[min(66vw,270px)] translate-y-1 items-end justify-center self-center sm:w-[min(58vw,430px)] sm:translate-y-0 md:w-[min(78vw,68vh,610px)] md:translate-y-3 lg:w-[min(50vw,78vh,740px)] lg:translate-y-5 2xl:-translate-x-16">
             <div className="absolute bottom-8 h-[82%] w-[82%] rounded-full bg-[linear-gradient(138deg,#754bff_0%,#263d89_46%,#ff8a5b_100%)] shadow-2xl shadow-black/45" />
             <div className="absolute bottom-16 h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px]" />
             <div className="pointer-events-none absolute inset-0 z-20">

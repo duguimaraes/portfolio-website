@@ -111,7 +111,7 @@ export function CvPreviewModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
             <div className="z-20 flex shrink-0 flex-wrap items-center justify-between gap-2 border-b border-white/10 bg-black/82 px-3 py-2.5 backdrop-blur sm:gap-3 sm:px-4 sm:py-3">
               <div className="order-2 min-w-0 flex-1 sm:order-none">
                 <p className="font-mono text-[0.62rem] font-bold uppercase tracking-[0.2em] text-[#6cf6ff]">Currículo</p>
-                <h2 className="text-sm font-black text-white/88">Eduardo Ladeira Guimarães</h2>
+                <h1 className="whitespace-nowrap text-[0.78rem] font-black text-white/88 sm:text-sm">Eduardo Ladeira Guimarães</h1>
               </div>
               <div className="order-1 flex w-full items-center gap-2 sm:order-none sm:w-auto sm:min-w-[340px] sm:flex-1 sm:justify-end">
                   <button

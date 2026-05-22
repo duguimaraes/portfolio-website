@@ -1033,7 +1033,7 @@ export function DashboardGallery() {
             <ChevronRight className="h-5 w-5" />
           </button>
         </div>
-        <div className="grid gap-2.5">
+        <div className="grid gap-2">
           {activeProjects.map((project) => (
             <CompactProjectCard key={project.title} project={project} compactMobile onExternalOpen={setExternalTarget} />
           ))}
@@ -1067,7 +1067,7 @@ function CompactProjectCard({
   }`
 
   return (
-    <article className="overflow-hidden rounded-md border border-[#6cf6ff]/14 bg-[#050617]/82 text-white shadow-[0_0_8px_rgba(108,246,255,0.06)] backdrop-blur 2xl:rounded-lg">
+    <article className={`${compactMobile ? "mx-auto w-[94%]" : ""} overflow-hidden rounded-md border border-[#6cf6ff]/14 bg-[#050617]/82 text-white shadow-[0_0_8px_rgba(108,246,255,0.06)] backdrop-blur 2xl:rounded-lg`}>
       <TerminalHeader
         label={`${project.tabName}.preview`}
         active={!isCodeActive}
@@ -1081,7 +1081,7 @@ function CompactProjectCard({
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className={`${compactMobile ? "aspect-video" : "h-[204px]"} bg-black/30 p-1.5 md:h-[clamp(148px,22dvh,204px)] md:aspect-auto 2xl:h-[238px] 2xl:p-2`}>
+          <div className={`${compactMobile ? "aspect-video p-1" : "h-[204px] p-1.5"} bg-black/30 md:h-[clamp(148px,22dvh,204px)] md:aspect-auto md:p-1.5 2xl:h-[238px] 2xl:p-2`}>
             {hasImage && project.projectUrl ? (
               <button
                 type="button"
@@ -1131,7 +1131,7 @@ function CompactProjectCard({
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className={`${compactMobile ? "aspect-video" : "h-[204px]"} flex flex-col px-2 pb-2 pt-2 md:h-[clamp(148px,22dvh,204px)] md:aspect-auto 2xl:h-[238px] 2xl:px-2.5 2xl:pb-2.5 2xl:pt-2.5`}>
+          <div className={`${compactMobile ? "aspect-video px-1.5 pb-1.5 pt-1.5" : "h-[204px] px-2 pb-2 pt-2"} flex flex-col md:h-[clamp(148px,22dvh,204px)] md:aspect-auto md:px-2 md:pb-2 md:pt-2 2xl:h-[238px] 2xl:px-2.5 2xl:pb-2.5 2xl:pt-2.5`}>
             <div className={`${compactMobile ? "mb-1 min-h-[26px]" : "mb-1.5 min-h-[34px]"} shrink-0 text-center md:mb-1 md:min-h-[30px] 2xl:mb-1.5 2xl:min-h-[36px]`}>
               <p className="font-mono text-[0.48rem] font-bold uppercase tracking-[0.1em] text-[#6cb5ff] 2xl:text-[0.52rem]">{project.type}</p>
               <h3 className="mt-0.5 truncate text-[0.76rem] font-black leading-tight tracking-normal text-white 2xl:text-sm">{project.title}</h3>
