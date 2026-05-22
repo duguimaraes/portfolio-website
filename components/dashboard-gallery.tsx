@@ -1009,31 +1009,31 @@ export function DashboardGallery() {
   return (
     <>
       <div className="md:hidden">
-        <div className="mb-2 flex items-center justify-between gap-3">
+        <div className="mb-1.5 flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => moveMobile(-1)}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#6cf6ff]/22 bg-black/44 text-white/72 backdrop-blur transition hover:border-[#6cf6ff]/50 hover:text-white"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#6cf6ff]/22 bg-black/44 text-white/72 backdrop-blur transition hover:border-[#6cf6ff]/50 hover:text-white"
             aria-label="Dashboard anterior"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-4 w-4" />
           </button>
           <div className="min-w-0 text-center">
-            <p className="font-mono text-[0.58rem] font-bold uppercase tracking-[0.18em] text-[#6cf6ff]/72">
+            <p className="font-mono text-[0.54rem] font-bold uppercase tracking-[0.18em] text-[#6cf6ff]/72">
               {mobileStart + 1}-{Math.min(mobileStart + mobilePageSize, galleryProjects.length)} / {galleryProjects.length}
             </p>
-            <h3 className="truncate text-sm font-black text-white/86">Dashboards em destaque</h3>
+            <h3 className="truncate text-[0.82rem] font-black text-white/86">Dashboards em destaque</h3>
           </div>
           <button
             type="button"
             onClick={() => moveMobile(1)}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#6cf6ff]/22 bg-black/44 text-white/72 backdrop-blur transition hover:border-[#6cf6ff]/50 hover:text-white"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#6cf6ff]/22 bg-black/44 text-white/72 backdrop-blur transition hover:border-[#6cf6ff]/50 hover:text-white"
             aria-label="Proximo dashboard"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-4 w-4" />
           </button>
         </div>
-        <div className="grid gap-2">
+        <div className="grid gap-1.5">
           {activeProjects.map((project) => (
             <CompactProjectCard key={project.title} project={project} compactMobile onExternalOpen={setExternalTarget} />
           ))}
@@ -1067,12 +1067,13 @@ function CompactProjectCard({
   }`
 
   return (
-    <article className={`${compactMobile ? "mx-auto w-[94%]" : ""} overflow-hidden rounded-md border border-[#6cf6ff]/14 bg-[#050617]/82 text-white shadow-[0_0_8px_rgba(108,246,255,0.06)] backdrop-blur 2xl:rounded-lg`}>
+    <article className={`${compactMobile ? "mx-auto w-[84%]" : ""} overflow-hidden rounded-md border border-[#6cf6ff]/14 bg-[#050617]/82 text-white shadow-[0_0_8px_rgba(108,246,255,0.06)] backdrop-blur 2xl:rounded-lg`}>
       <TerminalHeader
         label={`${project.tabName}.preview`}
         active={!isCodeActive}
         icon={<LayoutDashboard className="h-3 w-3" />}
         onClick={() => setActivePanel("dashboard")}
+        compact={compactMobile}
       />
 
       <div
@@ -1081,7 +1082,7 @@ function CompactProjectCard({
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className={`${compactMobile ? "aspect-video p-1" : "h-[204px] p-1.5"} bg-black/30 md:h-[clamp(148px,22dvh,204px)] md:aspect-auto md:p-1.5 2xl:h-[238px] 2xl:p-2`}>
+          <div className={`${compactMobile ? "aspect-video p-0.5" : "h-[204px] p-1.5"} bg-black/30 md:h-[clamp(148px,22dvh,204px)] md:aspect-auto md:p-1.5 2xl:h-[238px] 2xl:p-2`}>
             {hasImage && project.projectUrl ? (
               <button
                 type="button"
@@ -1123,6 +1124,7 @@ function CompactProjectCard({
         active={isCodeActive}
         icon={<Code2 className="h-3 w-3" />}
         onClick={() => setActivePanel("code")}
+        compact={compactMobile}
       />
 
       <div
@@ -1131,14 +1133,14 @@ function CompactProjectCard({
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <div className={`${compactMobile ? "aspect-video px-1.5 pb-1.5 pt-1.5" : "h-[204px] px-2 pb-2 pt-2"} flex flex-col md:h-[clamp(148px,22dvh,204px)] md:aspect-auto md:px-2 md:pb-2 md:pt-2 2xl:h-[238px] 2xl:px-2.5 2xl:pb-2.5 2xl:pt-2.5`}>
-            <div className={`${compactMobile ? "mb-1 min-h-[26px]" : "mb-1.5 min-h-[34px]"} shrink-0 text-center md:mb-1 md:min-h-[30px] 2xl:mb-1.5 2xl:min-h-[36px]`}>
-              <p className="font-mono text-[0.48rem] font-bold uppercase tracking-[0.1em] text-[#6cb5ff] 2xl:text-[0.52rem]">{project.type}</p>
-              <h3 className="mt-0.5 truncate text-[0.76rem] font-black leading-tight tracking-normal text-white 2xl:text-sm">{project.title}</h3>
+          <div className={`${compactMobile ? "aspect-video px-1 pb-1 pt-1" : "h-[204px] px-2 pb-2 pt-2"} flex flex-col md:h-[clamp(148px,22dvh,204px)] md:aspect-auto md:px-2 md:pb-2 md:pt-2 2xl:h-[238px] 2xl:px-2.5 2xl:pb-2.5 2xl:pt-2.5`}>
+            <div className={`${compactMobile ? "mb-0.5 min-h-[22px]" : "mb-1.5 min-h-[34px]"} shrink-0 text-center md:mb-1 md:min-h-[30px] 2xl:mb-1.5 2xl:min-h-[36px]`}>
+              <p className={`${compactMobile ? "text-[0.42rem]" : "text-[0.48rem]"} font-mono font-bold uppercase tracking-[0.1em] text-[#6cb5ff] 2xl:text-[0.52rem]`}>{project.type}</p>
+              <h3 className={`${compactMobile ? "text-[0.68rem]" : "text-[0.76rem]"} mt-0.5 truncate font-black leading-tight tracking-normal text-white 2xl:text-sm`}>{project.title}</h3>
             </div>
             <pre
               data-code-scroll
-              className="code-scrollbar min-h-0 flex-1 overflow-auto whitespace-pre-wrap break-words rounded-sm border border-white/[0.05] bg-black/44 p-2 font-mono text-[0.46rem] leading-[0.66rem] text-[#d7e7ff] shadow-inner shadow-black/15 2xl:p-2.5 2xl:text-[0.5rem] 2xl:leading-3"
+              className={`${compactMobile ? "p-1.5 text-[0.4rem] leading-[0.58rem]" : "p-2 text-[0.46rem] leading-[0.66rem]"} code-scrollbar min-h-0 flex-1 overflow-auto whitespace-pre-wrap break-words rounded-sm border border-white/[0.05] bg-black/44 font-mono text-[#d7e7ff] shadow-inner shadow-black/15 2xl:p-2.5 2xl:text-[0.5rem] 2xl:leading-3`}
             >
               <code>{project.code}</code>
             </pre>
@@ -1153,33 +1155,35 @@ function TerminalHeader({
   active,
   icon,
   onClick,
+  compact = false,
 }: {
   label: string
   active: boolean
   icon: ReactNode
   onClick: () => void
+  compact?: boolean
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`flex w-full items-center justify-between border-b border-white/[0.055] px-2 py-1.5 text-left transition 2xl:px-2.5 2xl:py-1.5 ${
+      className={`flex w-full items-center justify-between border-b border-white/[0.055] text-left transition 2xl:px-2.5 2xl:py-1.5 ${
         active ? "bg-black/45" : "bg-black/70 hover:bg-black/55"
-      }`}
+      } ${compact ? "px-1.5 py-1" : "px-2 py-1.5"}`}
       aria-expanded={active}
     >
-      <div className="flex min-w-0 items-center gap-1.5">
-        <div className="flex shrink-0 items-center gap-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#ff6b5d]" />
-          <span className="h-1.5 w-1.5 rounded-full bg-[#ffcf7a]" />
-          <span className="h-1.5 w-1.5 rounded-full bg-[#6cb5ff]" />
+      <div className={`${compact ? "gap-1" : "gap-1.5"} flex min-w-0 items-center`}>
+        <div className={`${compact ? "gap-0.5" : "gap-1"} flex shrink-0 items-center`}>
+          <span className={`${compact ? "h-1 w-1" : "h-1.5 w-1.5"} rounded-full bg-[#ff6b5d]`} />
+          <span className={`${compact ? "h-1 w-1" : "h-1.5 w-1.5"} rounded-full bg-[#ffcf7a]`} />
+          <span className={`${compact ? "h-1 w-1" : "h-1.5 w-1.5"} rounded-full bg-[#6cb5ff]`} />
         </div>
-        <span className="flex min-w-0 items-center gap-1 truncate font-mono text-[0.52rem] text-white/54 2xl:text-[0.58rem]">
+        <span className={`${compact ? "text-[0.46rem]" : "text-[0.52rem]"} ${active ? "" : "terminal-minimized-cue"} flex min-w-0 items-center gap-1 truncate font-mono text-white/54 2xl:text-[0.58rem]`}>
           {icon}
           {label}
         </span>
       </div>
-      <span className="shrink-0 font-mono text-[0.42rem] uppercase tracking-[0.1em] text-white/28 2xl:text-[0.46rem]">
+      <span className={`${compact ? "text-[0.36rem]" : "text-[0.42rem]"} ${active ? "" : "terminal-minimized-cue"} shrink-0 font-mono uppercase tracking-[0.1em] text-white/28 2xl:text-[0.46rem]`}>
         {active ? "expandido" : "minimizado"}
       </span>
     </button>

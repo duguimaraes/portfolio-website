@@ -50,7 +50,7 @@ export default function Home() {
           fill
           priority
           aria-hidden="true"
-          className="object-cover opacity-[0.44] mix-blend-screen"
+          className="object-cover object-[92%_50%] opacity-[0.40] mix-blend-screen sm:object-center"
         />
       </div>
       <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_50%_52%,rgba(7,7,42,0.12),rgba(7,7,42,0.5)_62%,rgba(7,7,42,0.78)_100%)]" />
@@ -123,12 +123,12 @@ export default function Home() {
       </section>
       <section id="blog" className="relative z-10 flex h-[100dvh] w-screen shrink-0 snap-start items-stretch overflow-y-auto px-4 pb-10 pt-24 text-white sm:px-8 md:overflow-hidden md:py-8 lg:px-16 2xl:px-16 2xl:py-10">
         <div className="mx-auto flex min-h-0 w-full max-w-7xl flex-col justify-start md:justify-center 2xl:max-w-[1640px]">
-          <div className="mb-3 flex shrink-0 flex-col justify-between gap-3 text-center md:flex-row md:items-end md:text-left 2xl:mb-5">
+          <div className="mb-5 flex shrink-0 flex-col justify-between gap-1 text-center md:mb-3 md:flex-row md:items-end md:gap-3 md:text-left 2xl:mb-5">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6cf6ff] sm:text-sm sm:tracking-[0.24em]">Trabalhos Selecionados</p>
-              <h2 className="mt-2 text-2xl font-black tracking-normal sm:text-4xl md:text-[2.6rem] 2xl:text-[3.25rem]">Dashboards & Dados</h2>
+              <h2 className="mt-1 text-2xl font-black tracking-normal sm:mt-2 sm:text-4xl md:text-[2.6rem] 2xl:text-[3.25rem]">Dashboards & Dados</h2>
             </div>
-            <p className="mx-auto max-w-lg whitespace-nowrap text-[0.56rem] leading-5 text-white/72 sm:whitespace-normal sm:text-base sm:leading-7 md:mx-0 2xl:max-w-xl 2xl:text-lg 2xl:leading-8">
+            <p className="mx-auto max-w-lg whitespace-nowrap text-[0.6rem] leading-4 text-white/72 sm:whitespace-normal sm:text-base sm:leading-7 md:mx-0 2xl:max-w-xl 2xl:text-lg 2xl:leading-8">
               Projetos que conectam dashboards e consultas em cada análise.
             </p>
           </div>

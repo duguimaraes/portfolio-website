@@ -187,6 +187,10 @@
     transform: translate(-50%, -50%) scale(0.74);
     will-change: opacity, transform, filter;
   }
+  .terminal-minimized-cue {
+    animation: terminal-minimized-cue 2.8s ease-in-out infinite;
+    will-change: color, opacity, text-shadow;
+  }
   body {
     @apply bg-background text-foreground;
   }
@@ -228,13 +232,35 @@
   }
 }
 
+@keyframes terminal-minimized-cue {
+  0%,
+  100% {
+    color: rgba(255, 255, 255, 0.36);
+    opacity: 0.72;
+    text-shadow: 0 0 0 rgba(108, 246, 255, 0);
+  }
+  50% {
+    color: rgba(178, 253, 255, 0.88);
+    opacity: 1;
+    text-shadow:
+      0 0 6px rgba(108, 246, 255, 0.48),
+      0 0 16px rgba(108, 246, 255, 0.22);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .data-bg-pan,
-  .skill-orbit {
+  .skill-orbit,
+  .terminal-minimized-cue {
     animation: none;
   }
 
   .skill-orbit {
     opacity: 0.58;
+  }
+
+  .terminal-minimized-cue {
+    color: rgba(178, 253, 255, 0.78);
+    text-shadow: 0 0 6px rgba(108, 246, 255, 0.28);
   }
 }
