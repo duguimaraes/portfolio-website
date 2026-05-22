@@ -1102,7 +1102,6 @@ export function DashboardGallery() {
             <p className="font-mono text-[0.54rem] font-bold uppercase tracking-[0.18em] text-[#6cf6ff]/72">
               {mobileStart + 1}-{Math.min(mobileStart + mobilePageSize, galleryProjects.length)} / {galleryProjects.length}
             </p>
-            <h3 className="truncate text-[0.82rem] font-black text-white/86">Dashboards em destaque</h3>
           </div>
           <button
             type="button"
