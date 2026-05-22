@@ -3,11 +3,13 @@
 import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import { Download, Eye, Maximize2, X, ZoomIn, ZoomOut } from "lucide-react"
+import { useLanguage } from "@/components/language-provider"
 
 const cvPreviewRatio = 1840 / 2580
 
 export function CvPreviewButton() {
   const [isOpen, setIsOpen] = useState(false)
+  const { t } = useLanguage()
 
   return (
     <>
@@ -15,9 +17,10 @@ export function CvPreviewButton() {
         type="button"
         onClick={() => setIsOpen(true)}
         className="inline-flex min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-lg border border-white/16 px-2.5 py-2.5 text-[0.62rem] font-bold text-white/78 transition hover:border-white/34 hover:text-white sm:gap-1.5 sm:px-3.5 sm:py-3 sm:text-sm"
+        aria-label={t.openResume}
       >
         <Eye className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
-        Abrir currículo
+        {t.openResume}
       </button>
 
       <CvPreviewModal isOpen={isOpen} onClose={() => setIsOpen(false)} />

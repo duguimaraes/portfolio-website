@@ -6,12 +6,13 @@ import { ArrowUpRight, Database, Github, HomeIcon, Linkedin, X } from "lucide-re
 import { CvPreviewModal } from "@/components/cv-preview-button"
 
 const sectionIds = ["inicio", "blog"]
+const portfolioRepositoryUrl = "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main"
 
 const navItems = [
   { label: "Principal", href: "#inicio", icon: HomeIcon },
   { label: "Galeria de projetos", href: "#blog", icon: Database },
   { label: "Avatar", href: "#inicio", avatar: true, accentOnly: true },
-  { label: "GitHub", href: "https://github.com/duguimaraes", icon: Github, external: true, accentOnly: true },
+  { label: "GitHub", href: portfolioRepositoryUrl, icon: Github, external: true, accentOnly: true },
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/eduardo-ladeira-guimar%C3%A3es-a272a427b/",

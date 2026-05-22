@@ -1,8 +1,9 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { useState } from "react"
-import { ChevronLeft, ChevronRight, Code2, LayoutDashboard } from "lucide-react"
+import { useEffect, useState } from "react"
+import { createPortal } from "react-dom"
+import { ChevronLeft, ChevronRight, Code2, LayoutDashboard, X } from "lucide-react"
 import { ExternalLinkDialog, type ExternalLinkTarget } from "@/components/portfolio-nav"
 
 type GalleryProject = {
@@ -14,6 +15,8 @@ type GalleryProject = {
   imageSrc: string
   imageAlt: string
   projectUrl?: string
+  previewOnly?: boolean
+  previewImages?: string[]
 }
 
 const galleryProjects: GalleryProject[] = [
@@ -495,20 +498,96 @@ FROM business_unit_d.goods_receipts d
 WHERE d.bulletin_origin IN ('F', 'L', 'S', 'P', 'T');`,
   },
   {
-    title: "Custos de Energia",
-    type: "Power BI / Finance",
+    title: "Blitz de Trafego",
+    type: "Power BI / Safety",
     accent: "#6cb5ff",
-    tabName: "energia",
+    tabName: "trafego",
     imageSrc: "/dashboards/gallery/img4.png",
-    imageAlt: "Dashboard de custos de energia",
-    code: `-- Dashboard: Energy Costs
+    imageAlt: "Dashboard de inspecoes de trafego e seguranca operacional",
+    projectUrl: "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main/sso-traffic-blitz",
+    code: `-- Project: Traffic Inspection Dashboard
+-- Description: SQL query used for traffic inspection analysis, compliance monitoring, and operational safety indicators
+
+-- 1. Inspection Records Extraction & Latest Version Consolidation
+-- Description: Retrieves the latest inspection records, consolidates workflow information, standardizes textual fields, and prepares operational safety data for dashboard analysis
+
+WITH registros_atuais AS (
+    SELECT
+        *,
+        ROW_NUMBER() OVER (
+            PARTITION BY registro_id
+            ORDER BY TRY_CAST(versao AS integer) DESC,
+                     TRY_CAST(id AS integer) DESC
+        ) AS ordem
+    FROM schema_origem.tb_inspecoes
+    WHERE tipo_registro = 'principal'
+),
+
+processos AS (
+    SELECT
+        id_referencia,
+        MAX(numero_processo) AS numero_processo
+    FROM schema_origem.tb_workflow
+    WHERE categoria_processo = 'Processo Operacional'
+    GROUP BY id_referencia
+)
+
 SELECT
-  business_unit,
-  reference_month,
-  SUM(consumption_kwh) AS consumption_kwh,
-  SUM(invoice_amount) AS total_cost
-FROM energy_costs
-GROUP BY business_unit, reference_month;`,
+    r.registro_id,
+    r.versao,
+    COALESCE(
+        NULLIF(r.codigo_registro, '0'),
+        CAST(p.numero_processo AS varchar)
+    ) AS codigo_registro,
+    TRY_CAST(
+        NULLIF(r.data_evento, '')
+        AS date
+    ) AS data_evento,
+    r.unidade_operacional,
+    r.responsavel,
+    r.categoria_item,
+    r.identificador_item,
+    r.origem_registro,
+    r.indicador_01,
+    r.indicador_02,
+    r.indicador_03,
+    r.indicador_04,
+    r.indicador_05,
+    r.indicador_06,
+    r.indicador_07,
+    r.indicador_08,
+    r.indicador_09,
+    r.indicador_10,
+    r.indicador_11,
+    array_join(
+        transform(
+            split(
+                regexp_replace(
+                    trim(lower(r.analista_responsavel)),
+                    '\\s+',
+                    ' '
+                ),
+                ' '
+            ),
+            palavra -> concat(
+                upper(substr(palavra, 1, 1)),
+                substr(palavra, 2)
+            )
+        ),
+        ' '
+    ) AS analista_responsavel,
+    r.categoria_responsavel,
+    r.status_registro,
+    r.observacao_item,
+    r.observacao_geral
+
+FROM registros_atuais r
+
+LEFT JOIN processos p
+       ON p.id_referencia =
+          TRY_CAST(r.registro_id AS integer)
+
+WHERE r.ordem = 1;`,
   },
   {
     title: "Controle de Estoque",
@@ -979,18 +1058,19 @@ ORDER BY s.session_number DESC;`,
     title: "Rastreabilidade Algodao",
     type: "Power BI / Production",
     accent: "#ff9f6e",
-    tabName: "algodao",
+    tabName: "pecuaria",
     imageSrc: "/dashboards/gallery/img8.png",
     imageAlt: "Dashboard de rastreabilidade de algodao",
-    code: `-- Dashboard: Cotton Traceability
-SELECT
-  field_code,
-  roll_number,
-  bale_number,
-  production_date,
-  integration_status
-FROM cotton_traceability
-WHERE integration_status <> 'Matched';`,
+    previewOnly: true,
+    previewImages: [
+      "/dashboards/gallery/img8-1.png",
+      "/dashboards/gallery/img8-2.png",
+      "/dashboards/gallery/img8-3.png",
+      "/dashboards/gallery/img8-4.png",
+      "/dashboards/gallery/img8-5.png",
+      "/dashboards/gallery/img8-6.png",
+    ],
+    code: "",
   },
 ]
 
@@ -1061,10 +1141,23 @@ function CompactProjectCard({
 }) {
   const [activePanel, setActivePanel] = useState<"code" | "dashboard">("dashboard")
   const [hasImage, setHasImage] = useState(true)
+  const [previewIndex, setPreviewIndex] = useState(0)
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const isCodeActive = activePanel === "code"
+  const previewImages = project.previewImages?.length ? project.previewImages : [project.imageSrc]
+  const currentPreviewImage = previewImages[previewIndex] ?? project.imageSrc
   const previewClassName = `group relative block h-full w-full overflow-hidden rounded-sm border border-white/[0.06] bg-[#050617] shadow-inner shadow-black/15 transition duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${
     hasImage && project.projectUrl ? "hover:border-white/20 hover:shadow-black/40" : "cursor-default"
   }`
+  const movePreviewImage = (direction: -1 | 1) => {
+    setHasImage(true)
+    setPreviewIndex((current) => (current + direction + previewImages.length) % previewImages.length)
+  }
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <article className={`${compactMobile ? "mx-auto w-[84%]" : ""} overflow-hidden rounded-md border border-[#6cf6ff]/14 bg-[#050617]/82 text-white shadow-[0_0_8px_rgba(108,246,255,0.06)] backdrop-blur 2xl:rounded-lg`}>
@@ -1074,16 +1167,61 @@ function CompactProjectCard({
         icon={<LayoutDashboard className="h-3 w-3" />}
         onClick={() => setActivePanel("dashboard")}
         compact={compactMobile}
+        disabled={project.previewOnly}
       />
 
       <div
         className={`grid transition-[grid-template-rows] duration-300 ease-out ${
-          isCodeActive ? "grid-rows-[0fr]" : "grid-rows-[1fr]"
+          isCodeActive && !project.previewOnly ? "grid-rows-[0fr]" : "grid-rows-[1fr]"
         }`}
       >
         <div className="min-h-0 overflow-hidden">
           <div className={`${compactMobile ? "aspect-video p-0.5" : "h-[204px] p-1.5"} bg-black/30 md:h-[clamp(148px,22dvh,204px)] md:aspect-auto md:p-1.5 2xl:h-[238px] 2xl:p-2`}>
-            {hasImage && project.projectUrl ? (
+            {project.previewOnly ? (
+              <div className="group relative h-full w-full overflow-hidden rounded-sm border border-white/[0.06] bg-[#050617] shadow-inner shadow-black/15">
+                {hasImage ? (
+                  <img
+                    src={currentPreviewImage}
+                    alt={`${project.imageAlt} ${previewIndex + 1}`}
+                    onClick={() => setIsPreviewOpen(true)}
+                    onContextMenu={(event) => event.preventDefault()}
+                    draggable={false}
+                    onError={(event) => {
+                      if (event.currentTarget.src.endsWith(project.imageSrc)) {
+                        setHasImage(false)
+                        return
+                      }
+                      event.currentTarget.src = project.imageSrc
+                    }}
+                    className="h-full w-full select-none object-contain transition-transform duration-300 ease-out group-hover:scale-[1.025]"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_50%_25%,rgba(108,246,255,0.13),transparent_45%),linear-gradient(135deg,rgba(5,6,23,0.96),rgba(10,12,36,0.88))] px-3 text-center font-mono text-[0.58rem] font-bold uppercase tracking-[0.16em] text-white/42">
+                    {project.imageAlt}
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => movePreviewImage(-1)}
+                  className="absolute left-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-white/14 bg-black/52 text-white/72 backdrop-blur transition hover:border-white/32 hover:text-white"
+                  aria-label="Preview anterior"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => movePreviewImage(1)}
+                  className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-white/14 bg-black/52 text-white/72 backdrop-blur transition hover:border-white/32 hover:text-white"
+                  aria-label="Proximo preview"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+                <div className="absolute bottom-2 left-1/2 rounded-full border border-white/10 bg-black/54 px-2 py-1 font-mono text-[0.48rem] font-bold text-white/62 backdrop-blur -translate-x-1/2">
+                  {previewIndex + 1} / {previewImages.length}
+                </div>
+                <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[0.03]" />
+              </div>
+            ) : hasImage && project.projectUrl ? (
               <button
                 type="button"
                 onClick={() => onExternalOpen({ label: "GitHub", href: project.projectUrl! })}
@@ -1094,7 +1232,9 @@ function CompactProjectCard({
                   src={project.imageSrc}
                   alt={project.imageAlt}
                   onError={() => setHasImage(false)}
-                  className="h-full w-full object-contain transition duration-300 ease-out group-hover:scale-[1.035]"
+                  onContextMenu={(event) => event.preventDefault()}
+                  draggable={false}
+                  className="h-full w-full select-none object-contain transition duration-300 ease-out group-hover:scale-[1.035]"
                 />
                 <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/[0.03]" />
               </button>
@@ -1105,7 +1245,9 @@ function CompactProjectCard({
                   src={project.imageSrc}
                   alt={project.imageAlt}
                   onError={() => setHasImage(false)}
-                  className="h-full w-full object-contain transition duration-300 ease-out group-hover:scale-[1.035]"
+                  onContextMenu={(event) => event.preventDefault()}
+                  draggable={false}
+                  className="h-full w-full select-none object-contain transition duration-300 ease-out group-hover:scale-[1.035]"
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_50%_25%,rgba(108,246,255,0.13),transparent_45%),linear-gradient(135deg,rgba(5,6,23,0.96),rgba(10,12,36,0.88))] px-3 text-center font-mono text-[0.58rem] font-bold uppercase tracking-[0.16em] text-white/42">
@@ -1119,6 +1261,14 @@ function CompactProjectCard({
         </div>
       </div>
 
+      {project.previewOnly ? (
+        <div className={`${compactMobile ? "px-1.5 py-1" : "px-2 py-1.5"} flex items-center justify-center border-t border-white/[0.055] bg-black/70 2xl:px-2.5 2xl:py-1.5`}>
+          <p className={`${compactMobile ? "text-[0.42rem]" : "text-[0.52rem]"} terminal-minimized-cue truncate font-mono font-black uppercase tracking-[0.14em] text-[#6cf6ff]/76 2xl:text-[0.58rem]`}>
+            Em Desenvolvimento
+          </p>
+        </div>
+      ) : (
+        <>
       <TerminalHeader
         label={`${project.tabName}.sql`}
         active={isCodeActive}
@@ -1147,6 +1297,73 @@ function CompactProjectCard({
           </div>
         </div>
       </div>
+        </>
+      )}
+      {project.previewOnly &&
+        mounted &&
+        isPreviewOpen &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[999] flex items-center justify-center bg-black/72 p-4 backdrop-blur-md"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${project.imageAlt} ampliado`}
+            onClick={() => setIsPreviewOpen(false)}
+          >
+            <div
+              className="relative w-[min(88vw,760px)] overflow-hidden rounded-lg border border-[#6cf6ff]/32 bg-[#050617] p-2 pt-12 shadow-[0_0_0_1px_rgba(108,246,255,0.12),0_0_32px_rgba(108,246,255,0.22)] md:w-[min(56vw,820px)]"
+              onClick={(event) => event.stopPropagation()}
+              onContextMenu={(event) => event.preventDefault()}
+            >
+              <div className="absolute left-3 top-2 z-10">
+                <p className="font-mono text-[0.58rem] font-black uppercase tracking-[0.16em] text-[#6cf6ff] drop-shadow-[0_0_10px_rgba(108,246,255,0.55)]">
+                  Dashboard em desenvolvimento
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsPreviewOpen(false)}
+                className="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-lg border border-white/14 bg-black/64 text-white/72 backdrop-blur transition hover:border-white/32 hover:text-white"
+                aria-label="Fechar preview"
+              >
+                <X className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation()
+                  movePreviewImage(-1)
+                }}
+                className="absolute left-3 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-white/14 bg-black/58 text-white/72 backdrop-blur transition hover:border-white/32 hover:text-white"
+                aria-label="Preview anterior ampliado"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation()
+                  movePreviewImage(1)
+                }}
+                className="absolute right-3 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-white/14 bg-black/58 text-white/72 backdrop-blur transition hover:border-white/32 hover:text-white"
+                aria-label="Proximo preview ampliado"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+              <img
+                src={currentPreviewImage}
+                alt={`${project.imageAlt} ampliado ${previewIndex + 1}`}
+                draggable={false}
+                onContextMenu={(event) => event.preventDefault()}
+                className="max-h-[58vh] min-h-[30vh] w-full select-none object-contain"
+              />
+              <div className="absolute bottom-3 left-1/2 rounded-full border border-white/10 bg-black/58 px-2 py-1 font-mono text-[0.5rem] font-bold text-white/66 backdrop-blur -translate-x-1/2">
+                {previewIndex + 1} / {previewImages.length}
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )}
     </article>
   )
 }
@@ -1156,20 +1373,23 @@ function TerminalHeader({
   icon,
   onClick,
   compact = false,
+  disabled = false,
 }: {
   label: string
   active: boolean
   icon: ReactNode
   onClick: () => void
   compact?: boolean
+  disabled?: boolean
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      disabled={disabled}
       className={`flex w-full items-center justify-between border-b border-white/[0.055] text-left transition 2xl:px-2.5 2xl:py-1.5 ${
         active ? "bg-black/45" : "bg-black/70 hover:bg-black/55"
-      } ${compact ? "px-1.5 py-1" : "px-2 py-1.5"}`}
+      } ${disabled ? "cursor-default" : ""} ${compact ? "px-1.5 py-1" : "px-2 py-1.5"}`}
       aria-expanded={active}
     >
       <div className={`${compact ? "gap-1" : "gap-1.5"} flex min-w-0 items-center`}>
@@ -1184,7 +1404,7 @@ function TerminalHeader({
         </span>
       </div>
       <span className={`${compact ? "text-[0.36rem]" : "text-[0.42rem]"} ${active ? "" : "terminal-minimized-cue"} shrink-0 font-mono uppercase tracking-[0.1em] text-white/28 2xl:text-[0.46rem]`}>
-        {active ? "expandido" : "minimizado"}
+        {disabled ? "galeria" : active ? "expandido" : "minimizado"}
       </span>
     </button>
   )

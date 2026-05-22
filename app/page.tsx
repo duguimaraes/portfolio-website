@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import type { CSSProperties } from "react"
 import {
@@ -8,6 +10,8 @@ import { CopyEmailButton } from "@/components/copy-email-button"
 import { CvPreviewButton } from "@/components/cv-preview-button"
 import { DashboardGallery } from "@/components/dashboard-gallery"
 import { HorizontalScrollControls } from "@/components/horizontal-scroll-controls"
+import { LanguageToggle } from "@/components/language-toggle"
+import { useLanguage } from "@/components/language-provider"
 import { PortfolioNav } from "@/components/portfolio-nav"
 
 const skills = [
@@ -37,6 +41,8 @@ const skillPositions = [
 ]
 
 export default function Home() {
+  const { t } = useLanguage()
+
   return (
     <main
       id="portfolio-scroll-root"
@@ -56,6 +62,7 @@ export default function Home() {
       <div className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(circle_at_50%_52%,rgba(7,7,42,0.12),rgba(7,7,42,0.5)_62%,rgba(7,7,42,0.78)_100%)]" />
       <HorizontalScrollControls />
       <PortfolioNav />
+      <LanguageToggle />
 
       <section
         id="inicio"
@@ -67,22 +74,28 @@ export default function Home() {
         <div className="relative z-10 grid min-h-0 flex-1 items-center gap-4 md:pb-16 md:pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:pb-14 lg:pt-4">
           <div className="max-w-2xl translate-y-3 self-center text-center sm:translate-y-0 md:translate-x-16 md:text-left lg:translate-x-28 2xl:translate-x-40">
             <div>
-              <p className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/70 sm:mb-5 sm:gap-2 sm:px-4 sm:py-2 sm:text-xs sm:tracking-[0.24em]">
-                <Sparkles className="h-3.5 w-3.5 text-[#ffcf7a] sm:h-4 sm:w-4" />
-                Analista de Dados e BI
-              </p>
+              <div className="mb-3 flex flex-wrap justify-center gap-2 md:justify-start sm:mb-5">
+                <p className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/70 sm:gap-1.5 sm:px-3 sm:py-2 sm:text-[0.68rem] sm:tracking-[0.18em]">
+                  <Sparkles className="h-3.5 w-3.5 text-[#ffcf7a] sm:h-4 sm:w-4" />
+                  {t.role}
+                </p>
+                <p className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/70 sm:gap-1.5 sm:px-3 sm:py-2 sm:text-[0.68rem] sm:tracking-[0.18em]">
+                  <span className="h-2 w-2 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.9)] animate-pulse" />
+                  {t.workingFor}
+                </p>
+              </div>
               <h1 className="text-[1.55rem] font-black leading-[1.05] tracking-normal sm:text-[2.4rem] md:whitespace-nowrap md:text-[1.6rem] lg:text-[2.1rem]">
                 Eduardo Ladeira Guimarães
               </h1>
               <p className="mx-auto mt-3 max-w-lg text-justify text-[0.82rem] leading-5 text-white/72 sm:mt-5 sm:text-lg sm:leading-8 md:mx-0">
-                Atuo com Business Intelligence e análise de dados, desde a construção das consultas e consolidação dos dados em diferentes bancos (SQL Server, PostgreSQL, SAP HANA e Firebird) até o desenvolvimento de dashboards completos em Power BI com SQL, DAX e Power Query. Meu trabalho conecta operações, finanças, logística e tecnologia da informação por meio de indicadores que ajudam equipes a acompanhar desempenho, identificar desvios e tomar decisões com mais segurança.
+                {t.intro}
               </p>
               <div className="mx-auto mt-5 grid max-w-lg grid-cols-3 items-center gap-1.5 sm:mt-8 sm:flex sm:flex-wrap sm:gap-2.5 md:mx-0">
                 <a
                   href="#blog"
                   className="inline-flex min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-lg bg-white px-2.5 py-2.5 text-[0.62rem] font-black text-[#0a0a2d] transition hover:bg-[#ffe2dd] sm:gap-1.5 sm:px-3.5 sm:py-3 sm:text-sm"
                 >
-                  Ver projetos
+                  {t.viewProjects}
                   <ArrowUpRight className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
                 </a>
                 <CopyEmailButton />
@@ -125,11 +138,11 @@ export default function Home() {
         <div className="mx-auto flex min-h-0 w-full max-w-7xl flex-col justify-start md:justify-center 2xl:max-w-[1640px]">
           <div className="mb-5 flex shrink-0 flex-col justify-between gap-1 text-center md:mb-3 md:flex-row md:items-end md:gap-3 md:text-left 2xl:mb-5">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6cf6ff] sm:text-sm sm:tracking-[0.24em]">Trabalhos Selecionados</p>
-              <h2 className="mt-1 text-2xl font-black tracking-normal sm:mt-2 sm:text-4xl md:text-[2.6rem] 2xl:text-[3.25rem]">Dashboards & Dados</h2>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6cf6ff] sm:text-sm sm:tracking-[0.24em]">{t.galleryKicker}</p>
+              <h2 className="mt-1 text-2xl font-black tracking-normal sm:mt-2 sm:text-4xl md:text-[2.6rem] 2xl:text-[3.25rem]">{t.galleryTitle}</h2>
             </div>
             <p className="mx-auto max-w-lg whitespace-nowrap text-[0.6rem] leading-4 text-white/72 sm:whitespace-normal sm:text-base sm:leading-7 md:mx-0 2xl:max-w-xl 2xl:text-lg 2xl:leading-8">
-              Projetos que conectam dashboards e consultas em cada análise.
+              {t.gallerySubtitle}
             </p>
           </div>
           <DashboardGallery />
