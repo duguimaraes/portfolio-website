@@ -6,7 +6,7 @@ import { ArrowUpRight, Database, Github, HomeIcon, Linkedin, X } from "lucide-re
 import { CvPreviewModal } from "@/components/cv-preview-button"
 
 const sectionIds = ["inicio", "blog"]
-const portfolioRepositoryUrl = "https://github.com/duguimaraes/power-bi-analytics-portfolio/tree/main"
+const portfolioRepositoryUrl = "https://github.com/duguimaraes/power-bi-analytics-portfolio/blob/main/README.pt-br.md"
 
 const navItems = [
   { label: "Principal", href: "#inicio", icon: HomeIcon },

@@ -194,7 +194,7 @@ function ProgressButton({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className={`fixed top-[26px] z-[60] flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-black/44 text-white/70 shadow-2xl shadow-black/40 backdrop-blur transition hover:border-white/28 hover:bg-black/55 hover:text-white disabled:pointer-events-none disabled:opacity-0 md:top-1/2 md:h-12 md:w-12 md:-translate-y-1/2 ${
+      className={`fixed top-[26px] z-[60] hidden h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-black/44 text-white/70 shadow-2xl shadow-black/40 backdrop-blur transition hover:border-white/28 hover:bg-black/55 hover:text-white disabled:pointer-events-none disabled:opacity-0 md:top-1/2 md:flex md:h-12 md:w-12 md:-translate-y-1/2 ${
         side === "left" ? "left-[calc(50%-178px)] md:left-5" : "right-[calc(50%-178px)] md:right-5"
       }`}
     >

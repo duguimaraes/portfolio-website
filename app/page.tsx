@@ -74,13 +74,13 @@ export default function Home() {
         <div className="relative z-10 grid min-h-0 flex-1 items-center gap-4 md:pb-16 md:pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:pb-14 lg:pt-4">
           <div className="max-w-2xl translate-y-3 self-center text-center sm:translate-y-0 md:translate-x-16 md:text-left lg:translate-x-28 2xl:translate-x-40">
             <div>
-              <div className="mb-3 flex flex-wrap justify-center gap-2 md:justify-start sm:mb-5">
-                <p className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/70 sm:gap-1.5 sm:px-3 sm:py-2 sm:text-[0.68rem] sm:tracking-[0.18em]">
-                  <Sparkles className="h-3.5 w-3.5 text-[#ffcf7a] sm:h-4 sm:w-4" />
+              <div className="mb-2 flex flex-nowrap justify-center gap-1.5 sm:mb-5 sm:gap-2 md:justify-start">
+                <p className="inline-flex min-w-0 items-center gap-1 whitespace-nowrap rounded-full border border-white/12 bg-white/[0.06] px-2 py-1.5 text-[0.48rem] font-bold uppercase tracking-[0.11em] text-white/70 sm:gap-1.5 sm:px-3 sm:py-2 sm:text-[0.68rem] sm:tracking-[0.18em]">
+                  <Sparkles className="h-3 w-3 shrink-0 text-[#ffcf7a] sm:h-4 sm:w-4" />
                   {t.role}
                 </p>
-                <p className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.06] px-3 py-1.5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/70 sm:gap-1.5 sm:px-3 sm:py-2 sm:text-[0.68rem] sm:tracking-[0.18em]">
-                  <span className="h-2 w-2 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.9)] animate-pulse" />
+                <p className="inline-flex min-w-0 items-center gap-1 whitespace-nowrap rounded-full border border-white/12 bg-white/[0.06] px-2 py-1.5 text-[0.48rem] font-bold uppercase tracking-[0.11em] text-white/70 sm:gap-1.5 sm:px-3 sm:py-2 sm:text-[0.68rem] sm:tracking-[0.18em]">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.9)] animate-pulse sm:h-2 sm:w-2" />
                   {t.workingFor}
                 </p>
               </div>
