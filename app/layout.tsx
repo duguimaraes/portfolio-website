@@ -13,7 +13,9 @@ export const metadata: Metadata = {
   authors: [{ name: 'Eduardo Ladeira' }],
   generator: 'v0.app',
   icons: {
-    icon: '/favicon-32x32.png',
+    icon: [{ url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' }],
+    shortcut: '/favicon-32x32.png',
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
 }
 
