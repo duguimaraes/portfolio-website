@@ -124,7 +124,7 @@ export default function Home() {
               ))}
             </div>
             <Image
-              src="/hero-avatar-v6.png"
+              src="/hero-avatar-v11.png"
               alt="Avatar 3D de Eduardo com notebook"
               width={1024}
               height={1536}
