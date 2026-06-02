@@ -129,7 +129,7 @@ export function PortfolioNav() {
                 {item.avatar ? (
                   <span className="pointer-events-none absolute inset-0 rounded-full">
                     <Image
-                      src="/nav-face-avatar-v3.png"
+                      src="/nav-face-avatar-v4.png"
                       alt=""
                       width={72}
                       height={72}
