@@ -127,15 +127,24 @@ export function PortfolioNav() {
                 }
               >
                 {item.avatar ? (
-                  <span className="pointer-events-none absolute inset-0 rounded-full">
+                  <>
+                    <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-full">
+                      <Image
+                        src="/nav-face-avatar.png"
+                        alt=""
+                        width={72}
+                        height={72}
+                        className="absolute left-[48%] top-[-8px] h-[51px] w-[51px] max-w-none -translate-x-1/2 object-contain drop-shadow-[0_8px_10px_rgba(0,0,0,0.42)]"
+                      />
+                    </span>
                     <Image
-                      src="/nav-face-avatar-v5.png"
+                      src="/nav-face-avatar.png"
                       alt=""
                       width={72}
                       height={72}
-                      className="absolute left-1/2 top-[-8px] h-[51px] w-[51px] max-w-none -translate-x-1/2 object-contain drop-shadow-[0_8px_10px_rgba(0,0,0,0.42)]"
+                      className="pointer-events-none absolute left-[48%] top-[-8px] h-[51px] w-[51px] max-w-none -translate-x-1/2 object-contain [clip-path:inset(0_0_37px_0)]"
                     />
-                  </span>
+                  </>
                 ) : (
                   Icon && <Icon className="h-[18px] w-[18px]" />
                 )}
