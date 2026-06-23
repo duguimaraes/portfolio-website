@@ -84,7 +84,7 @@ export function PortfolioNav() {
   return (
     <>
       <header className="fixed inset-x-0 top-4 z-50 flex justify-center sm:top-5 lg:top-6">
-        <nav className="flex items-center gap-2 rounded-[14px] border border-white/10 bg-black/78 p-2 shadow-2xl shadow-black/45 backdrop-blur-xl">
+        <nav className="flex items-center gap-1 rounded-[14px] border border-white/10 bg-black/78 p-1.5 shadow-2xl shadow-black/45 backdrop-blur-xl sm:gap-2 sm:p-2">
           {navItems.map((item) => {
             const Icon = item.icon
             const sectionId = item.href.startsWith("#") ? item.href.slice(1) : ""
@@ -119,8 +119,8 @@ export function PortfolioNav() {
                 }}
                 className={
                   item.avatar
-                    ? "relative h-11 w-11 overflow-visible rounded-full border border-[#6cf6ff]/34 bg-[radial-gradient(circle_at_45%_28%,rgba(108,246,255,0.52),rgba(117,75,255,0.34)_48%,rgba(255,138,91,0.36)_100%)] p-0 shadow-[0_0_0_1px_rgba(108,246,255,0.18),0_0_16px_rgba(108,246,255,0.16)] transition hover:border-[#6cf6ff]/70 hover:shadow-[0_0_0_1px_rgba(108,246,255,0.36),0_0_22px_rgba(108,246,255,0.32)]"
-                    : `flex h-9 w-9 items-center justify-center rounded-lg border bg-white/[0.06] text-white/76 transition hover:border-white/24 hover:bg-white/[0.12] hover:text-white ${
+                    ? "relative h-9 w-9 overflow-visible rounded-full border border-[#6cf6ff]/34 bg-[radial-gradient(circle_at_45%_28%,rgba(108,246,255,0.52),rgba(117,75,255,0.34)_48%,rgba(255,138,91,0.36)_100%)] p-0 shadow-[0_0_0_1px_rgba(108,246,255,0.18),0_0_16px_rgba(108,246,255,0.16)] transition hover:border-[#6cf6ff]/70 hover:shadow-[0_0_0_1px_rgba(108,246,255,0.36),0_0_22px_rgba(108,246,255,0.32)] sm:h-11 sm:w-11"
+                    : `flex h-8 w-8 items-center justify-center rounded-lg border bg-white/[0.06] text-white/76 transition hover:border-white/24 hover:bg-white/[0.12] hover:text-white sm:h-9 sm:w-9 ${
                         isActive
                           ? "border-[#6cf6ff]/80 text-white shadow-[0_0_0_1px_rgba(108,246,255,0.42),0_0_18px_rgba(108,246,255,0.5)]"
                           : "border-white/10"
@@ -135,7 +135,7 @@ export function PortfolioNav() {
                         alt=""
                         width={72}
                         height={72}
-                        className="absolute left-[48%] top-[-8px] h-[51px] w-[51px] max-w-none -translate-x-1/2 object-contain drop-shadow-[0_8px_10px_rgba(0,0,0,0.42)]"
+                        className="absolute left-[48%] top-[-6px] h-[43px] w-[43px] max-w-none -translate-x-1/2 object-contain drop-shadow-[0_8px_10px_rgba(0,0,0,0.42)] sm:top-[-8px] sm:h-[51px] sm:w-[51px]"
                       />
                     </span>
                     <Image
@@ -143,11 +143,11 @@ export function PortfolioNav() {
                       alt=""
                       width={72}
                       height={72}
-                      className="pointer-events-none absolute left-[48%] top-[-8px] h-[51px] w-[51px] max-w-none -translate-x-1/2 object-contain [clip-path:inset(0_0_37px_0)]"
+                      className="pointer-events-none absolute left-[48%] top-[-6px] h-[43px] w-[43px] max-w-none -translate-x-1/2 object-contain [clip-path:inset(0_0_31px_0)] sm:top-[-8px] sm:h-[51px] sm:w-[51px] sm:[clip-path:inset(0_0_37px_0)]"
                     />
                   </>
                 ) : (
-                  Icon && <Icon className="h-[18px] w-[18px]" />
+                  Icon && <Icon className="h-4 w-4 sm:h-[18px] sm:w-[18px]" />
                 )}
               </a>
             )

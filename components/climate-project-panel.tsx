@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowUpRight, BarChart3, CloudSun, Database, Workflow } from "lucide-react"
+import { ArrowUpRight, BarChart3, ChevronDown, CloudSun, Database, Workflow } from "lucide-react"
 
 const dashboardUrl =
   "https://app.powerbi.com/view?r=eyJrIjoiYmNiMGNjNzktZDk0MS00MWY2LThhODEtYzFiZWJlODc2ZDlmIiwidCI6IjMzYTVjODcwLWM5MjItNGU5MS05ZTk5LTA1MzEzNWM3YTY1NyJ9"
@@ -55,6 +55,7 @@ const flow = [
 
 export function ClimateProjectPanel() {
   const [activeStage, setActiveStage] = useState(0)
+  const [mobilePanel, setMobilePanel] = useState<"pipeline" | "dashboard">("pipeline")
   const stage = flow[activeStage]
   const ActiveIcon = stage.icon
 
@@ -65,7 +66,7 @@ export function ClimateProjectPanel() {
     >
       <div className="mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col gap-4 2xl:max-w-[1640px]">
         <header className="flex shrink-0 items-end justify-between gap-4">
-          <div>
+          <div className="w-full text-center sm:w-auto sm:text-left">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6cf6ff] sm:text-sm sm:tracking-[0.24em]">
               Engenharia de dados
             </p>
@@ -84,9 +85,30 @@ export function ClimateProjectPanel() {
           </a>
         </header>
 
-        <div className="grid min-h-0 flex-1 grid-rows-[auto_minmax(0,1fr)] gap-4 lg:grid-cols-[minmax(260px,0.34fr)_minmax(0,0.66fr)] lg:grid-rows-1">
-          <aside className="flex h-full min-h-0 flex-col overflow-hidden rounded-lg border border-white/10 bg-[#0b0b31]/85 shadow-2xl shadow-black/20 backdrop-blur">
-            <div className="shrink-0 border-b border-white/10 p-4 sm:p-5">
+        <div className="flex min-h-0 flex-1 flex-col gap-3 lg:grid lg:grid-cols-[minmax(260px,0.34fr)_minmax(0,0.66fr)] lg:gap-4">
+          <aside
+            className={`flex min-h-0 flex-col overflow-hidden rounded-lg border border-white/10 bg-[#0b0b31]/85 shadow-2xl shadow-black/20 backdrop-blur transition-[flex,height] duration-300 ${
+              mobilePanel === "pipeline" ? "flex-1" : "h-12 shrink-0"
+            } lg:h-full lg:flex-none`}
+          >
+            <button
+              type="button"
+              onClick={() => setMobilePanel("pipeline")}
+              aria-expanded={mobilePanel === "pipeline"}
+              className="flex h-12 shrink-0 items-center justify-between px-4 text-left lg:hidden"
+            >
+              <span className="inline-flex items-center gap-2 text-sm font-bold text-white">
+                <Workflow className="h-4 w-4 text-[#6cf6ff]" aria-hidden="true" />
+                Pipeline de dados
+              </span>
+              <ChevronDown
+                className={`h-4 w-4 text-white/60 transition-transform ${mobilePanel === "pipeline" ? "rotate-180" : ""}`}
+                aria-hidden="true"
+              />
+            </button>
+
+            <div className={`min-h-0 flex-1 flex-col ${mobilePanel === "pipeline" ? "flex" : "hidden"} lg:flex`}>
+              <div className="shrink-0 border-b border-white/10 p-4 sm:p-5">
               <p className="text-sm leading-6 text-white/72 sm:text-base sm:leading-7">
                 Pipeline que transforma dados da API Open-Meteo em previsões analíticas para as capitais brasileiras.
               </p>
@@ -115,7 +137,7 @@ export function ClimateProjectPanel() {
               </div>
             </div>
 
-            <div className="flex min-h-0 flex-1 flex-col p-4 sm:p-5">
+              <div className="flex min-h-0 flex-1 flex-col p-4 sm:p-5">
               <div className="flex items-center gap-2.5">
                 <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md border border-[#6cf6ff]/20 bg-[#6cf6ff]/10 text-[#6cf6ff]">
                   <ActiveIcon className="h-4 w-4" aria-hidden="true" />
@@ -136,28 +158,51 @@ export function ClimateProjectPanel() {
                   </li>
                 ))}
               </ul>
+              </div>
             </div>
           </aside>
 
-          <div className="flex min-h-0 flex-col overflow-hidden rounded-lg border border-white/10 bg-[#080829] shadow-2xl shadow-black/30">
-            <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-3 py-2 sm:px-4">
-              <span className="text-xs font-bold uppercase tracking-[0.13em] text-white/55">Dashboard Power BI</span>
-              <a
-                href={dashboardUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1 text-xs font-medium text-[#6cf6ff] transition hover:text-white"
-              >
-                Abrir
-                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-              </a>
+          <div
+            className={`flex min-h-0 flex-col overflow-hidden rounded-lg border border-white/10 bg-[#080829] shadow-2xl shadow-black/30 transition-[flex,height] duration-300 ${
+              mobilePanel === "dashboard" ? "flex-1" : "h-12 shrink-0"
+            } lg:h-full lg:flex-none`}
+          >
+            <button
+              type="button"
+              onClick={() => setMobilePanel("dashboard")}
+              aria-expanded={mobilePanel === "dashboard"}
+              className="flex h-12 shrink-0 items-center justify-between px-4 text-left lg:hidden"
+            >
+              <span className="inline-flex items-center gap-2 text-sm font-bold text-white">
+                <BarChart3 className="h-4 w-4 text-[#6cf6ff]" aria-hidden="true" />
+                Dashboard Power BI
+              </span>
+              <ChevronDown
+                className={`h-4 w-4 text-white/60 transition-transform ${mobilePanel === "dashboard" ? "rotate-180" : ""}`}
+                aria-hidden="true"
+              />
+            </button>
+
+            <div className={`min-h-0 flex-1 flex-col ${mobilePanel === "dashboard" ? "flex" : "hidden"} lg:flex`}>
+              <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-3 py-2 sm:px-4">
+                <span className="hidden text-xs font-bold uppercase tracking-[0.13em] text-white/55 lg:inline">Dashboard Power BI</span>
+                <a
+                  href={dashboardUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-[#6cf6ff] transition hover:text-white"
+                >
+                  Abrir
+                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </a>
+              </div>
+              <iframe
+                title="Dashboard de previsões climáticas das capitais brasileiras"
+                src={dashboardUrl}
+                className="min-h-0 w-full flex-1"
+                allowFullScreen
+              />
             </div>
-            <iframe
-              title="Dashboard de previsões climáticas das capitais brasileiras"
-              src={dashboardUrl}
-              className="min-h-0 w-full flex-1"
-              allowFullScreen
-            />
           </div>
         </div>
       </div>
