@@ -2,15 +2,16 @@
 
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { ArrowUpRight, Database, Github, HomeIcon, Linkedin, X } from "lucide-react"
+import { ArrowUpRight, CloudSun, Database, Github, HomeIcon, Linkedin, X } from "lucide-react"
 import { CvPreviewModal } from "@/components/cv-preview-button"
 
-const sectionIds = ["inicio", "blog"]
+const sectionIds = ["inicio", "blog", "clima"]
 const portfolioRepositoryUrl = "https://github.com/duguimaraes/power-bi-analytics-portfolio/blob/main/README.pt-br.md"
 
 const navItems = [
   { label: "Principal", href: "#inicio", icon: HomeIcon },
   { label: "Galeria de projetos", href: "#blog", icon: Database },
+  { label: "Previsões Climáticas", href: "#clima", icon: CloudSun },
   { label: "Avatar", href: "#inicio", avatar: true, accentOnly: true },
   { label: "GitHub", href: portfolioRepositoryUrl, icon: Github, external: true, accentOnly: true },
   {

@@ -9,6 +9,7 @@ import {
 import { CopyEmailButton } from "@/components/copy-email-button"
 import { CvPreviewButton } from "@/components/cv-preview-button"
 import { DashboardGallery } from "@/components/dashboard-gallery"
+import { ClimateProjectPanel } from "@/components/climate-project-panel"
 import { HorizontalScrollControls } from "@/components/horizontal-scroll-controls"
 import { LanguageToggle } from "@/components/language-toggle"
 import { useLanguage } from "@/components/language-provider"
@@ -148,6 +149,7 @@ export default function Home() {
           <DashboardGallery />
         </div>
       </section>
+      <ClimateProjectPanel />
     </main>
   )
 }

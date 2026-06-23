@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const SCROLL_THRESHOLD = 820
 const CIRCLE_LENGTH = 113
-const SECTION_IDS = ["inicio", "blog"]
+const SECTION_IDS = ["inicio", "blog", "clima"]
 
 export function HorizontalScrollControls() {
   const [canGoBack, setCanGoBack] = useState(false)
