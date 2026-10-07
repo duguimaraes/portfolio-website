@@ -67,13 +67,13 @@ export default function Home() {
 
       <section
         id="inicio"
-        className="relative flex h-[100dvh] w-screen shrink-0 snap-start flex-col overflow-hidden px-4 pb-5 pt-24 sm:px-8 sm:pb-8 sm:pt-24 md:py-5 lg:px-16 lg:py-6"
+        className="relative flex h-[100dvh] w-screen shrink-0 snap-start flex-col overflow-hidden px-4 pb-2 pt-20 sm:px-8 sm:pb-8 sm:pt-24 md:py-5 lg:px-16 lg:py-6"
       >
         <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
         <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
 
-        <div className="relative z-10 grid min-h-0 flex-1 items-center gap-4 md:pb-16 md:pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:pb-14 lg:pt-4">
-          <div className="max-w-2xl translate-y-3 self-center text-center sm:translate-y-0 md:translate-x-16 md:text-left lg:translate-x-28 2xl:translate-x-40">
+        <div className="relative z-10 grid min-h-0 flex-1 items-center gap-2 sm:gap-4 md:pb-16 md:pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:pb-14 lg:pt-4">
+          <div className="max-w-2xl self-center text-center md:translate-x-16 md:text-left lg:translate-x-28 2xl:translate-x-40">
             <div>
               <div className="mb-2 flex flex-nowrap justify-center gap-1.5 sm:mb-5 sm:gap-2 md:w-full md:max-w-lg md:justify-start">
                 <p className="inline-flex min-w-0 items-center gap-1 whitespace-nowrap rounded-full border border-white/12 bg-white/[0.06] px-2 py-1.5 text-[0.48rem] font-bold uppercase tracking-[0.11em] text-white/70 sm:gap-1.5 sm:px-3 sm:py-2 sm:text-[0.68rem] sm:tracking-[0.18em] md:grow md:justify-center">
@@ -88,13 +88,13 @@ export default function Home() {
               <h1 className="max-w-lg text-center text-[1.55rem] font-black leading-[1.05] tracking-normal sm:text-[2.4rem] md:whitespace-nowrap md:text-[1.6rem] lg:text-[2.1rem]">
                 Eduardo Ladeira Guimarães
               </h1>
-              <p className="mx-auto mt-3 max-w-lg text-justify text-[0.82rem] leading-5 text-white/72 sm:mt-5 sm:text-lg sm:leading-8 md:mx-0">
+              <p className="mx-auto mt-2 max-w-lg text-justify text-[0.82rem] leading-5 text-white/72 sm:mt-5 sm:text-lg sm:leading-8 md:mx-0">
                 {t.intro}
               </p>
-              <div className="mx-auto mt-5 grid max-w-lg grid-cols-3 items-center gap-1.5 sm:mt-8 sm:flex sm:flex-wrap sm:gap-2.5 md:mx-0 md:w-full md:flex-nowrap md:[&>*]:flex-1">
+              <div className="mx-auto mt-3 grid max-w-lg grid-cols-3 items-center gap-1.5 sm:mt-8 sm:flex sm:flex-wrap sm:gap-2.5 md:mx-0 md:w-full md:flex-nowrap md:[&>*]:flex-1">
                 <a
                   href="#blog"
-                  className="inline-flex min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-lg bg-white px-2.5 py-2.5 text-[0.62rem] font-black text-[#0a0a2d] transition hover:bg-[#ffe2dd] sm:gap-1.5 sm:px-3.5 sm:py-3 sm:text-sm"
+                  className="inline-flex min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-lg bg-white px-2.5 py-1.5 text-[0.62rem] font-black text-[#0a0a2d] transition hover:bg-[#ffe2dd] sm:gap-1.5 sm:px-3.5 sm:py-3 sm:text-sm"
                 >
                   {t.viewProjects}
                   <ArrowUpRight className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" />
@@ -105,7 +105,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto flex aspect-square w-[min(66vw,270px)] translate-y-1 items-end justify-center self-center sm:w-[min(58vw,430px)] sm:translate-y-0 md:w-[min(78vw,68vh,610px)] md:translate-y-3 lg:w-[min(50vw,78vh,740px)] lg:translate-y-5 2xl:-translate-x-16">
+          <div className="hero-avatar-stage relative mx-auto flex aspect-square w-[min(66vw,30dvh,270px)] -translate-y-2 items-end justify-center self-center sm:w-[min(58vw,430px)] sm:translate-y-0 md:w-[min(78vw,68vh,610px)] md:translate-y-3 lg:w-[min(50vw,78vh,740px)] lg:translate-y-5 2xl:-translate-x-16">
             <div className="absolute bottom-8 h-[82%] w-[82%] rounded-full bg-[linear-gradient(138deg,#754bff_0%,#263d89_46%,#ff8a5b_100%)] shadow-2xl shadow-black/45" />
             <div className="absolute bottom-16 h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px]" />
             <div className="pointer-events-none absolute inset-0 z-20">

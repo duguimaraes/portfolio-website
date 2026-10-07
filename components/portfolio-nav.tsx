@@ -2,17 +2,15 @@
 
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { ArrowUpRight, CloudSun, Database, Github, HomeIcon, Linkedin, X } from "lucide-react"
-import { CvPreviewModal } from "@/components/cv-preview-button"
+import { ArrowUpRight, CloudSun, Database, Github, Linkedin, X } from "lucide-react"
 
 const sectionIds = ["inicio", "blog", "clima"]
 const portfolioRepositoryUrl = "https://github.com/duguimaraes/power-bi-analytics-portfolio/blob/main/README.pt-br.md"
 
 const navItems = [
-  { label: "Principal", href: "#inicio", icon: HomeIcon },
   { label: "Galeria de projetos", href: "#blog", icon: Database },
   { label: "Previsões Climáticas", href: "#clima", icon: CloudSun },
-  { label: "Avatar", href: "#inicio", avatar: true, accentOnly: true },
+  { label: "Principal", href: "#inicio", avatar: true },
   { label: "GitHub", href: portfolioRepositoryUrl, icon: Github, external: true, accentOnly: true },
   {
     label: "LinkedIn",
@@ -30,7 +28,6 @@ export type ExternalLinkTarget = {
 
 export function PortfolioNav() {
   const [activeSection, setActiveSection] = useState("inicio")
-  const [isCvOpen, setIsCvOpen] = useState(false)
   const [externalTarget, setExternalTarget] = useState<(typeof navItems)[number] | null>(null)
 
   useEffect(() => {
@@ -93,9 +90,9 @@ export function PortfolioNav() {
             return (
               <a
                 key={item.label}
-                href={item.avatar ? "#curriculo" : item.href}
+                href={item.href}
                 aria-label={item.label}
-                title={item.avatar ? "Abrir curriculo" : item.label}
+                title={item.label}
                 target={item.external ? "_blank" : undefined}
                 rel={item.external ? "noreferrer" : undefined}
                 aria-current={isActive ? "page" : undefined}
@@ -106,12 +103,6 @@ export function PortfolioNav() {
                     return
                   }
 
-                  if (item.avatar) {
-                    event.preventDefault()
-                    setIsCvOpen(true)
-                    return
-                  }
-
                   if (!item.external) {
                     event.preventDefault()
                     handleInternalClick(item.href)
@@ -119,7 +110,11 @@ export function PortfolioNav() {
                 }}
                 className={
                   item.avatar
-                    ? "relative h-9 w-9 overflow-visible rounded-full border border-[#6cf6ff]/34 bg-[radial-gradient(circle_at_45%_28%,rgba(108,246,255,0.52),rgba(117,75,255,0.34)_48%,rgba(255,138,91,0.36)_100%)] p-0 shadow-[0_0_0_1px_rgba(108,246,255,0.18),0_0_16px_rgba(108,246,255,0.16)] transition hover:border-[#6cf6ff]/70 hover:shadow-[0_0_0_1px_rgba(108,246,255,0.36),0_0_22px_rgba(108,246,255,0.32)] sm:h-11 sm:w-11"
+                    ? `relative h-9 w-9 overflow-visible rounded-full border bg-[radial-gradient(circle_at_45%_28%,rgba(108,246,255,0.52),rgba(117,75,255,0.34)_48%,rgba(255,138,91,0.36)_100%)] p-0 transition hover:border-[#6cf6ff]/70 hover:shadow-[0_0_0_1px_rgba(108,246,255,0.36),0_0_22px_rgba(108,246,255,0.32)] sm:h-11 sm:w-11 ${
+                        isActive
+                          ? "border-[#6cf6ff]/80 shadow-[0_0_0_1px_rgba(108,246,255,0.42),0_0_18px_rgba(108,246,255,0.5)]"
+                          : "border-[#6cf6ff]/34 shadow-[0_0_0_1px_rgba(108,246,255,0.18),0_0_16px_rgba(108,246,255,0.16)]"
+                      }`
                     : `flex h-8 w-8 items-center justify-center rounded-lg border bg-white/[0.06] text-white/76 transition hover:border-white/24 hover:bg-white/[0.12] hover:text-white sm:h-9 sm:w-9 ${
                         isActive
                           ? "border-[#6cf6ff]/80 text-white shadow-[0_0_0_1px_rgba(108,246,255,0.42),0_0_18px_rgba(108,246,255,0.5)]"
@@ -155,7 +150,6 @@ export function PortfolioNav() {
         </nav>
       </header>
       {externalTarget && <ExternalLinkDialog item={externalTarget} onClose={() => setExternalTarget(null)} />}
-      <CvPreviewModal isOpen={isCvOpen} onClose={() => setIsCvOpen(false)} />
     </>
   )
 }
