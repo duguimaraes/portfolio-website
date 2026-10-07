@@ -1,4 +1,4 @@
-import { Download } from "lucide-react"
+import { ResumeDownloadButton } from "@/components/resume-download-button"
 
 export default function CurriculoPage() {
   return (
@@ -9,23 +9,19 @@ export default function CurriculoPage() {
             <p className="font-mono text-[0.62rem] font-bold uppercase tracking-[0.2em] text-[#6cf6ff]">Curriculo</p>
             <h1 className="text-sm font-black text-white/88">Eduardo Ladeira Guimaraes</h1>
           </div>
-          <a
-            href="/curriculoelg.pdf"
-            download
-            className="inline-flex items-center gap-2 rounded-lg border border-white/16 bg-white/[0.05] px-4 py-2.5 text-sm font-bold text-white/78 transition hover:border-white/34 hover:bg-white/10 hover:text-white"
-          >
-            <Download className="h-4 w-4" />
-            Baixar PDF
-          </a>
+          <ResumeDownloadButton />
         </div>
       </div>
 
-      <div className="h-screen pt-[73px]">
-        <iframe
-          src="/curriculoelg.pdf#toolbar=0&navpanes=0&view=Fit"
-          title="Curriculo de Eduardo Ladeira Guimaraes"
-          className="h-full w-full border-0"
-        />
+      <div className="mx-auto flex max-w-[850px] flex-col gap-6 px-3 pb-8 pt-[85px] sm:px-6">
+        {["/curriculo-preview-1.png", "/curriculo-preview-2.png"].map((src, index) => (
+          <img
+            key={src}
+            src={src}
+            alt={`Pagina ${index + 1} do curriculo de Eduardo Ladeira Guimaraes`}
+            className="block h-auto w-full bg-white shadow-2xl shadow-black/40"
+          />
+        ))}
       </div>
     </main>
   )

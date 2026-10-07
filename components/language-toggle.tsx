@@ -20,12 +20,13 @@ export function LanguageToggle() {
             key={option.language}
             type="button"
             onClick={() => setLanguage(option.language)}
-            className={`pointer-events-auto absolute flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-black/44 shadow-2xl shadow-black/40 backdrop-blur transition md:static md:h-auto md:w-auto md:border-0 md:bg-transparent md:px-2 md:py-1 md:shadow-none ${
+            className={`pointer-events-auto absolute flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-black/44 shadow-2xl shadow-black/40 backdrop-blur transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:static md:h-auto md:w-auto md:border-0 md:bg-transparent md:px-2 md:py-1 md:shadow-none ${
               isActive
-                ? "bg-white text-[#0a0a2d] shadow-[0_0_16px_rgba(108,246,255,0.24)]"
-                : "text-white/58 hover:bg-white/[0.08] hover:text-white"
+                ? "border-[#6cf6ff] !bg-[#123047] ring-2 ring-[#6cf6ff] shadow-[0_0_18px_rgba(108,246,255,0.55)] md:shadow-[0_0_14px_rgba(108,246,255,0.45)]"
+                : "opacity-65 hover:bg-white/[0.08] hover:opacity-100"
             } ${option.language === "pt" ? "left-[calc(50%-178px)]" : "right-[calc(50%-178px)]"}`}
             aria-label={`Alterar idioma para ${option.label}`}
+            aria-pressed={isActive}
             title={option.label}
           >
             <FlagIcon country={option.flag} />

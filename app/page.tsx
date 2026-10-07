@@ -80,18 +80,18 @@ export default function Home() {
                   <Sparkles className="h-3 w-3 shrink-0 text-[#ffcf7a] sm:h-4 sm:w-4" />
                   {t.role}
                 </p>
-                <p className="inline-flex min-w-0 items-center gap-1 whitespace-nowrap rounded-full border border-white/12 bg-white/[0.06] px-2 py-1.5 text-[0.48rem] font-bold uppercase tracking-[0.11em] text-white/70 sm:gap-1.5 sm:px-3 sm:py-2 sm:text-[0.68rem] sm:tracking-[0.18em]">
+                <p className="inline-flex min-w-0 items-center gap-1 whitespace-nowrap rounded-full border border-white/12 bg-white/[0.06] px-2 py-1.5 text-[0.48rem] font-bold uppercase tracking-[0.11em] text-white/70 sm:gap-1.5 sm:px-3 sm:py-2 sm:text-[0.68rem] sm:tracking-[0.18em] md:px-[7px]">
                   <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.9)] animate-pulse sm:h-2 sm:w-2" />
                   {t.workingFor}
                 </p>
               </div>
-              <h1 className="text-[1.55rem] font-black leading-[1.05] tracking-normal sm:text-[2.4rem] md:whitespace-nowrap md:text-[1.6rem] lg:text-[2.1rem]">
+              <h1 className="max-w-lg text-center text-[1.55rem] font-black leading-[1.05] tracking-normal sm:text-[2.4rem] md:whitespace-nowrap md:text-[1.6rem] lg:text-[2.1rem]">
                 Eduardo Ladeira Guimarães
               </h1>
               <p className="mx-auto mt-3 max-w-lg text-justify text-[0.82rem] leading-5 text-white/72 sm:mt-5 sm:text-lg sm:leading-8 md:mx-0">
                 {t.intro}
               </p>
-              <div className="mx-auto mt-5 grid max-w-lg grid-cols-3 items-center gap-1.5 sm:mt-8 sm:flex sm:flex-wrap sm:gap-2.5 md:mx-0">
+              <div className="mx-auto mt-5 grid max-w-lg grid-cols-3 items-center gap-1.5 sm:mt-8 sm:flex sm:flex-wrap sm:gap-2.5 md:mx-0 md:w-full md:flex-nowrap md:[&>*]:flex-1">
                 <a
                   href="#blog"
                   className="inline-flex min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-lg bg-white px-2.5 py-2.5 text-[0.62rem] font-black text-[#0a0a2d] transition hover:bg-[#ffe2dd] sm:gap-1.5 sm:px-3.5 sm:py-3 sm:text-sm"

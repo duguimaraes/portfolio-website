@@ -8,7 +8,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Eduardo Ladeira | Data Analytics Portfolio',
+  title: 'Eduardo Ladeira | Portfolio',
   description: 'Portfólio digital com dashboards, análises e consultas SQL desenvolvidas para projetos de Business Intelligence.',
   authors: [{ name: 'Eduardo Ladeira' }],
   generator: 'v0.app',

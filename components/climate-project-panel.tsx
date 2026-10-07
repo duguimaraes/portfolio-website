@@ -2,62 +2,100 @@
 
 import { useState } from "react"
 import { ArrowUpRight, BarChart3, ChevronDown, CloudSun, Database, Workflow } from "lucide-react"
+import { useLanguage } from "@/components/language-provider"
 
 const dashboardUrl =
   "https://app.powerbi.com/view?r=eyJrIjoiYmNiMGNjNzktZDk0MS00MWY2LThhODEtYzFiZWJlODc2ZDlmIiwidCI6IjMzYTVjODcwLWM5MjItNGU5MS05ZTk5LTA1MzEzNWM3YTY1NyJ9"
 
 const flow = [
-  {
-    label: "Open-Meteo API",
-    detail: "Previsões de 27 capitais",
-    icon: CloudSun,
-    summary: "A coleta consulta a previsão diária de cada capital brasileira a partir de latitude e longitude.",
-    items: [
-      "Temperaturas máxima e mínima",
-      "Precipitação prevista",
-      "Resposta original preservada em JSON",
-    ],
-  },
-  {
-    label: "Python + Airflow",
-    detail: "Extração e transformação",
-    icon: Workflow,
-    summary: "Scripts Python tratam a resposta da API e o Apache Airflow organiza as etapas em uma DAG reproduzível.",
-    items: [
-      "Extração, transformação, Gold e carga",
-      "Execução por tasks encadeadas",
-      "Pipeline também executável localmente",
-    ],
-  },
-  {
-    label: "S3 + Athena",
-    detail: "Camadas Bronze, Silver e Gold",
-    icon: Database,
-    summary: "O Amazon S3 funciona como data lake; o Athena disponibiliza a camada Gold para consultas SQL.",
-    items: [
-      "Bronze: JSON bruto da API",
-      "Silver: dados tabulares tratados",
-      "Gold: indicadores e previsões analíticas",
-    ],
-  },
-  {
-    label: "Power BI",
-    detail: "Camada analítica interativa",
-    icon: BarChart3,
-    summary: "O dashboard consome a Gold consultada no Athena e permite analisar a previsão por capital e por dia.",
-    items: [
-      "Filtro por capital brasileira",
-      "Temperaturas, chuva e amplitude térmica",
-      "Relatório publicado para consulta pública",
-    ],
-  },
+  { icon: CloudSun },
+  { icon: Workflow },
+  { icon: Database },
+  { icon: BarChart3 },
 ]
 
+const climateCopy = {
+  pt: {
+    kicker: "Engenharia de dados",
+    title: "Previsões climáticas",
+    repository: "Repositório",
+    pipeline: "Pipeline de dados",
+    intro: "Pipeline que transforma dados da API Open-Meteo em previsões analíticas para as capitais brasileiras.",
+    dashboard: "Dashboard Power BI",
+    open: "Abrir",
+    iframeTitle: "Dashboard de previsões climáticas das capitais brasileiras",
+    stages: [
+      {
+        label: "Open-Meteo API",
+        detail: "Previsões de 27 capitais",
+        summary: "A coleta consulta a previsão diária de cada capital brasileira a partir de latitude e longitude.",
+        items: ["Temperaturas máxima e mínima", "Precipitação prevista", "Resposta original preservada em JSON"],
+      },
+      {
+        label: "Python + Airflow",
+        detail: "Extração e transformação",
+        summary: "Scripts Python tratam a resposta da API e o Apache Airflow organiza as etapas em uma DAG reproduzível.",
+        items: ["Extração, transformação, Gold e carga", "Execução por tasks encadeadas", "Pipeline também executável localmente"],
+      },
+      {
+        label: "S3 + Athena",
+        detail: "Camadas Bronze, Silver e Gold",
+        summary: "O Amazon S3 funciona como data lake; o Athena disponibiliza a camada Gold para consultas SQL.",
+        items: ["Bronze: JSON bruto da API", "Silver: dados tabulares tratados", "Gold: indicadores e previsões analíticas"],
+      },
+      {
+        label: "Power BI",
+        detail: "Camada analítica interativa",
+        summary: "O dashboard consome a Gold consultada no Athena e permite analisar a previsão por capital e por dia.",
+        items: ["Filtro por capital brasileira", "Temperaturas, chuva e amplitude térmica", "Relatório publicado para consulta pública"],
+      },
+    ],
+  },
+  en: {
+    kicker: "Data Engineering",
+    title: "Weather forecasts",
+    repository: "Repository",
+    pipeline: "Data pipeline",
+    intro: "A pipeline that turns Open-Meteo API data into analytical forecasts for Brazil's state capitals.",
+    dashboard: "Power BI Dashboard",
+    open: "Open",
+    iframeTitle: "Weather forecast dashboard for Brazilian state capitals",
+    stages: [
+      {
+        label: "Open-Meteo API",
+        detail: "Forecasts for 27 capitals",
+        summary: "Data collection retrieves each Brazilian capital's daily forecast using its latitude and longitude.",
+        items: ["High and low temperatures", "Forecast precipitation", "Original response preserved as JSON"],
+      },
+      {
+        label: "Python + Airflow",
+        detail: "Extraction and transformation",
+        summary: "Python scripts process the API response, while Apache Airflow organizes the steps into a reproducible DAG.",
+        items: ["Extraction, transformation, Gold layer, and loading", "Chained task execution", "Pipeline can also run locally"],
+      },
+      {
+        label: "S3 + Athena",
+        detail: "Bronze, Silver, and Gold layers",
+        summary: "Amazon S3 serves as the data lake; Athena makes the Gold layer available for SQL queries.",
+        items: ["Bronze: raw API JSON", "Silver: cleaned tabular data", "Gold: indicators and analytical forecasts"],
+      },
+      {
+        label: "Power BI",
+        detail: "Interactive analytics layer",
+        summary: "The dashboard uses Gold-layer data queried through Athena to analyze forecasts by capital and day.",
+        items: ["Filter by Brazilian capital", "Temperatures, rainfall, and temperature range", "Publicly available report"],
+      },
+    ],
+  },
+}
+
 export function ClimateProjectPanel() {
+  const { language } = useLanguage()
   const [activeStage, setActiveStage] = useState(0)
   const [mobilePanel, setMobilePanel] = useState<"pipeline" | "dashboard">("pipeline")
-  const stage = flow[activeStage]
-  const ActiveIcon = stage.icon
+  const copy = climateCopy[language]
+  const stage = copy.stages[activeStage]
+  const ActiveIcon = flow[activeStage].icon
 
   return (
     <section
@@ -68,10 +106,10 @@ export function ClimateProjectPanel() {
         <header className="flex shrink-0 items-end justify-between gap-4">
           <div className="w-full text-center sm:w-auto sm:text-left">
             <p className="text-xs font-black uppercase tracking-[0.2em] text-[#6cf6ff] sm:text-sm sm:tracking-[0.24em]">
-              Engenharia de dados
+              {copy.kicker}
             </p>
             <h2 className="mt-1 text-2xl font-black tracking-normal sm:mt-2 sm:text-4xl">
-              Previsões climáticas
+              {copy.title}
             </h2>
           </div>
           <a
@@ -80,7 +118,7 @@ export function ClimateProjectPanel() {
             rel="noreferrer"
             className="hidden items-center gap-1.5 text-sm font-medium text-white/70 transition hover:text-[#6cf6ff] sm:inline-flex"
           >
-            Repositório
+            {copy.repository}
             <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
           </a>
         </header>
@@ -99,7 +137,7 @@ export function ClimateProjectPanel() {
             >
               <span className="inline-flex items-center gap-2 text-sm font-bold text-white">
                 <Workflow className="h-4 w-4 text-[#6cf6ff]" aria-hidden="true" />
-                Pipeline de dados
+                {copy.pipeline}
               </span>
               <ChevronDown
                 className={`h-4 w-4 text-white/60 transition-transform ${mobilePanel === "pipeline" ? "rotate-180" : ""}`}
@@ -110,11 +148,11 @@ export function ClimateProjectPanel() {
             <div className={`min-h-0 flex-1 flex-col ${mobilePanel === "pipeline" ? "flex" : "hidden"} lg:flex`}>
               <div className="shrink-0 border-b border-white/10 p-4 sm:p-5">
               <p className="text-sm leading-6 text-white/72 sm:text-base sm:leading-7">
-                Pipeline que transforma dados da API Open-Meteo em previsões analíticas para as capitais brasileiras.
+                {copy.intro}
               </p>
               <div className="mt-4 grid grid-cols-2 gap-2 lg:grid-cols-1" role="list">
-                {flow.map((item, index) => {
-                  const Icon = item.icon
+                {flow.map(({ icon: Icon }, index) => {
+                  const item = copy.stages[index]
                   const isActive = index === activeStage
 
                   return (
@@ -175,7 +213,7 @@ export function ClimateProjectPanel() {
             >
               <span className="inline-flex items-center gap-2 text-sm font-bold text-white">
                 <BarChart3 className="h-4 w-4 text-[#6cf6ff]" aria-hidden="true" />
-                Dashboard Power BI
+                {copy.dashboard}
               </span>
               <ChevronDown
                 className={`h-4 w-4 text-white/60 transition-transform ${mobilePanel === "dashboard" ? "rotate-180" : ""}`}
@@ -185,19 +223,19 @@ export function ClimateProjectPanel() {
 
             <div className={`min-h-0 flex-1 flex-col ${mobilePanel === "dashboard" ? "flex" : "hidden"} lg:flex`}>
               <div className="flex shrink-0 items-center justify-between border-b border-white/10 px-3 py-2 sm:px-4">
-                <span className="hidden text-xs font-bold uppercase tracking-[0.13em] text-white/55 lg:inline">Dashboard Power BI</span>
+                <span className="hidden text-xs font-bold uppercase tracking-[0.13em] text-white/55 lg:inline">{copy.dashboard}</span>
                 <a
                   href={dashboardUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-[#6cf6ff] transition hover:text-white"
                 >
-                  Abrir
+                  {copy.open}
                   <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
                 </a>
               </div>
               <iframe
-                title="Dashboard de previsões climáticas das capitais brasileiras"
+                title={copy.iframeTitle}
                 src={dashboardUrl}
                 className="min-h-0 w-full flex-1"
                 allowFullScreen

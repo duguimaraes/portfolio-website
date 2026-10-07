@@ -24,10 +24,10 @@ type LanguageContextValue = {
 
 const translations = {
   pt: {
-    role: "Analista de Dados e BI",
+    role: "Analista de Dados e Sistemas",
     workingFor: "Working for Agro Locks",
     intro:
-      "Atuo com Business Intelligence e análise de dados, desde a construção das consultas e consolidação dos dados em diferentes bancos (SQL Server, PostgreSQL, SAP HANA e Firebird) até o desenvolvimento de dashboards completos em Power BI com SQL, DAX e Power Query. Meu trabalho conecta operações, finanças, logística e tecnologia da informação por meio de indicadores que ajudam equipes a acompanhar desempenho, identificar desvios e tomar decisões com mais segurança.",
+      "Atuo com Business Intelligence, análise de dados e sistemas corporativos, desde a construção de consultas e consolidação de dados em diferentes bancos (SQL Server, PostgreSQL, SAP HANA e Firebird) até o desenvolvimento de dashboards completos em Power BI com SQL, DAX e Power Query. Também atuo na análise e sustentação de sistemas, acompanhando integrações, investigando falhas, validando dados e apoiando a resolução de problemas junto a usuários e fornecedores. Meu trabalho conecta dados, sistemas e processos das áreas de operações, finanças, logística e tecnologia da informação, transformando informações em soluções que aumentam a confiabilidade dos dados, a eficiência operacional e a qualidade das decisões.",
     viewProjects: "Ver projetos",
     copyEmail: "Copiar e-mail",
     emailCopied: "E-mail copiado",
@@ -37,14 +37,14 @@ const translations = {
     gallerySubtitle: "Projetos que conectam dashboards e consultas em cada análise.",
   },
   en: {
-    role: "Data & BI Analyst",
+    role: "Data & Systems Analyst",
     workingFor: "Working for Agro Locks",
     intro:
-      "I work with Business Intelligence and data analysis, from building queries and consolidating data across different databases (SQL Server, PostgreSQL, SAP HANA, and Firebird) to developing complete Power BI dashboards with SQL, DAX, and Power Query. My work connects operations, finance, logistics, and information technology through indicators that help teams monitor performance, identify deviations, and make safer decisions.",
+      "I work with Business Intelligence, data analysis, and enterprise systems, handling everything from building queries and consolidating data across various databases (SQL Server, PostgreSQL, SAP HANA, and Firebird) to developing comprehensive Power BI dashboards using SQL, DAX, and Power Query. I also work with systems analysis and support, overseeing integrations, investigating issues, validating data, and coordinating issue resolution with users and vendors. My work connects data, systems, and processes across operations, finance, logistics, and IT, transforming information into solutions that improve data reliability, operational efficiency, and decision-making.",
     viewProjects: "View projects",
     copyEmail: "Copy e-mail",
     emailCopied: "E-mail copied",
-    openResume: "Open resume",
+    openResume: "Open curriculum",
     galleryKicker: "Selected Work",
     galleryTitle: "Dashboards & Data",
     gallerySubtitle: "Projects connecting dashboards and queries in each analysis.",

@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
-import { Download, Eye, Maximize2, X, ZoomIn, ZoomOut } from "lucide-react"
+import { Eye, Maximize2, X, ZoomIn, ZoomOut } from "lucide-react"
 import { useLanguage } from "@/components/language-provider"
+import { ResumeDownloadButton } from "@/components/resume-download-button"
 
-const cvPreviewRatio = 1840 / 2580
+const cvPreviewRatio = 17 / 22
+const cvPreviewPages = ["/curriculo-preview-1.png", "/curriculo-preview-2.png"]
 
 export function CvPreviewButton() {
   const [isOpen, setIsOpen] = useState(false)
@@ -32,7 +34,7 @@ export function CvPreviewModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
   const [mounted, setMounted] = useState(false)
   const [zoom, setZoom] = useState(70)
   const previewAreaRef = useRef<HTMLDivElement>(null)
-  const [fitSize, setFitSize] = useState({ width: 0, height: 0 })
+  const [fitWidth, setFitWidth] = useState(0)
   const appliedZoom = zoom + 22
 
   useEffect(() => {
@@ -77,10 +79,7 @@ export function CvPreviewModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
       const widthFromHeight = rect.height * cvPreviewRatio
       const width = Math.min(rect.width, widthFromHeight)
 
-      setFitSize({
-        width,
-        height: width / cvPreviewRatio,
-      })
+      setFitWidth(width)
     }
 
     updateFitSize()
@@ -143,16 +142,7 @@ export function CvPreviewModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
                   </div>
               </div>
               <div className="order-3 ml-auto flex items-center gap-2 sm:order-none sm:ml-0">
-                <a
-                  href="/curriculoelg.pdf"
-                  download
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg border border-white/16 bg-white/[0.05] px-3.5 py-2.5 text-sm font-bold text-white/78 transition hover:border-white/34 hover:bg-white/10 hover:text-white"
-                >
-                  <Download className="h-4 w-4" />
-                  Baixar
-                </a>
+                <ResumeDownloadButton />
                 <button
                   type="button"
                   onClick={onClose}
@@ -165,17 +155,19 @@ export function CvPreviewModal({ isOpen, onClose }: { isOpen: boolean; onClose: 
             </div>
             <div ref={previewAreaRef} className="min-h-0 flex-1 overflow-auto bg-[#303030] p-4">
               <div
-                className="relative mx-auto transition-[width,height] duration-150"
+                className="relative mx-auto flex flex-col gap-4 transition-[width] duration-150"
                 style={{
-                  width: fitSize.width ? `${(fitSize.width * appliedZoom) / 100}px` : undefined,
-                  height: fitSize.height ? `${(fitSize.height * appliedZoom) / 100}px` : undefined,
+                  width: fitWidth ? `${(fitWidth * appliedZoom) / 100}px` : undefined,
                 }}
               >
-                <img
-                  src="/curriculo-preview.png"
-                  alt="Previa do curriculo de Eduardo Ladeira Guimaraes"
-                  className="block h-full w-full bg-white object-contain shadow-2xl shadow-black/40"
-                />
+                {cvPreviewPages.map((src, index) => (
+                  <img
+                    key={src}
+                    src={src}
+                    alt={`Pagina ${index + 1} do curriculo de Eduardo Ladeira Guimaraes`}
+                    className="block h-auto w-full bg-white shadow-2xl shadow-black/40"
+                  />
+                ))}
               </div>
             </div>
           </div>
