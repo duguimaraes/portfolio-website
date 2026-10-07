@@ -67,13 +67,13 @@ export default function Home() {
 
       <section
         id="inicio"
-        className="relative flex h-[100dvh] w-screen shrink-0 snap-start flex-col overflow-hidden px-4 pb-2 pt-20 sm:px-8 sm:pb-8 sm:pt-24 md:py-5 lg:px-16 lg:py-6"
+        className="relative flex h-[100dvh] w-screen shrink-0 snap-start flex-col overflow-hidden px-4 pb-1 pt-[4.25rem] sm:px-8 sm:pb-8 sm:pt-24 md:py-5 lg:px-16 lg:py-6"
       >
         <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
         <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
 
-        <div className="relative z-10 grid min-h-0 flex-1 items-center gap-2 sm:gap-4 md:pb-16 md:pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:pb-14 lg:pt-4">
-          <div className="max-w-2xl self-center text-center md:translate-x-16 md:text-left lg:translate-x-28 2xl:translate-x-40">
+        <div className="relative z-10 grid min-h-0 flex-1 grid-rows-[auto_1fr] content-start gap-1 sm:gap-4 md:grid-rows-none md:content-normal md:items-center md:pb-16 md:pt-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-12 lg:pb-14 lg:pt-4">
+          <div className="max-w-2xl self-start text-center md:self-center md:translate-x-16 md:text-left lg:translate-x-28 2xl:translate-x-40">
             <div>
               <div className="mb-2 flex flex-nowrap justify-center gap-1.5 sm:mb-5 sm:gap-2 md:w-full md:max-w-lg md:justify-start">
                 <p className="inline-flex min-w-0 items-center gap-1 whitespace-nowrap rounded-full border border-white/12 bg-white/[0.06] px-2 py-1.5 text-[0.48rem] font-bold uppercase tracking-[0.11em] text-white/70 sm:gap-1.5 sm:px-3 sm:py-2 sm:text-[0.68rem] sm:tracking-[0.18em] md:grow md:justify-center">
@@ -105,10 +105,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero-avatar-stage relative mx-auto flex aspect-square w-[min(66vw,30dvh,270px)] -translate-y-2 items-end justify-center self-center sm:w-[min(58vw,430px)] sm:translate-y-0 md:w-[min(78vw,68vh,610px)] md:translate-y-3 lg:w-[min(50vw,78vh,740px)] lg:translate-y-5 2xl:-translate-x-16">
+          <div className="hero-avatar-stage relative mx-auto flex aspect-square w-[min(66vw,30dvh,270px)] -translate-y-3 items-end justify-center self-end sm:w-[min(58vw,430px)] sm:translate-y-0 md:w-[min(78vw,68vh,610px)] md:self-center md:translate-y-3 lg:w-[min(50vw,78vh,740px)] lg:translate-y-5 2xl:-translate-x-16">
             <div className="absolute bottom-8 h-[82%] w-[82%] rounded-full bg-[linear-gradient(138deg,#754bff_0%,#263d89_46%,#ff8a5b_100%)] shadow-2xl shadow-black/45" />
             <div className="absolute bottom-16 h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px]" />
-            <div className="pointer-events-none absolute inset-0 z-20">
+            <div className="pointer-events-none absolute inset-0 z-0">
               {skills.map((skill, index) => (
                 <span
                   key={skill}

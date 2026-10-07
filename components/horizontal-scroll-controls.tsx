@@ -7,14 +7,28 @@ const SCROLL_THRESHOLD = 820
 const CIRCLE_LENGTH = 113
 const SECTION_IDS = ["inicio", "blog", "clima"]
 
+function getCurrentIndex(root: HTMLElement) {
+  return SECTION_IDS.map((id, index) => ({
+    index,
+    offset: document.getElementById(id)?.offsetLeft ?? root.clientWidth * index,
+  })).sort((a, b) => Math.abs(a.offset - root.scrollLeft) - Math.abs(b.offset - root.scrollLeft))[0]?.index ?? 0
+}
+
+function moveToNeighbor(root: HTMLElement, direction: "previous" | "next") {
+  const nextIndex = (getCurrentIndex(root) + (direction === "next" ? 1 : -1) + SECTION_IDS.length) % SECTION_IDS.length
+  const section = document.getElementById(SECTION_IDS[nextIndex])
+  root.scrollTo({ left: section?.offsetLeft ?? root.clientWidth * nextIndex, top: 0, behavior: "smooth" })
+}
+
 export function HorizontalScrollControls() {
-  const [canGoBack, setCanGoBack] = useState(false)
-  const [canGoForward, setCanGoForward] = useState(true)
   const [direction, setDirection] = useState<"previous" | "next" | null>(null)
   const [progress, setProgress] = useState(0)
+  const directionRef = useRef<"previous" | "next" | null>(null)
   const accumulatedRef = useRef(0)
   const decayFrameRef = useRef<number | null>(null)
   const decayTimeoutRef = useRef<number | null>(null)
+  const moveTimeoutRef = useRef<number | null>(null)
+  const movingRef = useRef(false)
 
   useEffect(() => {
     const root = document.getElementById("portfolio-scroll-root")
@@ -38,13 +52,8 @@ export function HorizontalScrollControls() {
     const resetProgress = () => {
       accumulatedRef.current = 0
       setProgress(0)
+      directionRef.current = null
       setDirection(null)
-    }
-
-    const updateState = () => {
-      const maxScroll = root.scrollWidth - root.clientWidth
-      setCanGoBack(root.scrollLeft > 8)
-      setCanGoForward(root.scrollLeft < maxScroll - 8)
     }
 
     const startDecay = () => {
@@ -58,6 +67,7 @@ export function HorizontalScrollControls() {
           if (accumulatedRef.current > 0) {
             decayFrameRef.current = window.requestAnimationFrame(decay)
           } else {
+            directionRef.current = null
             setDirection(null)
           }
         }
@@ -67,25 +77,25 @@ export function HorizontalScrollControls() {
     }
 
     const move = (nextDirection: "previous" | "next") => {
-      root.scrollBy({
-        left: nextDirection === "next" ? root.clientWidth : -root.clientWidth,
-        behavior: "smooth",
-      })
-      window.setTimeout(resetProgress, 850)
+      if (movingRef.current) return
+      movingRef.current = true
+      moveToNeighbor(root, nextDirection)
+      moveTimeoutRef.current = window.setTimeout(() => {
+        movingRef.current = false
+        resetProgress()
+      }, 850)
     }
 
     const advance = (amount: number, nextDirection: "previous" | "next") => {
-      if ((nextDirection === "previous" && !canGoBack) || (nextDirection === "next" && !canGoForward)) {
-        resetProgress()
-        return
-      }
+      if (movingRef.current) return
 
       stopDecay()
 
-      if (direction && direction !== nextDirection) {
+      if (directionRef.current && directionRef.current !== nextDirection) {
         accumulatedRef.current = 0
       }
 
+      directionRef.current = nextDirection
       setDirection(nextDirection)
       accumulatedRef.current = Math.min(SCROLL_THRESHOLD, accumulatedRef.current + Math.abs(amount))
       const nextProgress = accumulatedRef.current / SCROLL_THRESHOLD
@@ -113,18 +123,38 @@ export function HorizontalScrollControls() {
       advance(mainDelta, mainDelta > 0 ? "next" : "previous")
     }
 
-    updateState()
-    root.addEventListener("scroll", updateState, { passive: true })
+    let touchStart: { x: number; y: number; index: number } | null = null
+    const onTouchStart = (event: TouchEvent) => {
+      if (event.target instanceof Element && event.target.closest("[data-code-scroll]")) return
+      const touch = event.touches[0]
+      touchStart = { x: touch.clientX, y: touch.clientY, index: getCurrentIndex(root) }
+    }
+    const onTouchEnd = (event: TouchEvent) => {
+      if (!touchStart || movingRef.current) return
+      const touch = event.changedTouches[0]
+      const deltaX = touchStart.x - touch.clientX
+      const deltaY = touchStart.y - touch.clientY
+      const startIndex = touchStart.index
+      touchStart = null
+      if (Math.abs(deltaX) < 50 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return
+      const nextDirection = deltaX > 0 ? "next" : "previous"
+      const targetIndex = (startIndex + (nextDirection === "next" ? 1 : -1) + SECTION_IDS.length) % SECTION_IDS.length
+      const target = document.getElementById(SECTION_IDS[targetIndex])
+      root.scrollTo({ left: target?.offsetLeft ?? root.clientWidth * targetIndex, behavior: "smooth" })
+    }
+
     root.addEventListener("wheel", onWheel, { passive: false })
-    window.addEventListener("resize", updateState)
+    root.addEventListener("touchstart", onTouchStart, { passive: true })
+    root.addEventListener("touchend", onTouchEnd, { passive: true })
 
     return () => {
       stopDecay()
-      root.removeEventListener("scroll", updateState)
+      if (moveTimeoutRef.current) window.clearTimeout(moveTimeoutRef.current)
       root.removeEventListener("wheel", onWheel)
-      window.removeEventListener("resize", updateState)
+      root.removeEventListener("touchstart", onTouchStart)
+      root.removeEventListener("touchend", onTouchEnd)
     }
-  }, [canGoBack, canGoForward, direction])
+  }, [])
 
   const moveWithButton = (nextDirection: "previous" | "next") => {
     const root = document.getElementById("portfolio-scroll-root")
@@ -133,21 +163,7 @@ export function HorizontalScrollControls() {
       return
     }
 
-    const currentIndex = SECTION_IDS.map((id) => document.getElementById(id))
-      .map((section, index) => ({
-        index,
-        offset: section?.offsetLeft ?? 0,
-      }))
-      .sort((a, b) => Math.abs(a.offset - root.scrollLeft) - Math.abs(b.offset - root.scrollLeft))[0]?.index ?? 0
-
-    const nextIndex = Math.max(0, Math.min(SECTION_IDS.length - 1, currentIndex + (nextDirection === "next" ? 1 : -1)))
-    const nextSection = document.getElementById(SECTION_IDS[nextIndex])
-
-    root.scrollTo({
-      left: nextSection?.offsetLeft ?? root.clientWidth * nextIndex,
-      top: 0,
-      behavior: "smooth",
-    })
+    moveToNeighbor(root, nextDirection)
   }
 
   const progressFor = (side: "previous" | "next") => (direction === side ? progress : 0)
@@ -157,14 +173,12 @@ export function HorizontalScrollControls() {
       <ProgressButton
         side="left"
         label="Voltar seção"
-        disabled={!canGoBack}
         progress={progressFor("previous")}
         onClick={() => moveWithButton("previous")}
       />
       <ProgressButton
         side="right"
         label="Avançar seção"
-        disabled={!canGoForward}
         progress={progressFor("next")}
         onClick={() => moveWithButton("next")}
       />
@@ -175,13 +189,11 @@ export function HorizontalScrollControls() {
 function ProgressButton({
   side,
   label,
-  disabled,
   progress,
   onClick,
 }: {
   side: "left" | "right"
   label: string
-  disabled: boolean
   progress: number
   onClick: () => void
 }) {
@@ -193,8 +205,7 @@ function ProgressButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      disabled={disabled}
-      className={`fixed top-[26px] z-[60] hidden h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-black/44 text-white/70 shadow-2xl shadow-black/40 backdrop-blur transition hover:border-white/28 hover:bg-black/55 hover:text-white disabled:pointer-events-none disabled:opacity-0 md:top-1/2 md:flex md:h-12 md:w-12 md:-translate-y-1/2 ${
+      className={`fixed top-[26px] z-[60] hidden h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-black/44 text-white/70 shadow-2xl shadow-black/40 backdrop-blur transition hover:border-white/28 hover:bg-black/55 hover:text-white md:top-1/2 md:flex md:h-12 md:w-12 md:-translate-y-1/2 ${
         side === "left" ? "left-[calc(50%-178px)] md:left-5" : "right-[calc(50%-178px)] md:right-5"
       }`}
     >

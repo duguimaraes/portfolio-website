@@ -264,8 +264,9 @@
     text-shadow: 0 0 6px rgba(108, 246, 255, 0.28);
   }
 }
-@media (max-width: 639px) and (max-height: 720px) {
+
+@media (max-width: 639px) and (min-height: 800px) {
   #inicio .hero-avatar-stage {
-    width: min(66vw, 20dvh);
+    width: min(78vw, 36dvh, 320px);
   }
 }
