@@ -270,3 +270,9 @@
     width: min(78vw, 36dvh, 320px);
   }
 }
+
+@media (max-width: 639px) and (max-height: 740px) {
+  #inicio p.text-justify {
+    line-height: 1.125rem;
+  }
+}

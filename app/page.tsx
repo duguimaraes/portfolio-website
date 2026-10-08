@@ -67,7 +67,7 @@ export default function Home() {
 
       <section
         id="inicio"
-        className="relative flex h-[100dvh] w-screen shrink-0 snap-start flex-col overflow-hidden px-4 pb-1 pt-[4.25rem] sm:px-8 sm:pb-8 sm:pt-24 md:py-5 lg:px-16 lg:py-6"
+        className="relative flex h-[100dvh] w-screen shrink-0 snap-start flex-col overflow-hidden px-4 pb-1 pt-20 sm:px-8 sm:pb-8 sm:pt-24 md:py-5 lg:px-16 lg:py-6"
       >
         <div className="absolute bottom-16 left-10 h-32 w-32 rounded-full bg-cyan-400/10 blur-3xl" />
         <div className="absolute right-8 top-32 h-28 w-28 rounded-full bg-rose-400/10 blur-3xl" />
@@ -105,14 +105,14 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero-avatar-stage relative mx-auto flex aspect-square w-[min(66vw,30dvh,270px)] -translate-y-3 items-end justify-center self-end sm:w-[min(58vw,430px)] sm:translate-y-0 md:w-[min(78vw,68vh,610px)] md:self-center md:translate-y-3 lg:w-[min(50vw,78vh,740px)] lg:translate-y-5 2xl:-translate-x-16">
+          <div className="hero-avatar-stage relative isolate mx-auto flex aspect-square w-[min(66vw,30dvh,270px)] -translate-y-1 items-end justify-center self-end sm:w-[min(58vw,430px)] sm:translate-y-0 md:w-[min(78vw,68vh,610px)] md:self-center md:translate-y-3 lg:w-[min(50vw,78vh,740px)] lg:translate-y-5 2xl:-translate-x-16">
             <div className="absolute bottom-8 h-[82%] w-[82%] rounded-full bg-[linear-gradient(138deg,#754bff_0%,#263d89_46%,#ff8a5b_100%)] shadow-2xl shadow-black/45" />
-            <div className="absolute bottom-16 h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px]" />
+            <div className="absolute bottom-16 hidden h-[68%] w-[86%] rounded-full border border-white/10 bg-white/[0.04] blur-[1px] sm:block" />
             <div className="pointer-events-none absolute inset-0 z-0">
               {skills.map((skill, index) => (
                 <span
                   key={skill}
-                  className="skill-orbit absolute whitespace-nowrap rounded-full border border-white/16 bg-[radial-gradient(circle_at_35%_22%,rgba(255,255,255,0.24),rgba(108,246,255,0.12)_42%,rgba(117,75,255,0.08)_100%)] px-2.5 py-1 text-[0.5rem] font-black text-white/64 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_0_18px_rgba(108,246,255,0.14)] backdrop-blur-md sm:px-3 sm:py-1.5 sm:text-[0.62rem]"
+                  className="skill-orbit absolute whitespace-nowrap rounded-full border border-white/16 bg-[radial-gradient(circle_at_35%_22%,rgba(255,255,255,0.24),rgba(108,246,255,0.12)_42%,rgba(117,75,255,0.08)_100%)] px-2.5 py-1 text-[0.5rem] font-black text-white/64 shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_0_18px_rgba(108,246,255,0.14)] sm:backdrop-blur-md sm:px-3 sm:py-1.5 sm:text-[0.62rem]"
                   style={{
                     left: skillPositions[index].left,
                     top: skillPositions[index].top,
@@ -130,7 +130,7 @@ export default function Home() {
               width={1024}
               height={1536}
               priority
-              className="relative z-10 h-auto w-[72%] max-w-[455px] drop-shadow-[0_38px_60px_rgba(0,0,0,0.45)]"
+              className="relative z-10 h-auto w-[72%] max-w-[455px] sm:drop-shadow-[0_38px_60px_rgba(0,0,0,0.45)]"
             />
           </div>
         </div>
